@@ -10,7 +10,6 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 # Base installation (interface only)
 #
 install_requires = [
-    "rq",
     "wheel",
     "torch",
 ]

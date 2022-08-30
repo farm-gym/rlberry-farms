@@ -1,7 +1,0 @@
-description: 'PPO in Farm0'
-seed: 42
-train_env: 'experiments_description/farm0.yaml'
-eval_env: 'experiments_description/farm0.yaml'
-agents:
-  - 'experiments_description/ppo.yaml'
-  - 'experiments_description/sb3_ppo.yaml'
