@@ -6,7 +6,7 @@ authors = ["rlberry team"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
+python = ">=3.7,<3.11"
 rq = "^1.11.0"
 rlberry = "^0.3.0"
 
