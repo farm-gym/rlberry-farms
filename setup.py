@@ -11,6 +11,7 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 #
 install_requires = [
     "rq",
+    "wheel",
     "torch",
 ]
 
