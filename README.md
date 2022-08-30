@@ -18,6 +18,8 @@ pip install git+https://github.com/rlberry-py/rlberry
 pip install  -e /path/to/farm-gym
 ```
 
+WARNING : the `-e` in the above commands are mandatory as the YAML files are missing otherwise.
+
 ## Job submission
 
 TODO
