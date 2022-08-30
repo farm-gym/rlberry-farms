@@ -10,7 +10,8 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 # Base installation (interface only)
 #
 install_requires = [
-    "rlberry"
+    "rlberry",
+    "rq"
 ]
 
 with open("README.md", "r") as fh:
