@@ -9,6 +9,9 @@ from farmgym.v2.entities.Plant import Plant
 
 from farmgym.v2.rendering.monitoring import mat2d_value, sum_value
 
+
+from gym.envs.registration import  register
+
 import os
 from pathlib import Path
 file_path = Path(os.path.realpath(__file__))
@@ -20,8 +23,8 @@ def env():
     ##########################################################################
     entities1 = []
     entities1.append((Weather,"montpellier"))
-    entities1.append((Soil,"sand"))
-    entities1.append((Plant, 'tomato'))
+    entities1.append((Soil,"clay"))
+    entities1.append((Plant, 'bean'))
 
     field1 = Field(localization={'latitude#°':43, 'longitude#°':4, 'altitude#m':150},
                   shape={'length#nb':1, 'width#nb':1, 'scale#m': 1.}, entity_managers=entities1)
@@ -32,7 +35,15 @@ def env():
     free_observations = []
     free_observations.append( ("Field-0", "Weather-0", "day#int365", []))
     free_observations.append(("Field-0", "Weather-0", "air_temperature", []))
+    free_observations.append(("Field-0", "Weather-0", "rain_amount", []))
+    free_observations.append(("Field-0", "Weather-0", "sun_exposure#int5", []))
+    free_observations.append(("Field-0", "Weather-0", "consecutive_dry#day", []))
+    
+    free_observations.append(("Field-0", "Plant-0", "stage", []))
+    free_observations.append(("Field-0", "Plant-0", "size#cm", []))
 
+
+    
     terminal_CNF_conditions = [[(("Field-0", "Weather-0", "day#int365", []), lambda x: x.value, ">=", 360)], [(("Field-0","Plant-0","global_stage",[]),lambda x:x.value,"==","dead")]]
     rules = BasicRule(init_configuration=CURRENT_DIR/'farm_init.yaml',
                       actions_configuration=CURRENT_DIR/'farm_actions.yaml',
@@ -40,7 +51,9 @@ def env():
                       free_observations=free_observations)
 
     farm = Farm(fields=[field1], farmers=[farmer1], scoring=scoring, rules=rules)
+
     ##########################################################################
+
     var = []
     #var.append(("Field-0", "Soil-0", "available_N#g", lambda x:mat2d_value(x,field1.shape['length#nb'],field1.shape['width#nb']), "Available N (g)", 'range_auto'))
     var.append(("Field-0", "Soil-0", "available_N#g", lambda x:sum_value(x), "Available Nitrogen (g)", 'range_auto'))
@@ -56,4 +69,3 @@ def env():
 if __name__ == "__main__":
     from farmgym.v2.games.rungame import run
     run(env(),max_steps=100,render=False, monitoring=True)
-    #run(env(),max_steps=100,render=True, monitoring=False)
