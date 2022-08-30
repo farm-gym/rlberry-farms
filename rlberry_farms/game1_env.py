@@ -6,7 +6,7 @@ import numpy as np
 
 class Farm1(Model):
     """
-    TODO :
+    TODO : explain more
     Farm1 is a difficult 1x1 farm with only one possible plant : beans, planted in a clay ground.
     The observation of the field state is free.
     The advised maximum episode length is 365 (as in 365 days).
@@ -39,7 +39,7 @@ class Farm1(Model):
         - Weeds flowers#nb
 
     Actions:
-        The action is either watering the field with 1L to 5L of water, harvesting or doing nothing.
+        The action is either watering the field with 1L to 5L of water, harvesting or doing nothing, or .... TODO
     """
 
     name = "Farm0"
@@ -58,7 +58,7 @@ class Farm1(Model):
         )
         low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
-        self.action_space = spaces.Discrete(13)
+        self.action_space = spaces.Discrete(14)
 
         # initialize
         self.state = None
@@ -73,6 +73,7 @@ class Farm1(Model):
         obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
         if hasattr(reward, "__len__"):
             reward = reward[0]
+
         if obs1[8][5][0][0][0] < 20:
             reward -= 300  # if microlife is < 20%, negative reward
         if obs1[8][5][0][0][0] < 10:
@@ -158,6 +159,16 @@ class Farm1(Model):
                 )
             ]
         elif num == 13:
+            return [
+                (
+                    "BasicFarmer-0",
+                    "Field-0",
+                    "Cide-1",
+                    "scatter_bag",
+                    {"plot": (0, 0), "amount#bag": 1},
+                )
+            ]
+        elif num == 14:
             return [("BasicFarmer-0", "Field-0", "Weeds-0", "remove", {"plot": (0, 0)})]
         else:
             return []  # Do nothing.

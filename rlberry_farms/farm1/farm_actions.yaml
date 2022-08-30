@@ -60,3 +60,7 @@ interventions:
     Weeds-0:
       remove: 
         plot: ['(0, 0)']
+    Cide-1:
+      scatter_bag: 
+        plot: ['(0, 0)']
+        amount#bag: [1]
