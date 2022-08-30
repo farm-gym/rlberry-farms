@@ -7,6 +7,15 @@ from farmgym.v2.entities.Weather import Weather
 from farmgym.v2.entities.Soil import Soil
 from farmgym.v2.entities.Plant import Plant
 
+from farmgym.v2.entities.Birds import Birds
+from farmgym.v2.entities.Facilities import Facility
+from farmgym.v2.entities.Fertilizer import Fertilizer
+from farmgym.v2.entities.Weeds import Weeds
+from farmgym.v2.entities.Pests import Pests
+from farmgym.v2.entities.Pollinators import Pollinators
+from farmgym.v2.entities.Cide import Cide
+
+
 from farmgym.v2.rendering.monitoring import mat2d_value, sum_value
 
 
@@ -25,6 +34,19 @@ def env():
     entities1.append((Weather,"montpellier"))
     entities1.append((Soil,"clay"))
     entities1.append((Plant, 'bean'))
+
+
+    entities1.append((Birds,"base_bird"))
+    entities1.append((Facility,"base_facility"))
+
+    entities1.append((Fertilizer,"basic_N"))
+
+    entities1.append((Pests,"basic"))
+    entities1.append((Pollinators,"bee"))
+    entities1.append((Cide,"pesticide"))
+
+    entities1.append((Weeds,"base_weed"))
+    entities1.append((Cide,"herbicide"))
 
     field1 = Field(localization={'latitude#°':43, 'longitude#°':4, 'altitude#m':150},
                   shape={'length#nb':1, 'width#nb':1, 'scale#m': 1.}, entity_managers=entities1)
@@ -55,7 +77,6 @@ def env():
     ##########################################################################
 
     var = []
-    #var.append(("Field-0", "Soil-0", "available_N#g", lambda x:mat2d_value(x,field1.shape['length#nb'],field1.shape['width#nb']), "Available N (g)", 'range_auto'))
     var.append(("Field-0", "Soil-0", "available_N#g", lambda x:sum_value(x), "Available Nitrogen (g)", 'range_auto'))
     var.append(("Field-0", "Soil-0", "available_Water#L", lambda x:sum_value(x), "Available Water (g)", 'range_auto'))
     var.append(("Field-0", "Plant-0", "size#cm", lambda x:sum_value(x), "Size (cm)", 'range_auto'))

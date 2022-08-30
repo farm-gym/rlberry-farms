@@ -1,0 +1,27 @@
+  Field-0:
+    Weather-0:
+      day#int365: 120
+    Soil-0:
+      available_N#g: 50.0
+      available_P#g: 50.0
+      available_K#g: 50.0
+      available_C#g: 50.0
+      available_Water#L: 5.0
+      wet_surface#m2.day-1: 0.0
+      microlife_health_index#%: 50.0
+    Plant-0:
+      stage: seed
+      population#nb: 1.0
+    Birds-0:
+      population#nb: 0.0
+    Facility-0:
+      scarecrow: none
+    Fertilizer-0:
+      amount#kg: 0.0
+    Pests-0:
+      plot_population#nb: 0.0
+    Pollinators-0:
+      occurrence#bin: True
+    Cide-0:
+      amount#kg: 0.0
+

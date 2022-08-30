@@ -1,14 +1,13 @@
 import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
-import rlberry_farms.farms_1x1.clay_bean.farm as cb
+import rlberry_farms.farm1.farm as cb
 import numpy as np
 
-# Remark there are some stray 1 rewards sometimes I don't know why
 
-
-class Farm0(Model):
+class Farm1(Model):
     """
-    Farm0 is a very basic 1x1 farm with only one possible plant : beans, planted in a clay ground. The only possible actions are to water the field or to harvest it.
+    TODO : 
+    Farm1 is a very basic 1x1 farm with only one possible plant : beans, planted in a clay ground. The only possible actions are to water the field or to harvest it.
     The observation of the field state is free.
     The advised maximum episode length is 365 (as in 365 days).
 
@@ -47,7 +46,7 @@ class Farm0(Model):
         high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200 ])
         low =  np.array([0, -50, -50, -50, 0,   0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
-        self.action_space = spaces.Discrete(7)
+        self.action_space = spaces.Discrete(8)
 
         # initialize
         self.state = None
@@ -60,18 +59,22 @@ class Farm0(Model):
     def step(self, action):
         obs1, _, _, info = self.farm.farmgym_step([])
         obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+        if hasattr(reward, '__len__'):
+            reward = reward[0]
+        #reward = reward - info['intervention cost']/10
+        
         return self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]), reward, is_done, info
 
     def farmgymobs_to_obs(self, obs):
-        return np.array([ float(obs[0]),
-                          float(obs[1]['mean#°C'][0]),
-                          float(obs[1]['min#°C'][0]),
-                          float(obs[1]['max#°C'][0]),
-                          float(obs[2]),
-                          float(obs[3]),
-                          float(obs[4][0]),
-                          float(obs[5][0][0]),
-                          float(obs[6][0][0][0]),
+        return np.array([ obs[0],
+                          obs[1]['mean#°C'][0],
+                          obs[1]['min#°C'][0],
+                          obs[1]['max#°C'][0],
+                          obs[2],
+                          obs[3],
+                          obs[4][0],
+                          obs[5][0][0],
+                          obs[6][0][0][0],
                          ]
                         )
 
@@ -80,6 +83,8 @@ class Farm0(Model):
             return [('BasicFarmer-0', 'Field-0', 'Soil-0', 'water_discrete', {'plot': (0, 0), 'amount#L': num, 'duration#min': 60})]
         elif num == 6:
             return [('BasicFarmer-0', 'Field-0', 'Plant-0', 'harvest', {})]
+        elif num == 7:
+            return [('BasicFarmer-0', 'Field-0', 'Plant-0', 'sow', {'plot': (0, 0), "amount#seed": 1, "spacing#cm":10})]
         else:
             return [] # Do nothing.
 
