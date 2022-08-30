@@ -13,7 +13,6 @@ install_requires = [
     "rlberry",
     "rq",
     "torch",
-    "stablebaselines3"
 ]
 
 with open("README.md", "r") as fh:
