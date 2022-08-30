@@ -11,7 +11,9 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 #
 install_requires = [
     "rlberry",
-    "rq"
+    "rq",
+    "torch",
+    "stablebaselines3"
 ]
 
 with open("README.md", "r") as fh:
