@@ -14,6 +14,7 @@ To install this repo, one can use pip. From the root of the repo
 
 ```bash
 pip install .
+pip install git+https://github.com/rlberry-py/rlberry
 pip install /path/to/farm-gym
 ```
 
