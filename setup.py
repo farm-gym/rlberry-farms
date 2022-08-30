@@ -12,6 +12,8 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 install_requires = [
     "rq",
     "torch",
+    "git+https://github.com/rlberry-py/rlberry",
+    "git+https://gitlab.inria.fr/rl4ae/farm-gym",
 ]
 
 with open("README.md", "r") as fh:
