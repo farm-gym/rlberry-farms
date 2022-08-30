@@ -1,6 +1,6 @@
 import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
-import rlberry_farms.farms_1x1.clay_bean.farm as cb
+import rlberry_farms.farm0.farm as cb
 import numpy as np
 
 # Remark there are some stray 1 rewards sometimes I don't know why

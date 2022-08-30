@@ -4,7 +4,13 @@ This repository aim at using games constructed from [Farm-Gym](https://gitlab.in
 
 A starter code using PPO is available in `examples/ppo_farm0.py`.
 
-# Challenge
- 
-This package is intended to be used for the internal SCOOL-team challenge on farmgym. Included in this repo are the script for job submission to the challenge. 
-  
+## Installation
+
+To install this repo, one can use pip. From the root of the repo
+
+```bash
+pip install .
+pip install git+https://github.com/rlberry-py/rlberry
+git clone https://gitlab.inria.fr/rl4ae/farm-gym ~/farm-gym
+pip install  -e ~/farm-gym
+```
