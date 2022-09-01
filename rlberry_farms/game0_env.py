@@ -3,8 +3,8 @@ from rlberry.envs.interface import Model
 import rlberry_farms.farm0.farm as cb
 import numpy as np
 from rlberry.utils.writers import DefaultWriter
-
-
+import time
+import os
 
 class Farm0(Model):
     """
@@ -20,9 +20,13 @@ class Farm0(Model):
 
     Parameters
     ----------
-
     monitor: boolean, default = True
         If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
+    enable_tensorboard: boolean, default = False
+        If True and monitor is True, save writer as tensorboard data
+    output_dir: str, default = "results"
+        directory where writer data are saved
+    
     Notes
     -----
     State:
@@ -41,7 +45,7 @@ class Farm0(Model):
         The action is either watering the field with 1L to 5L of water, harvesting or doing nothing.
     """
     name = "Farm0"
-    def __init__(self, monitor = True):
+    def __init__(self, monitor = True, enable_tensorboard = False, output_dir = "results"):
         # init base classes
         Model.__init__(self)
 
@@ -55,7 +59,15 @@ class Farm0(Model):
         self.action_space = spaces.Discrete(7)
 
         # monitoring writer
-        self.writer = DefaultWriter(name="farm_writer", log_interval = 5)
+        params = {}
+        self.identifier = self.name+str(self.seeder.rng.integers(100000))
+        self.output_dir = output_dir
+        if enable_tensorboard:
+            self.tensorboard_dir = os.path.join(output_dir,"tensorboard")
+            params["tensorboard_kwargs"] = dict(
+                    log_dir=os.path.join(self.tensorboard_dir, "farm_"+self.identifier)
+                )
+        self.writer = DefaultWriter(name="farm_writer", **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
@@ -66,8 +78,10 @@ class Farm0(Model):
 
     def reset(self):
         observation = self.farm.gym_reset()
-        self.iteration = 0
         return self.farmgymobs_to_obs(observation)
+
+    def writer_to_csv():
+        self.writer.data.to_csv(os.path.join(self.output_dir, 'farm_'+self.identifier+'_writer.csv'))
 
     def step(self, action):
         obs1, _, _, info = self.farm.farmgym_step([])

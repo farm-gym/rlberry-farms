@@ -2,7 +2,8 @@ import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
 import rlberry_farms.farm1.farm as cb
 import numpy as np
-
+import time
+import os
 
 class Farm1(Model):
     """
@@ -19,10 +20,13 @@ class Farm1(Model):
 
     Parameters
     ----------
-
     monitor: boolean, default = True
         If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
-
+    enable_tensorboard: boolean, default = False
+        If True and monitor is True, save writer as tensorboard data
+    output_dir: str, default = "results"
+        directory where writer data are saved
+    
     Notes
     -----
     State:
@@ -50,7 +54,7 @@ class Farm1(Model):
 
     name = "Farm0"
 
-    def __init__(self, monitor = True):
+    def __init__(self, monitor = True, enable_tensorboard = False, output_dir = "results"):
         # init base classes
         Model.__init__(self)
 
@@ -67,7 +71,15 @@ class Farm1(Model):
         self.action_space = spaces.Discrete(14)
 
         # monitoring writer
-        self.writer = DefaultWriter(name="farm_writer", log_interval = 5)
+        self.identifier = self.name+str(self.seeder.rng.integers(100000))
+        params = {}
+        self.output_dir = output_dir
+        if enable_tensorboard:
+            self.tensorboard_dir = os.path.join(output_dir,"tensorboard")
+            params["tensorboard_kwargs"] = dict(
+                    log_dir=os.path.join(self.tensorboard_dir,"farm_"+self.identifier)
+                )
+        self.writer = DefaultWriter(name="farm_writer", **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
@@ -78,9 +90,11 @@ class Farm1(Model):
 
     def reset(self):
         observation = self.farm.gym_reset()
-        self.iteration = 0
-
         return self.farmgymobs_to_obs(observation)
+
+    def writer_to_csv():
+        self.writer.data.to_csv(os.path.join(self.output_dir,'farm_'+self.identifier+'_writer.csv'))
+
 
     def step(self, action):
         obs1, _, _, info = self.farm.farmgym_step([])
@@ -99,8 +113,6 @@ class Farm1(Model):
                 self.writer.add_scalar(var_key, np.round(value,3),self.iteration)
             self.writer.add_scalar('day#int365', day, self.iteration)
 
-        if obs1[8][5][0][0][0] < 20:
-            reward -= 300  # if microlife is < 20%, negative reward
         if obs1[8][5][0][0][0] < 10:
             reward -= 300  # if microlife is < 10%, negative reward
 

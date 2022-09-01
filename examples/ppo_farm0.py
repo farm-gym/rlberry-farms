@@ -17,7 +17,7 @@ value_configs = {
     "reshape": False,
     "out_size": 1,
 }
-env_ctor, env_kwargs = Farm0, {}
+env_ctor, env_kwargs = Farm0, {"enable_tensorboard" : True, "output_dir" : "ppo_results"}
 
 
 if __name__ == "__main__":
@@ -40,6 +40,7 @@ if __name__ == "__main__":
                         parallelization="process",
                         mp_context="spawn",
                         output_dir="ppo_results",
+                        enable_tensorboard = True
                     )
     manager.fit()
     evaluation = evaluate_agents([manager], n_simulations=128, show=False).values
