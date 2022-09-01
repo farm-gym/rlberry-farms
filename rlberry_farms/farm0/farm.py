@@ -63,6 +63,7 @@ def env():
     var.append(("Field-0", "Plant-0", "flowers_pollinated_per_plant#nb", lambda x:sum_value(x), "Flowers pollinated (nb)", 'range_auto'))
     var.append(("Field-0", "Plant-0", "fruits_per_plant#nb", lambda x:sum_value(x), "Fruits (nb)", 'range_auto'))
     farm.add_monitoring(var)
+    farm.monitor_variables = var
     return farm
 
 

@@ -2,8 +2,8 @@ import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
 import rlberry_farms.farm0.farm as cb
 import numpy as np
+from rlberry.utils.writers import DefaultWriter
 
-# Remark there are some stray 1 rewards sometimes I don't know why
 
 
 class Farm0(Model):
@@ -18,6 +18,11 @@ class Farm0(Model):
 
     The condition for end of episode (self.step returns done) is that the day is >= 365 or that the field has been harvested, or that the plant is dead.
 
+    Parameters
+    ----------
+
+    monitor: boolean, default = True
+        If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
     Notes
     -----
     State:
@@ -36,7 +41,7 @@ class Farm0(Model):
         The action is either watering the field with 1L to 5L of water, harvesting or doing nothing.
     """
     name = "Farm0"
-    def __init__(self):
+    def __init__(self, monitor = True):
         # init base classes
         Model.__init__(self)
 
@@ -49,17 +54,36 @@ class Farm0(Model):
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(7)
 
+        # monitoring writer
+        self.writer = DefaultWriter(name="farm_writer", log_interval = 5)
+        self.monitor_variables = self.farm.monitor_variables
+        self.iteration = 0
+        self.monitor = monitor
+        
         # initialize
         self.state = None
         self.reset()
 
     def reset(self):
         observation = self.farm.gym_reset()
+        self.iteration = 0
         return self.farmgymobs_to_obs(observation)
 
     def step(self, action):
         obs1, _, _, info = self.farm.farmgym_step([])
         obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+
+        # Monitoring
+        if self.monitor:
+            self.iteration += 1
+            for i in range(len(self.monitor_variables)):
+                v= self.monitor_variables[i]
+                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
+                day = self.farm.fields[fi_key].entities['Weather-0'].variables['day#int365'].value
+                value = map_v(self.farm.fields[fi_key].entities[entity_key].variables[var_key])
+                self.writer.add_scalar(var_key, np.round(value,3),self.iteration)
+            self.writer.add_scalar('day#int365', day,self.iteration)
+        
         return self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]), reward, is_done, info
 
     def farmgymobs_to_obs(self, obs):

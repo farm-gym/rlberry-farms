@@ -152,6 +152,8 @@ def env():
         )
     )
     farm.add_monitoring(var)
+    farm.monitor_variables = var
+
     return farm
 
 
