@@ -17,6 +17,12 @@ class Farm1(Model):
 
     The condition for end of episode (self.step returns done) is that the day is >= 365 or that the plant is dead.
 
+    Parameters
+    ----------
+
+    monitor: boolean, default = True
+        If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
+
     Notes
     -----
     State:
@@ -44,7 +50,7 @@ class Farm1(Model):
 
     name = "Farm0"
 
-    def __init__(self):
+    def __init__(self, monitor = True):
         # init base classes
         Model.__init__(self)
 
@@ -60,12 +66,20 @@ class Farm1(Model):
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(14)
 
+        # monitoring writer
+        self.writer = DefaultWriter(name="farm_writer", log_interval = 5)
+        self.monitor_variables = self.farm.monitor_variables
+        self.iteration = 0
+        self.monitor = monitor
+        
         # initialize
         self.state = None
         self.reset()
 
     def reset(self):
         observation = self.farm.gym_reset()
+        self.iteration = 0
+
         return self.farmgymobs_to_obs(observation)
 
     def step(self, action):
@@ -73,6 +87,17 @@ class Farm1(Model):
         obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
         if hasattr(reward, "__len__"):
             reward = reward[0]
+
+        # Monitoring
+        if self.monitor:
+            self.iteration += 1
+            for i in range(len(self.monitor_variables)):
+                v= self.monitor_variables[i]
+                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
+                day = self.farm.fields[fi_key].entities['Weather-0'].variables['day#int365'].value
+                value = map_v(self.farm.fields[fi_key].entities[entity_key].variables[var_key])
+                self.writer.add_scalar(var_key, np.round(value,3),self.iteration)
+            self.writer.add_scalar('day#int365', day, self.iteration)
 
         if obs1[8][5][0][0][0] < 20:
             reward -= 300  # if microlife is < 20%, negative reward
