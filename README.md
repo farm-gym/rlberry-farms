@@ -10,15 +10,13 @@ This package is intended to be used for the internal SCOOL-team challenge on far
   
 ## Installation
 
-To install this repo, one can use pip. From the root of the repo
+To install this repo, one can use pip. It is advised to use a virtual environment in order to avoid conflicting library (see [python website](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment)).
+
+Then, 
 
 ```bash
-pip install -e .
-pip install git+https://github.com/rlberry-py/rlberry
-pip install  -e /path/to/farm-gym
+pip install git+https://gitlab.inria.fr/scool/rlberry-farms
 ```
-
-WARNING : the `-e` in the above commands are mandatory as the YAML files are missing otherwise.
 
 ## Job submission
 
