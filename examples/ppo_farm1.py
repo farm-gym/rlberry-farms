@@ -17,7 +17,7 @@ value_configs = {
     "reshape": False,
     "out_size": 1,
 }
-env_ctor, env_kwargs = Farm1, {}
+env_ctor, env_kwargs = Farm1, {"enable_tensorboard" : True, "output_dir" : "ppo1_results"}
 
 
 if __name__ == "__main__":
@@ -44,8 +44,8 @@ if __name__ == "__main__":
     )
     manager.fit()
     evaluation = evaluate_agents([manager], n_simulations=128, show=False).values
-    # np.savetxt('ppo_farm0.out', np.array(evaluation), delimiter=',')
-    # data = plot_writer_data("ppo_results","episode_rewards", smooth_weight = 0.95)
+    np.savetxt('ppo_farm0.out', np.array(evaluation), delimiter=',')
+    data = plot_writer_data("ppo_results","episode_rewards", smooth_weight = 0.95)
 
 
 # This template file gives mean evaluation reward 302 and std 96. The same can be said from sb3 PPO.

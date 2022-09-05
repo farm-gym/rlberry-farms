@@ -32,7 +32,7 @@ if __name__ == "__main__":
                             learning_rate=1e-3,
                             n_steps = 128,
                             batch_size=14,
-                            eps_clip=0.2
+                            eps_clip=0.2,
                         ),
                         fit_budget=3e5,
                         eval_kwargs=dict(eval_horizon=365),
@@ -44,8 +44,8 @@ if __name__ == "__main__":
                     )
     manager.fit()
     evaluation = evaluate_agents([manager], n_simulations=128, show=False).values
-    #np.savetxt('ppo_farm0.out', np.array(evaluation), delimiter=',')
-    #data = plot_writer_data("ppo_results","episode_rewards", smooth_weight = 0.95)
+    np.savetxt('ppo_farm0.out', np.array(evaluation), delimiter=',')
+    data = plot_writer_data("ppo_results","episode_rewards", smooth_weight = 0.95)
     
 
 # This template file gives mean evaluation reward 302 and std 96. The same can be said from sb3 PPO.

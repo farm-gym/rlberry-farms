@@ -5,6 +5,8 @@ import numpy as np
 from rlberry.utils.writers import DefaultWriter
 import time
 import os
+from rlberry.utils.check_env import check_env, check_rlberry_env
+
 
 class Farm0(Model):
     """
@@ -71,12 +73,25 @@ class Farm0(Model):
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
-        
+        if self.monitor :
+            keys = []
+            for i in range(len(self.monitor_variables)):
+                v= self.monitor_variables[i]
+                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
+                keys.append(var_key)
+            layout = {
+                "Farm": {
+                    "Variables": ["Multiline", keys],
+                },
+            }
+            self.writer.add_custom_scalars(layout)
+            
         # initialize
         self.state = None
         self.reset()
 
     def reset(self):
+        self.iteration = 0
         observation = self.farm.gym_reset()
         return self.farmgymobs_to_obs(observation)
 
@@ -89,13 +104,15 @@ class Farm0(Model):
 
         # Monitoring
         if self.monitor:
+            
             self.iteration += 1
+            
             for i in range(len(self.monitor_variables)):
                 v= self.monitor_variables[i]
                 fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
                 day = self.farm.fields[fi_key].entities['Weather-0'].variables['day#int365'].value
                 value = map_v(self.farm.fields[fi_key].entities[entity_key].variables[var_key])
-                self.writer.add_scalar(var_key, np.round(value,3),self.iteration)
+                self.writer.add_scalar(var_key, np.round(value,3), self.iteration)
             self.writer.add_scalar('day#int365', day,self.iteration)
         
         return self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]), reward, is_done, info
@@ -122,3 +139,6 @@ class Farm0(Model):
             return [] # Do nothing.
 
 
+if __name__ == "__main__":
+    check_env(Farm0())
+    check_rlberry_env(Farm0())

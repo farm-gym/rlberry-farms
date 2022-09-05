@@ -4,6 +4,8 @@ import rlberry_farms.farm1.farm as cb
 import numpy as np
 import time
 import os
+from rlberry.utils.writers import DefaultWriter
+
 
 class Farm1(Model):
     """
@@ -41,7 +43,6 @@ class Farm1(Model):
         - stage of growth of the plant (int)
         - size of the plant in cm.
         - Soil wet_surface#m2.day-1
-        - Birds population#nb
         - fertilizer amount#kg
         - Pests plot_population#nb
         - Pollinators occurrence#bin
@@ -62,13 +63,13 @@ class Farm1(Model):
         self.farm.monitor = None
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, wet surface, microlife %,
-        # bird pop, fertilizer amount, pests pop, pollinators occurrence, weeds grow nb, weeds flower nb
+        #  fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb
         high = np.array(
-            [365, 50, 50, 50, 300, 5, 100, 10, 200, 1, 100, 20, 10, 1000, 1, 100, 100]
+            [365, 50, 50, 50, 300, 5, 100, 10, 200, 1, 100, 10, 1, 100, 100]
         )
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
-        self.action_space = spaces.Discrete(14)
+        self.action_space = spaces.Discrete(11)
 
         # monitoring writer
         self.identifier = self.name+str(self.seeder.rng.integers(100000))
@@ -89,6 +90,7 @@ class Farm1(Model):
         self.reset()
 
     def reset(self):
+        self.iteration = 0
         observation = self.farm.gym_reset()
         return self.farmgymobs_to_obs(observation)
 
@@ -127,7 +129,7 @@ class Farm1(Model):
                 obs[1]["min#°C"][0],
                 obs[1]["max#°C"][0],
             ]
-            + [np.array([obs[i]]).ravel()[0] for i in range(2, 15)]
+            + [np.array([obs[i]]).ravel()[0] for i in range(2, 13)]
         )
 
     def num_to_action(self, num):
@@ -158,34 +160,12 @@ class Farm1(Model):
                 (
                     "BasicFarmer-0",
                     "Field-0",
-                    "Facility-0",
-                    "put_scarecrow",
-                    {"type": "basic"},
-                )
-            ]
-        elif num == 9:
-            return [
-                (
-                    "BasicFarmer-0",
-                    "Field-0",
-                    "Facility-0",
-                    "put_scarecrow",
-                    {"type": "advanced"},
-                )
-            ]
-        elif num == 10:
-            return [("BasicFarmer-0", "Field-0", "Facility-0", "remove_scarecrow", {})]
-        elif num == 11:
-            return [
-                (
-                    "BasicFarmer-0",
-                    "Field-0",
                     "Fertilizer-0",
                     "scatter_bag",
                     {"plot": (0, 0), "amount#bag": 1},
                 )
             ]
-        elif num == 12:
+        elif num == 9:
             return [
                 (
                     "BasicFarmer-0",
@@ -195,17 +175,7 @@ class Farm1(Model):
                     {"plot": (0, 0), "amount#bag": 1},
                 )
             ]
-        elif num == 13:
-            return [
-                (
-                    "BasicFarmer-0",
-                    "Field-0",
-                    "Cide-1",
-                    "scatter_bag",
-                    {"plot": (0, 0), "amount#bag": 1},
-                )
-            ]
-        elif num == 14:
+        elif num == 10:
             return [("BasicFarmer-0", "Field-0", "Weeds-0", "remove", {"plot": (0, 0)})]
         else:
             return []  # Do nothing.
