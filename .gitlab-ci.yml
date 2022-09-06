@@ -30,8 +30,8 @@ cache:
 before_script:
   - python3 --version  # For debugging
   - pip3 install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
+  - python -m venv virtualenv 
+  - source virtualenv/bin/activate
   - pip install .
 
 test:
@@ -43,8 +43,9 @@ test:
 
 pages:
   script:
-    - pip install sphinx sphinx-rtd-theme
+    - pip install sphinx
     - cd docs
+    - pip install -r requirements.txt
     - make html
     - mv _build/html/ ../public/
   artifacts:
