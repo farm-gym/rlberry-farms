@@ -1,3 +1,7 @@
+"""
+PPO on Farm1
+"""
+
 from rlberry.agents.torch import PPOAgent
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms.game1_env import Farm1
@@ -42,9 +46,9 @@ if __name__ == "__main__":
         mp_context="spawn",
         output_dir="ppo_results",
     )
-    manager.fit()
-    evaluation = evaluate_agents([manager], n_simulations=128, show=False).values
-    np.savetxt('ppo_farm0.out', np.array(evaluation), delimiter=',')
+    #manager.fit()
+    #evaluation = evaluate_agents([manager], n_simulations=128, show=False).values
+    #np.savetxt('ppo_farm0.out', np.array(evaluation), delimiter=',')
     data = plot_writer_data("ppo_results","episode_rewards", smooth_weight = 0.95)
 
 

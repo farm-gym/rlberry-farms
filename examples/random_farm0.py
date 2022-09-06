@@ -1,3 +1,7 @@
+"""
+Random agent on Farm0
+"""
+
 from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms.game0_env import Farm0
