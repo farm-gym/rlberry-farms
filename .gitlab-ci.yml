@@ -36,9 +36,8 @@ before_script:
 
 format:
   script:
-    - pip install flake8 black
+    - pip install black
     - black --check examples rlberry_farms *py
-    - flake8 --select F401,F405,D410,D411,D412 --per-file-ignores="__init__.py:F401"  
 
 build:
   script:
