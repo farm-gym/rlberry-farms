@@ -1,0 +1,582 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <title>rlberry_farms.Farm1 &mdash; rlberry-farms 0.0.1 documentation</title>
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/vendor/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+<script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script> 
+</head>
+<body>
+
+
+<nav id="navbar" class="sk-docs-navbar navbar navbar-expand-md navbar-light bg-light py-0">
+  <div class="container-fluid sk-docs-container px-0">
+    <button
+      id="sk-navbar-toggler"
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="sk-navbar-collapse collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../installation.html">Install</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../user_guide.html">User Guide</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../auto_examples/index.html">Examples</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../api.html">API</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../changelog.html">Changelog</a>
+        </li>
+        <li class="nav-item">
+          <a class="sk-nav-link nav-link" href="../about.html">about</a>
+        </li>
+        <!--
+        <li class="nav-item dropdown nav-more-item-dropdown">
+          <a class="sk-nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          </div>
+        </li>-->
+    </ul>
+      <div id="searchbox" role="search">
+          <div class="searchformwrapper">
+          <form class="search" action="../search.html" method="get">
+            <input class="sk-search-text-input" type="text" name="q" aria-labelledby="searchlabel" />
+            <input class="sk-search-text-btn" type="submit" value="Go" />
+          </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="d-flex" id="sk-doc-wrapper">
+    <input type="checkbox" name="sk-toggle-checkbox" id="sk-toggle-checkbox">
+    <label id="sk-sidemenu-toggle" class="sk-btn-toggle-toc btn sk-btn-primary" for="sk-toggle-checkbox">Toggle Menu</label>
+    <div id="sk-sidebar-wrapper" class="border-right">
+      <div class="sk-sidebar-toc-wrapper">
+        <div class="sk-sidebar-toc-logo">
+        </div>
+	<br>
+        <div class="alert alert-warning p-1 mb-2" role="alert">
+          <p class="text-center mb-0">
+          rlberry 0.0.1<br/>
+          <a href="https://rlberry.readthedocs.io/en/stable/">Old version of doc</a>
+          </p>
+        </div>
+            <div class="sk-sidebar-toc">
+              <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlberry_farms</span></code>.Farm1</a><ul>
+<li><a class="reference internal" href="#examples-using-rlberry-farms-farm1">Examples using <code class="docutils literal notranslate"><span class="pre">rlberry_farms.Farm1</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+            </div>
+      </div>
+    </div>
+    <div id="sk-page-content-wrapper">
+      <div class="sk-page-content container-fluid body px-md-3" role="main">
+        
+  <section id="rlberry-farms-farm1">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">rlberry_farms</span></code>.Farm1<a class="headerlink" href="#rlberry-farms-farm1" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rlberry_farms.</span></span><span class="sig-name descname"><span class="pre">Farm1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_tensorboard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'results'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rlberry_farms/game1_env.html#Farm1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rlberry_farms.Farm1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>TODO : explain more
+Farm1 is a difficult 1x1 farm with only one possible plant : beans, planted in a clay ground.
+The observation of the field state is free.
+The advised maximum episode length is 365 (as in 365 days).</p>
+<p>The Farm has the weather of Montpellier in France (e.g. fairly warm weather, well suited for the culture of beans), the initial day is 120. Initially the field is healthy and contains all the nutrient necessary to the plant.</p>
+<p>The reward is the number of grams of harvested beans, and there is a high negative reward for very low microlife in soil (due to pesticides).</p>
+<p>The condition for end of episode (self.step returns done) is that the day is &gt;= 365 or that the plant is dead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>monitor: boolean, default = True</strong></dt><dd><p>If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.</p>
+</dd>
+<dt><strong>enable_tensorboard: boolean, default = False</strong></dt><dd><p>If True and monitor is True, save writer as tensorboard data</p>
+</dd>
+<dt><strong>output_dir: str, default = “results”</strong></dt><dd><p>directory where writer data are saved</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>action_space</strong></dt><dd></dd>
+<dt><strong>observation_space</strong></dt><dd></dd>
+<dt><a class="reference internal" href="#rlberry_farms.Farm1.rng" title="rlberry_farms.Farm1.rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rng</span></code></a></dt><dd><p>Random number generator.</p>
+</dd>
+<dt><strong>spec</strong></dt><dd></dd>
+<dt><a class="reference internal" href="#rlberry_farms.Farm1.unwrapped" title="rlberry_farms.Farm1.unwrapped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unwrapped</span></code></a></dt><dd><p>Completely unwrap this env.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>State:</dt><dd><p>The state consists of
+- Day (from 1 to 365)
+- mean air temperature (°C)
+- min air temperature (°C)
+- max air temperature (°C)
+- rain amount (mm)
+- sun-exposure (from 1 to 5)
+- consecutive dry day (int)
+- stage of growth of the plant (int)
+- size of the plant in cm.
+- Soil wet_surface#m2.day-1
+- fertilizer amount#kg
+- Pests plot_population#nb
+- Pollinators occurrence#bin
+- Weeds grow#nb
+- Weeds flowers#nb</p>
+</dd>
+<dt>Actions:</dt><dd><p>The action is either watering the field with 1L to 5L of water, harvesting or doing nothing, or …. TODO</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.close" title="rlberry_farms.Farm1.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Override close in your subclass to perform any necessary cleanup.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.get_params" title="rlberry_farms.Farm1.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>([deep])</p></td>
+<td><p>Get parameters for this model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.is_generative" title="rlberry_farms.Farm1.is_generative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_generative</span></code></a>()</p></td>
+<td><p>Returns true if sample() method is implemented</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.is_online" title="rlberry_farms.Farm1.is_online"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_online</span></code></a>()</p></td>
+<td><p>Returns true if reset() and step() methods are implemented</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.render" title="rlberry_farms.Farm1.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>([mode])</p></td>
+<td><p>Renders the environment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.reseed" title="rlberry_farms.Farm1.reseed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed</span></code></a>([seed_seq])</p></td>
+<td><p>Get new random number generator for the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.reset" title="rlberry_farms.Farm1.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>()</p></td>
+<td><p>Resets the environment to an initial state and returns an initial observation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.sample" title="rlberry_farms.Farm1.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(state, action)</p></td>
+<td><p>Execute a step from a state-action pair.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.seed" title="rlberry_farms.Farm1.seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seed</span></code></a>([seed])</p></td>
+<td><p>Sets the seed for this env's random number generator(s).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#rlberry_farms.Farm1.step" title="rlberry_farms.Farm1.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(action)</p></td>
+<td><p>Run one timestep of the environment's dynamics.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>farmgymobs_to_obs</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>num_to_action</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>writer_to_csv</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override close in your subclass to perform any necessary cleanup.</p>
+<p>Environments will automatically close() themselves when
+garbage collected or when the program exits.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>deep</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, will return the parameters for this model and
+contained subobjects.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>params</strong><span class="classifier">dict</span></dt><dd><p>Parameter names mapped to their values.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.is_generative">
+<span class="sig-name descname"><span class="pre">is_generative</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.is_generative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if sample() method is implemented</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.is_online">
+<span class="sig-name descname"><span class="pre">is_online</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.is_online" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if reset() and step() methods are implemented</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.render">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'human'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the environment.</p>
+<p>The set of supported modes varies per environment. (And some
+environments do not support rendering at all.) By convention,
+if mode is:</p>
+<ul class="simple">
+<li><p>human: render to the current display or terminal and
+return nothing. Usually for human consumption.</p></li>
+<li><p>rgb_array: Return an numpy.ndarray with shape (x, y, 3),
+representing RGB values for an x-by-y pixel image, suitable
+for turning into a video.</p></li>
+<li><p>ansi: Return a string (str) or StringIO.StringIO containing a
+terminal-style text representation. The text can include newlines
+and ANSI escape sequences (e.g. for colors).</p></li>
+</ul>
+<dl class="simple">
+<dt>Note:</dt><dd><dl class="simple">
+<dt>Make sure that your class’s metadata ‘render.modes’ key includes</dt><dd><p>the list of supported modes. It’s recommended to call super()
+in implementations to use the functionality of this method.</p>
+</dd>
+</dl>
+</dd>
+<dt>Args:</dt><dd><p>mode (str): the mode to render with</p>
+</dd>
+</dl>
+<p>Example:</p>
+<dl>
+<dt>class MyEnv(Env):</dt><dd><p>metadata = {‘render.modes’: [‘human’, ‘rgb_array’]}</p>
+<dl class="simple">
+<dt>def render(self, mode=’human’):</dt><dd><dl class="simple">
+<dt>if mode == ‘rgb_array’:</dt><dd><p>return np.array(…) # return RGB frame suitable for video</p>
+</dd>
+<dt>elif mode == ‘human’:</dt><dd><p>… # pop up a window and render</p>
+</dd>
+<dt>else:</dt><dd><p>super(MyEnv, self).render(mode=mode) # just raise an exception</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.reseed">
+<span class="sig-name descname"><span class="pre">reseed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed_seq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.reseed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get new random number generator for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>seed_seq</strong><span class="classifier">np.random.SeedSequence, rlberry.seeding.Seeder or int, default</span><span class="classifier">None</span></dt><dd><p>Seed sequence from which to spawn the random number generator.
+If None, generate random seed.
+If int, use as entropy for SeedSequence.
+If seeder, use seeder.seed_seq</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rlberry_farms/game1_env.html#Farm1.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rlberry_farms.Farm1.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the environment to an initial state and returns an initial
+observation.</p>
+<p>Note that this function should not reset the environment’s random
+number generator(s); random variables in the environment’s state should
+be sampled independently between multiple calls to <cite>reset()</cite>. In other
+words, each call of <cite>reset()</cite> should yield an environment suitable for
+a new episode, independent of previous episodes.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>observation (object): the initial observation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.rng">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rng</span></span><a class="headerlink" href="#rlberry_farms.Farm1.rng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random number generator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a step from a state-action pair.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>state</strong><span class="classifier">object</span></dt><dd><p>state from which to sample</p>
+</dd>
+<dt><strong>action</strong><span class="classifier">object</span></dt><dd><p>action to take in the environment</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>observation</strong><span class="classifier">object</span></dt><dd></dd>
+<dt><strong>reward</strong><span class="classifier">float</span></dt><dd></dd>
+<dt><strong>done</strong><span class="classifier">bool</span></dt><dd></dd>
+<dt><strong>info</strong><span class="classifier">dict</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.seed">
+<span class="sig-name descname"><span class="pre">seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rlberry_farms.Farm1.seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the seed for this env’s random number generator(s).</p>
+<dl class="simple">
+<dt>Note:</dt><dd><p>Some environments use multiple pseudorandom number generators.
+We want to capture all such seeds used in order to ensure that
+there aren’t accidental correlations between multiple generators.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>list&lt;bigint&gt;: Returns the list of seeds used in this env’s random</dt><dd><p>number generators. The first value in the list should be the
+“main” seed, or the value which a reproducer should pass to
+‘seed’. Often, the main seed equals the provided ‘seed’, but
+this won’t be true if seed=None, for example.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rlberry_farms/game1_env.html#Farm1.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rlberry_farms.Farm1.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run one timestep of the environment’s dynamics. When end of
+episode is reached, you are responsible for calling <cite>reset()</cite>
+to reset this environment’s state.</p>
+<p>Accepts an action and returns a tuple (observation, reward, done, info).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>action (object): an action provided by the agent</p>
+</dd>
+<dt>Returns:</dt><dd><p>observation (object): agent’s observation of the current environment
+reward (float) : amount of reward returned after previous action
+done (bool): whether the episode has ended, in which case further step() calls will return undefined results
+info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="rlberry_farms.Farm1.unwrapped">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unwrapped</span></span><a class="headerlink" href="#rlberry_farms.Farm1.unwrapped" title="Permalink to this definition">¶</a></dt>
+<dd><p>Completely unwrap this env.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>gym.Env: The base non-wrapped gym.Env instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="examples-using-rlberry-farms-farm1">
+<h2>Examples using <code class="docutils literal notranslate"><span class="pre">rlberry_farms.Farm1</span></code><a class="headerlink" href="#examples-using-rlberry-farms-farm1" title="Permalink to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="PPO on Farm1"><img alt="PPO on Farm1" src="../_images/sphx_glr_ppo_farm1_thumb.png" />
+<p><span class="xref std std-ref">sphx_glr_auto_examples_ppo_farm1.py</span></p>
+  <div class="sphx-glr-thumbnail-title">PPO on Farm1</div>
+</div></div><div class="clearer"></div></section>
+</section>
+
+
+      </div>
+    <div class="container">
+      <footer class="sk-content-footer">
+            &copy; 2022, rlberry team.
+          <a href="../_sources/generated/rlberry_farms.Farm1.rst.txt" rel="nofollow">Show this page source</a>
+      </footer>
+    </div>
+  </div>
+</div>
+<script src="../_static/js/vendor/bootstrap.min.js"></script>
+
+<script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-22606712-2', 'auto');
+    ga('set', 'anonymizeIp', true);
+    ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script>
+$(document).ready(function() {
+    /* Add a [>>>] button on the top-right corner of code samples to hide
+     * the >>> and ... prompts and the output and thus make the code
+     * copyable. */
+    var div = $('.highlight-python .highlight,' +
+                '.highlight-python3 .highlight,' +
+                '.highlight-pycon .highlight,' +
+		'.highlight-default .highlight')
+    var pre = div.find('pre');
+
+    // get the styles from the current theme
+    pre.parent().parent().css('position', 'relative');
+    var hide_text = 'Hide prompts and outputs';
+    var show_text = 'Show prompts and outputs';
+
+    // create and add the button to all the code blocks that contain >>>
+    div.each(function(index) {
+        var jthis = $(this);
+        if (jthis.find('.gp').length > 0) {
+            var button = $('<span class="copybutton">&gt;&gt;&gt;</span>');
+            button.attr('title', hide_text);
+            button.data('hidden', 'false');
+            jthis.prepend(button);
+        }
+        // tracebacks (.gt) contain bare text elements that need to be
+        // wrapped in a span to work with .nextUntil() (see later)
+        jthis.find('pre:has(.gt)').contents().filter(function() {
+            return ((this.nodeType == 3) && (this.data.trim().length > 0));
+        }).wrap('<span>');
+    });
+
+    // define the behavior of the button when it's clicked
+    $('.copybutton').click(function(e){
+        e.preventDefault();
+        var button = $(this);
+        if (button.data('hidden') === 'false') {
+            // hide the code output
+            button.parent().find('.go, .gp, .gt').hide();
+            button.next('pre').find('.gt').nextUntil('.gp, .go').css('visibility', 'hidden');
+            button.css('text-decoration', 'line-through');
+            button.attr('title', show_text);
+            button.data('hidden', 'true');
+        } else {
+            // show the code output
+            button.parent().find('.go, .gp, .gt').show();
+            button.next('pre').find('.gt').nextUntil('.gp, .go').css('visibility', 'visible');
+            button.css('text-decoration', 'none');
+            button.attr('title', hide_text);
+            button.data('hidden', 'false');
+        }
+    });
+
+	/*** Add permalink buttons next to glossary terms ***/
+	$('dl.glossary > dt[id]').append(function() {
+		return ('<a class="headerlink" href="#' +
+			    this.getAttribute('id') +
+			    '" title="Permalink to this term">¶</a>');
+	});
+  /*** Hide navbar when scrolling down ***/
+  // Returns true when headerlink target matches hash in url
+  (function() {
+    hashTargetOnTop = function() {
+        var hash = window.location.hash;
+        if ( hash.length < 2 ) { return false; }
+
+        var target = document.getElementById( hash.slice(1) );
+        if ( target === null ) { return false; }
+
+        var top = target.getBoundingClientRect().top;
+        return (top < 2) && (top > -2);
+    };
+
+    // Hide navbar on load if hash target is on top
+    var navBar = document.getElementById("navbar");
+    var navBarToggler = document.getElementById("sk-navbar-toggler");
+    var navBarHeightHidden = "-" + navBar.getBoundingClientRect().height + "px";
+    var $window = $(window);
+
+    hideNavBar = function() {
+        navBar.style.top = navBarHeightHidden;
+    };
+
+    showNavBar = function() {
+        navBar.style.top = "0";
+    }
+
+    if (hashTargetOnTop()) {
+        hideNavBar()
+    }
+
+    var prevScrollpos = window.pageYOffset;
+    hideOnScroll = function(lastScrollTop) {
+        if (($window.width() < 768) && (navBarToggler.getAttribute("aria-expanded") === 'true')) {
+            return;
+        }
+        if (lastScrollTop > 2 && (prevScrollpos <= lastScrollTop) || hashTargetOnTop()){
+            hideNavBar()
+        } else {
+            showNavBar()
+        }
+        prevScrollpos = lastScrollTop;
+    };
+
+    /*** high performance scroll event listener***/
+    var raf = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        window.oRequestAnimationFrame;
+    var lastScrollTop = $window.scrollTop();
+
+    if (raf) {
+        loop();
+    }
+
+    function loop() {
+        var scrollTop = $window.scrollTop();
+        if (lastScrollTop === scrollTop) {
+            raf(loop);
+            return;
+        } else {
+            lastScrollTop = scrollTop;
+            hideOnScroll(lastScrollTop);
+            raf(loop);
+        }
+    }
+  })();
+});
+
+</script>
+    
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    
+</body>
+</html>
