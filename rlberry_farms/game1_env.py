@@ -133,9 +133,9 @@ class Farm1(Model):
         return np.array(
             [
                 obs[0],
-                obs[1]["mean#°C"][0],
-                obs[1]["min#°C"][0],
-                obs[1]["max#°C"][0],
+                float(np.array([obs[1]["mean#°C"]]).ravel()[0]),
+                float(np.array([obs[1]["min#°C"]]).ravel()[0]),
+                float(np.array([obs[1]["max#°C"]]).ravel()[0]),
             ]
             + [np.array([obs[i]]).ravel()[0] for i in range(2, 13)]
         )

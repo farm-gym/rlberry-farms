@@ -137,9 +137,9 @@ class Farm0(Model):
         return np.array(
             [
                 float(obs[0]),
-                float(obs[1]["mean#°C"][0]),
-                float(obs[1]["min#°C"][0]),
-                float(obs[1]["max#°C"][0]),
+                float(np.array([obs[1]["mean#°C"]]).ravel()[0]),
+                float(np.array([obs[1]["min#°C"]]).ravel()[0]),
+                float(np.array([obs[1]["max#°C"]]).ravel()[0]),
                 float(obs[2]),
                 float(obs[3]),
                 float(obs[4][0]),
