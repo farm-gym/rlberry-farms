@@ -28,7 +28,7 @@ class Farm0(Model):
         If True and monitor is True, save writer as tensorboard data
     output_dir: str, default = "results"
         directory where writer data are saved
-    
+
     Notes
     -----
     State:
@@ -42,12 +42,14 @@ class Farm0(Model):
         - consecutive dry day (int)
         - stage of growth of the plant (int)
         - size of the plant in cm.
-    
+
     Actions:
         The action is either watering the field with 1L to 5L of water, harvesting or doing nothing.
     """
+
     name = "Farm0"
-    def __init__(self, monitor = True, enable_tensorboard = False, output_dir = "results"):
+
+    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
@@ -55,29 +57,29 @@ class Farm0(Model):
         self.farm.monitor = None
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm
-        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200 ])
-        low =  np.array([0, -50, -50, -50, 0,   0, 0, 0, 0])
+        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(7)
 
         # monitoring writer
         params = {}
-        self.identifier = self.name+str(self.seeder.rng.integers(100000))
+        self.identifier = self.name + str(self.seeder.rng.integers(100000))
         self.output_dir = output_dir
         if enable_tensorboard:
-            self.tensorboard_dir = os.path.join(output_dir,"tensorboard")
+            self.tensorboard_dir = os.path.join(output_dir, "tensorboard")
             params["tensorboard_kwargs"] = dict(
-                    log_dir=os.path.join(self.tensorboard_dir, "farm_"+self.identifier)
-                )
+                log_dir=os.path.join(self.tensorboard_dir, "farm_" + self.identifier)
+            )
         self.writer = DefaultWriter(name="farm_writer", **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
-        if self.monitor :
+        if self.monitor:
             keys = []
             for i in range(len(self.monitor_variables)):
-                v= self.monitor_variables[i]
-                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
+                v = self.monitor_variables[i]
+                fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
                 keys.append(var_key)
             layout = {
                 "Farm": {
@@ -85,7 +87,7 @@ class Farm0(Model):
                 },
             }
             self.writer.add_custom_scalars(layout)
-            
+
         # initialize
         self.state = None
         self.reset()
@@ -96,7 +98,9 @@ class Farm0(Model):
         return self.farmgymobs_to_obs(observation)
 
     def writer_to_csv():
-        self.writer.data.to_csv(os.path.join(self.output_dir, 'farm_'+self.identifier+'_writer.csv'))
+        self.writer.data.to_csv(
+            os.path.join(self.output_dir, "farm_" + self.identifier + "_writer.csv")
+        )
 
     def step(self, action):
         obs1, _, _, info = self.farm.farmgym_step([])
@@ -104,39 +108,61 @@ class Farm0(Model):
 
         # Monitoring
         if self.monitor:
-            
+
             self.iteration += 1
-            
+
             for i in range(len(self.monitor_variables)):
-                v= self.monitor_variables[i]
-                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
-                day = self.farm.fields[fi_key].entities['Weather-0'].variables['day#int365'].value
-                value = map_v(self.farm.fields[fi_key].entities[entity_key].variables[var_key])
-                self.writer.add_scalar(var_key, np.round(value,3), self.iteration)
-            self.writer.add_scalar('day#int365', day,self.iteration)
-        
-        return self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]), reward, is_done, info
+                v = self.monitor_variables[i]
+                fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
+                day = (
+                    self.farm.fields[fi_key]
+                    .entities["Weather-0"]
+                    .variables["day#int365"]
+                    .value
+                )
+                value = map_v(
+                    self.farm.fields[fi_key].entities[entity_key].variables[var_key]
+                )
+                self.writer.add_scalar(var_key, np.round(value, 3), self.iteration)
+            self.writer.add_scalar("day#int365", day, self.iteration)
+
+        return (
+            self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]),
+            reward,
+            is_done,
+            info,
+        )
 
     def farmgymobs_to_obs(self, obs):
-        return np.array([ float(obs[0]),
-                          float(obs[1]['mean#°C'][0]),
-                          float(obs[1]['min#°C'][0]),
-                          float(obs[1]['max#°C'][0]),
-                          float(obs[2]),
-                          float(obs[3]),
-                          float(obs[4][0]),
-                          float(obs[5][0][0]),
-                          float(obs[6][0][0][0]),
-                         ]
-                        )
+        return np.array(
+            [
+                float(obs[0]),
+                float(obs[1]["mean#°C"][0]),
+                float(obs[1]["min#°C"][0]),
+                float(obs[1]["max#°C"][0]),
+                float(obs[2]),
+                float(obs[3]),
+                float(obs[4][0]),
+                float(obs[5][0][0]),
+                float(obs[6][0][0][0]),
+            ]
+        )
 
     def num_to_action(self, num):
-        if (num >= 1) and (num <= 5) :
-            return [('BasicFarmer-0', 'Field-0', 'Soil-0', 'water_discrete', {'plot': (0, 0), 'amount#L': num, 'duration#min': 60})]
+        if (num >= 1) and (num <= 5):
+            return [
+                (
+                    "BasicFarmer-0",
+                    "Field-0",
+                    "Soil-0",
+                    "water_discrete",
+                    {"plot": (0, 0), "amount#L": num, "duration#min": 60},
+                )
+            ]
         elif num == 6:
-            return [('BasicFarmer-0', 'Field-0', 'Plant-0', 'harvest', {})]
+            return [("BasicFarmer-0", "Field-0", "Plant-0", "harvest", {})]
         else:
-            return [] # Do nothing.
+            return []  # Do nothing.
 
 
 if __name__ == "__main__":

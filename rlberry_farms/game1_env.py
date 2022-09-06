@@ -28,7 +28,7 @@ class Farm1(Model):
         If True and monitor is True, save writer as tensorboard data
     output_dir: str, default = "results"
         directory where writer data are saved
-    
+
     Notes
     -----
     State:
@@ -55,7 +55,7 @@ class Farm1(Model):
 
     name = "Farm0"
 
-    def __init__(self, monitor = True, enable_tensorboard = False, output_dir = "results"):
+    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
@@ -72,19 +72,19 @@ class Farm1(Model):
         self.action_space = spaces.Discrete(11)
 
         # monitoring writer
-        self.identifier = self.name+str(self.seeder.rng.integers(100000))
+        self.identifier = self.name + str(self.seeder.rng.integers(100000))
         params = {}
         self.output_dir = output_dir
         if enable_tensorboard:
-            self.tensorboard_dir = os.path.join(output_dir,"tensorboard")
+            self.tensorboard_dir = os.path.join(output_dir, "tensorboard")
             params["tensorboard_kwargs"] = dict(
-                    log_dir=os.path.join(self.tensorboard_dir,"farm_"+self.identifier)
-                )
+                log_dir=os.path.join(self.tensorboard_dir, "farm_" + self.identifier)
+            )
         self.writer = DefaultWriter(name="farm_writer", **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
-        
+
         # initialize
         self.state = None
         self.reset()
@@ -95,8 +95,9 @@ class Farm1(Model):
         return self.farmgymobs_to_obs(observation)
 
     def writer_to_csv():
-        self.writer.data.to_csv(os.path.join(self.output_dir,'farm_'+self.identifier+'_writer.csv'))
-
+        self.writer.data.to_csv(
+            os.path.join(self.output_dir, "farm_" + self.identifier + "_writer.csv")
+        )
 
     def step(self, action):
         obs1, _, _, info = self.farm.farmgym_step([])
@@ -108,12 +109,19 @@ class Farm1(Model):
         if self.monitor:
             self.iteration += 1
             for i in range(len(self.monitor_variables)):
-                v= self.monitor_variables[i]
-                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
-                day = self.farm.fields[fi_key].entities['Weather-0'].variables['day#int365'].value
-                value = map_v(self.farm.fields[fi_key].entities[entity_key].variables[var_key])
-                self.writer.add_scalar(var_key, np.round(value,3),self.iteration)
-            self.writer.add_scalar('day#int365', day, self.iteration)
+                v = self.monitor_variables[i]
+                fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
+                day = (
+                    self.farm.fields[fi_key]
+                    .entities["Weather-0"]
+                    .variables["day#int365"]
+                    .value
+                )
+                value = map_v(
+                    self.farm.fields[fi_key].entities[entity_key].variables[var_key]
+                )
+                self.writer.add_scalar(var_key, np.round(value, 3), self.iteration)
+            self.writer.add_scalar("day#int365", day, self.iteration)
 
         if obs1[8][5][0][0][0] < 10:
             reward -= 300  # if microlife is < 10%, negative reward
