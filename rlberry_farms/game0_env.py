@@ -110,7 +110,9 @@ class Farm0(Model):
         # Monitoring
         if self.monitor:
             self.iteration += 1
-            update_farm_writer(self.writer, self.monitor_variables, self.farm, self.iteration)
+            update_farm_writer(
+                self.writer, self.monitor_variables, self.farm, self.iteration
+            )
 
         return (
             farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]),

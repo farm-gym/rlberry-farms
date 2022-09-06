@@ -109,13 +109,14 @@ class Farm1(Model):
         # Monitoring
         if self.monitor:
             self.iteration += 1
-            update_farm_writer(self.writer, self.monitor_variables, self.farm, self.iteration)
+            update_farm_writer(
+                self.writer, self.monitor_variables, self.farm, self.iteration
+            )
         if obs1[8][5][0][0][0] < 10:
             reward -= 300  # if microlife is < 10%, negative reward
 
         observation = farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))])
         return observation, reward, is_done, info
-
 
     def num_to_action(self, num):
         if (num >= 1) and (num <= 5):
