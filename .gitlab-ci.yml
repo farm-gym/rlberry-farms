@@ -32,16 +32,20 @@ before_script:
   - pip install virtualenv
   - python3 -m venv virtualenv 
   - source virtualenv/bin/activate
-  - pip install --no-deps .
+
+
+format:
+  script:
+    - pip install flake8 black
+    - black --check examples rlberry_farms *py
+    - flake8 --select F401,F405,D410,D411,D412 --per-file-ignores="__init__.py:F401"  
+
+build:
+  script:
   - pip install git+https://github.com/rlberry-py/rlberry
   - pip install /home/gitlab-runner/builds/farm-gym
+  - pip install --no-deps .
 
-test:
-  script:
-    - pip install pytest flake8 black
-    - black --check examples rlberry_farms *py
-    - flake8 --select F401,F405,D410,D411,D412 --per-file-ignores="__init__.py:F401"
-    - pytest --import-mode=importlib rlberry_farms
 
 pages:
   script:
