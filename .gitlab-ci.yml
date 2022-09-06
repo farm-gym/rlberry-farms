@@ -39,15 +39,11 @@ format:
     - pip install black
     - black --check examples rlberry_farms *py
 
-build:
-  script:
-  - pip install git+https://github.com/rlberry-py/rlberry
-  - pip install /home/gitlab-runner/builds/farm-gym
-  - pip install --no-deps .
-
-
 pages:
   script:
+    - pip install git+https://github.com/rlberry-py/rlberry
+    - pip install /home/gitlab-runner/builds/farm-gym
+    - pip install --no-deps .
     - pip install sphinx
     - cd docs
     - pip install -r requirements.txt
