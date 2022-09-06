@@ -11,8 +11,7 @@ Main classes
 .. autosummary::
   :toctree: generated/
   :template: class.rst
-
-
     Farm0
     Farm1
+    
    
