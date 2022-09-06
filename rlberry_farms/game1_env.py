@@ -5,6 +5,7 @@ import numpy as np
 import time
 import os
 from rlberry.utils.writers import DefaultWriter
+from rlberry_farms.utils import farmgymobs_to_obs, update_farm_writer
 
 
 class Farm1(Model):
@@ -92,7 +93,7 @@ class Farm1(Model):
     def reset(self):
         self.iteration = 0
         observation = self.farm.gym_reset()
-        return self.farmgymobs_to_obs(observation)
+        return farmgymobs_to_obs(observation)
 
     def writer_to_csv():
         self.writer.data.to_csv(
@@ -108,37 +109,13 @@ class Farm1(Model):
         # Monitoring
         if self.monitor:
             self.iteration += 1
-            for i in range(len(self.monitor_variables)):
-                v = self.monitor_variables[i]
-                fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
-                day = (
-                    self.farm.fields[fi_key]
-                    .entities["Weather-0"]
-                    .variables["day#int365"]
-                    .value
-                )
-                value = map_v(
-                    self.farm.fields[fi_key].entities[entity_key].variables[var_key]
-                )
-                self.writer.add_scalar(var_key, np.round(value, 3), self.iteration)
-            self.writer.add_scalar("day#int365", day, self.iteration)
-
+            update_farm_writer(self.writer, self.monitor_variables, self.farm, self.iteration)
         if obs1[8][5][0][0][0] < 10:
             reward -= 300  # if microlife is < 10%, negative reward
 
-        observation = self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))])
+        observation = farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))])
         return observation, reward, is_done, info
 
-    def farmgymobs_to_obs(self, obs):
-        return np.array(
-            [
-                obs[0],
-                float(np.array([obs[1]["mean#°C"]]).ravel()[0]),
-                float(np.array([obs[1]["min#°C"]]).ravel()[0]),
-                float(np.array([obs[1]["max#°C"]]).ravel()[0]),
-            ]
-            + [np.array([obs[i]]).ravel()[0] for i in range(2, 13)]
-        )
 
     def num_to_action(self, num):
         if (num >= 1) and (num <= 5):

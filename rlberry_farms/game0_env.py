@@ -1,6 +1,7 @@
 import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
 import rlberry_farms.farm0.farm as cb
+from rlberry_farms.utils import farmgymobs_to_obs, update_farm_writer
 import numpy as np
 from rlberry.utils.writers import DefaultWriter
 import time
@@ -95,7 +96,7 @@ class Farm0(Model):
     def reset(self):
         self.iteration = 0
         observation = self.farm.gym_reset()
-        return self.farmgymobs_to_obs(observation)
+        return farmgymobs_to_obs(observation)
 
     def writer_to_csv():
         self.writer.data.to_csv(
@@ -108,44 +109,14 @@ class Farm0(Model):
 
         # Monitoring
         if self.monitor:
-
             self.iteration += 1
-
-            for i in range(len(self.monitor_variables)):
-                v = self.monitor_variables[i]
-                fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
-                day = (
-                    self.farm.fields[fi_key]
-                    .entities["Weather-0"]
-                    .variables["day#int365"]
-                    .value
-                )
-                value = map_v(
-                    self.farm.fields[fi_key].entities[entity_key].variables[var_key]
-                )
-                self.writer.add_scalar(var_key, np.round(value, 3), self.iteration)
-            self.writer.add_scalar("day#int365", day, self.iteration)
+            update_farm_writer(self.writer, self.monitor_variables, self.farm, self.iteration)
 
         return (
-            self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]),
+            farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]),
             reward,
             is_done,
             info,
-        )
-
-    def farmgymobs_to_obs(self, obs):
-        return np.array(
-            [
-                float(obs[0]),
-                float(np.array([obs[1]["mean#°C"]]).ravel()[0]),
-                float(np.array([obs[1]["min#°C"]]).ravel()[0]),
-                float(np.array([obs[1]["max#°C"]]).ravel()[0]),
-                float(obs[2]),
-                float(obs[3]),
-                float(obs[4][0]),
-                float(obs[5][0][0]),
-                float(obs[6][0][0][0]),
-            ]
         )
 
     def num_to_action(self, num):
