@@ -1,5 +1,6 @@
 """
 Random agent on Farm0
+=====================
 """
 
 from rlberry.agents import AgentWithSimplePolicy
@@ -51,4 +52,4 @@ if __name__ == "__main__":
     data = plot_writer_data("random_results", "episode_rewards", smooth_weight=0.95)
 
 
-# This template file gives mean evaluation reward 275 and std 96.
+# This template file gives mean evaluation reward 96.

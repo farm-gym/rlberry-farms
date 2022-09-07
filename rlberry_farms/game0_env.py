@@ -98,13 +98,13 @@ class Farm0(Model):
         observation = self.farm.gym_reset()
         return farmgymobs_to_obs(observation)
 
-    def writer_to_csv():
+    def writer_to_csv(self):
         self.writer.data.to_csv(
             os.path.join(self.output_dir, "farm_" + self.identifier + "_writer.csv")
         )
 
     def step(self, action):
-        obs1, _, _, info = self.farm.farmgym_step([])
+        obs1, _, _, info = self.farm._step([])
         obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
 
         # Monitoring
