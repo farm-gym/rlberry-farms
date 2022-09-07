@@ -21,6 +21,13 @@ To install this repo, one can use pip. It is advised to use a virtual environmen
     $ pip install git+https://gitlab.inria.fr/scool/rlberry-farms
 
 
+To confirm the installation, you can run
+
+.. code:: bash
+
+    $ python examples/installation_test.py
+
+
 Documentation Contents
 ======================
 
