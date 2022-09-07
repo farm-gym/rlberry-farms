@@ -45,7 +45,10 @@ class Farm0(Model):
         - size of the plant in cm.
 
     Actions:
-        The action is either watering the field with 1L to 5L of water, harvesting or doing nothing.
+        The actions are :
+        - doing nothing.
+        - 5 levels of watering the field (from 1L to 5L of water)
+        - harvesting
     """
 
     name = "Farm0"
