@@ -1,5 +1,6 @@
 .. _rlberry-farms: https://gitlab.inria.fr/scool/rlberry-farms
 
+.. _index:
 
 Farming with RL agents
 ======================
