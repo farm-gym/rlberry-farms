@@ -56,10 +56,12 @@ class Farm0(Model):
 
         self.farm = cb.env()
         self.farm.monitor = None
+        self.farm.gym_step([])
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm
         high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200])
         low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0])
+        self.n_obs = len(high)
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(7)
 
@@ -96,6 +98,7 @@ class Farm0(Model):
     def reset(self):
         self.iteration = 0
         observation = self.farm.gym_reset()
+        self.farm.gym_step([])
         return farmgymobs_to_obs(observation)
 
     def writer_to_csv(self):
@@ -104,18 +107,18 @@ class Farm0(Model):
         )
 
     def step(self, action):
-        obs1, _, _, info = self.farm._step([])
-        obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
-
+        
+        _, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+        obs1, _, _, info = self.farm.gym_step([])
+        
         # Monitoring
         if self.monitor:
             self.iteration += 1
             update_farm_writer(
                 self.writer, self.monitor_variables, self.farm, self.iteration
             )
-
         return (
-            farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))]),
+            farmgymobs_to_obs(obs1),
             reward,
             is_done,
             info,

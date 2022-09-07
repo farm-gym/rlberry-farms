@@ -61,6 +61,8 @@ class Farm1(Model):
         Model.__init__(self)
 
         self.farm = cb.env()
+        self.farm.gym_step([])
+
         self.farm.monitor = None
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, wet surface, microlife %,
@@ -93,6 +95,7 @@ class Farm1(Model):
     def reset(self):
         self.iteration = 0
         observation = self.farm.gym_reset()
+        self.farm.gym_step([])
         return farmgymobs_to_obs(observation)
 
     def writer_to_csv(self):
@@ -101,8 +104,9 @@ class Farm1(Model):
         )
 
     def step(self, action):
-        obs1, _, _, info = self.farm.farmgym_step([])
-        obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+        _, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+        obs1, _, _, info = self.farm.gym_step([])
+
         if hasattr(reward, "__len__"):
             reward = reward[0]
 
@@ -112,10 +116,10 @@ class Farm1(Model):
             update_farm_writer(
                 self.writer, self.monitor_variables, self.farm, self.iteration
             )
-        if obs1[8][5][0][0][0] < 10:
+        if np.array(obs1[8]).item() < 10:
             reward -= 300  # if microlife is < 10%, negative reward
 
-        observation = farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))])
+        observation = farmgymobs_to_obs(obs1)
         return observation, reward, is_done, info
 
     def num_to_action(self, num):
