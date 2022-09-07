@@ -107,10 +107,10 @@ class Farm0(Model):
         )
 
     def step(self, action):
-        
+
         _, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
         obs1, _, _, info = self.farm.gym_step([])
-        
+
         # Monitoring
         if self.monitor:
             self.iteration += 1
