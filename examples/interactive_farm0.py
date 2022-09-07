@@ -1,6 +1,10 @@
 """
 Interactive manual agent on Farm0
 =================================
+
+You are the agent.
+
+For windows users, they need to install windows-curses beforehand (installable via `pip install windows-curses`).
 """
 
 from rlberry.agents import AgentWithSimplePolicy
@@ -15,7 +19,7 @@ import curses
 
 from rlberry.utils.logging import set_level
 
-set_level("ERROR")
+set_level("WARNING")
 
 env_ctor, env_kwargs = Farm0, {"monitor": False}
 
@@ -38,7 +42,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
         ]
         self.action_str = " "
 
-    def fit(self, stdscr, budget=100, **kwargs):
+    def fit(self, stdscr, budget=3e5, **kwargs):
         self.stdscr = stdscr
         self.stdscr.clear()
         curses.curs_set(0)
@@ -46,6 +50,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
         observation = self.env.reset()
         farmgym_obs = [" " for i in range(len(observation))]
         self.episode_reward = 0
+        self.rewards = []
         for ep in range(int(budget)):
             self.stdscr.clear()
 
@@ -58,8 +63,17 @@ class InteractiveAgent(AgentWithSimplePolicy):
             self.episode_reward += reward
             if done:
                 self.writer.add_scalar("episode_rewards", self.episode_reward, ep)
+                self.rewards.append(self.episode_reward)
                 self.episode_reward = 0
                 self.env.reset()
+        stdscr.addstr(40, 50, "Training done. Press q.")
+        while True:
+            c = stdscr.getch()
+            if c == ord("q"):
+                self.stdscr.keypad(0)
+                curses.echo()
+                curses.nocbreak()
+                curses.endwin()
 
     def policy(self, observation):
         stdscr = self.stdscr
@@ -68,7 +82,10 @@ class InteractiveAgent(AgentWithSimplePolicy):
         stdscr.addstr(2, 19, "6) Harvest the plant")
         stdscr.addstr(3, 19, "")
 
-        stdscr.addstr(20, 0, "Episode reward: " + str(self.episode_reward))
+        for j in range(len(self.rewards)):
+            stdscr.addstr(
+                j, 70, "Reward for episode " + str(j) + " is " + str(self.rewards[j])
+            )
 
         for j in range(len(self.observations_txt)):
             stdscr.addstr(10 + j, 0, self.observations_txt[j])
