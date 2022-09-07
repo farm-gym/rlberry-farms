@@ -51,7 +51,12 @@ class Farm1(Model):
         - Weeds flowers#nb
 
     Actions:
-        The action is either watering the field with 1L to 5L of water, harvesting or doing nothing, or .... TODO
+        The actions are :
+        - doing nothing.
+        - 5 levels of watering the field (from 1L to 5L of water)
+        - harvesting
+        - ...
+        - ... TODO
     """
 
     name = "Farm0"
@@ -104,6 +109,11 @@ class Farm1(Model):
         )
 
     def step(self, action):
+        # Stepping
+        #   farmgym run with a cycle of 2 steps: 1 (empty) step of getting observation ("morning"), then 1 step of acting ("afternoon"). 
+        #   Classic RL methodology use only 1 step : performing an action return the next observation
+        #   To match this 2, rlberry_farms run the 'farmgy observation step ("morning")' right after the action. 
+        #   With this method, it will be like classic RL 'step' for the user
         _, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
         obs1, _, _, info = self.farm.gym_step([])
 
