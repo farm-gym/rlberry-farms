@@ -24,10 +24,10 @@ def env():
     entities1 = []
     entities1.append((Weather, "montpellier"))
     entities1.append((Soil, "clay"))
-    entities1.append((Plant, "bean"))
+    entities1.append((Plant, "tomato"))
 
     field1 = Field(
-        localization={"latitude#°": 43, "longitude#°": 4, "altitude#m": 150},
+        localization={"latitude#°": 50.62, "longitude#°": 3.05, "altitude#m": 10},
         shape={"length#nb": 1, "width#nb": 1, "scale#m": 1.0},
         entity_managers=entities1,
     )
@@ -44,6 +44,8 @@ def env():
 
     free_observations.append(("Field-0", "Plant-0", "stage", []))
     free_observations.append(("Field-0", "Plant-0", "size#cm", []))
+    free_observations.append(("Field-0", "Plant-0", "fruits_per_plant#nb", []))
+    free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
 
     terminal_CNF_conditions = [
         [(("Field-0", "Weather-0", "day#int365", []), lambda x: x.value, ">=", 360)],

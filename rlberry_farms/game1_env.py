@@ -23,7 +23,7 @@ class Farm1(Model):
 
     Parameters
     ----------
-    monitor: boolean, default = True
+    monitor: boolean, default = False
         If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
     enable_tensorboard: boolean, default = False
         If True and monitor is True, save writer as tensorboard data
@@ -61,7 +61,7 @@ class Farm1(Model):
 
     name = "Farm0"
 
-    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
+    def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
@@ -70,12 +70,12 @@ class Farm1(Model):
 
         self.farm.monitor = None
         # observation and action spaces
-        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, wet surface, microlife %,
-        #  fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb
+        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight #g, nb of fruits,
+        # wet surface, microlife %, fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb
         high = np.array(
-            [365, 50, 50, 50, 300, 5, 100, 10, 200, 1, 100, 10, 1, 100, 100]
+            [365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100, 1, 100, 10, 1, 100, 100]
         )
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        low = np.array([0, -50, -50, -50, 0, 0,0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(11)
 
@@ -127,7 +127,7 @@ class Farm1(Model):
                 self.writer, self.monitor_variables, self.farm, self.iteration
             )
         if np.array(obs1[8]).item() < 10:
-            reward -= 300  # if microlife is < 10%, negative reward
+            reward -= 2  # if microlife is < 10%, negative reward
 
         observation = farmgymobs_to_obs(obs1)
         return observation, reward, is_done, info

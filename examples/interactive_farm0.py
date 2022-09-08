@@ -39,6 +39,8 @@ class InteractiveAgent(AgentWithSimplePolicy):
             "Consecutive dry day (int)",
             "Stage of growth of the plant (int)",
             "Size of the plant in cm",
+            "Fruit weight in g",
+            "nb of fruits"
         ]
         self.action_str = " "
 

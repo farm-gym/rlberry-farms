@@ -23,7 +23,7 @@ class Farm0(Model):
 
     Parameters
     ----------
-    monitor: boolean, default = True
+    monitor: boolean, default = False
         If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
     enable_tensorboard: boolean, default = False
         If True and monitor is True, save writer as tensorboard data
@@ -43,6 +43,7 @@ class Farm0(Model):
         - consecutive dry day (int)
         - stage of growth of the plant (int)
         - size of the plant in cm.
+        - Fruit weight in g
 
     Actions:
         The actions are :
@@ -53,7 +54,7 @@ class Farm0(Model):
 
     name = "Farm0"
 
-    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
+    def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
@@ -61,9 +62,9 @@ class Farm0(Model):
         self.farm.monitor = None
         self.farm.gym_step([])
         # observation and action spaces
-        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm
-        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200])
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0])
+        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight, nb of fruits
+        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0])
         self.n_obs = len(high)
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(7)
