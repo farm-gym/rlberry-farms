@@ -31,24 +31,20 @@ CURRENT_DIR = file_path.parent
 def env():
     ##########################################################################
     entities1 = []
+    # entities1.append((Weather, "lille"))
     entities1.append((Weather, "montpellier"))
     entities1.append((Soil, "clay"))
     entities1.append((Plant, "bean"))
 
-    entities1.append((Birds, "base_bird"))
-    entities1.append((Facility, "base_facility"))
-
     entities1.append((Fertilizer, "basic_N"))
 
-    entities1.append((Pests, "basic"))
     entities1.append((Pollinators, "bee"))
-    entities1.append((Cide, "pesticide"))
 
     entities1.append((Weeds, "base_weed"))
     entities1.append((Cide, "herbicide"))
 
     field1 = Field(
-        localization={"latitude#°": 43, "longitude#°": 4, "altitude#m": 150},
+        localization={"latitude#°": 50.38, "longitude#°": 3.03, "altitude#m": 10},
         shape={"length#nb": 1, "width#nb": 1, "scale#m": 1.0},
         entity_managers=entities1,
     )
@@ -65,12 +61,13 @@ def env():
 
     free_observations.append(("Field-0", "Plant-0", "stage", []))
     free_observations.append(("Field-0", "Plant-0", "size#cm", []))
+    free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
+    free_observations.append(("Field-0", "Plant-0", "fruits_per_plant#nb", []))
+
     free_observations.append(("Field-0", "Soil-0", "wet_surface#m2.day-1", []))
     free_observations.append(("Field-0", "Soil-0", "microlife_health_index#%", []))
 
-    free_observations.append(("Field-0", "Birds-0", "population#nb", []))
     free_observations.append(("Field-0", "Fertilizer-0", "amount#kg", []))
-    free_observations.append(("Field-0", "Pests-0", "plot_population#nb", []))
     free_observations.append(("Field-0", "Pollinators-0", "occurrence#bin", []))
     free_observations.append(("Field-0", "Weeds-0", "grow#nb", []))
     free_observations.append(("Field-0", "Weeds-0", "flowers#nb", []))

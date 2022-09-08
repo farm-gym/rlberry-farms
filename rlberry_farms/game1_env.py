@@ -2,6 +2,10 @@ import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
 import rlberry_farms.farm1.farm as cb
 import numpy as np
+import time
+import os
+from rlberry.utils.writers import DefaultWriter
+from rlberry_farms.utils import farmgymobs_to_obs, update_farm_writer
 
 
 class Farm1(Model):
@@ -19,9 +23,12 @@ class Farm1(Model):
 
     Parameters
     ----------
-
-    monitor: boolean, default = True
+    monitor: boolean, default = False
         If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
+    enable_tensorboard: boolean, default = False
+        If True and monitor is True, save writer as tensorboard data
+    output_dir: str, default = "results"
+        directory where writer data are saved
 
     Notes
     -----
@@ -37,7 +44,6 @@ class Farm1(Model):
         - stage of growth of the plant (int)
         - size of the plant in cm.
         - Soil wet_surface#m2.day-1
-        - Birds population#nb
         - fertilizer amount#kg
         - Pests plot_population#nb
         - Pollinators occurrence#bin
@@ -45,78 +51,86 @@ class Farm1(Model):
         - Weeds flowers#nb
 
     Actions:
-        The action is either watering the field with 1L to 5L of water, harvesting or doing nothing, or .... TODO
+        The actions are :
+        - doing nothing.
+        - 5 levels of watering the field (from 1L to 5L of water)
+        - harvesting
+        - ...
+        - ... TODO
     """
 
     name = "Farm0"
 
-    def __init__(self, monitor = True):
+    def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
         self.farm = cb.env()
+        self.farm.gym_step([])
+
         self.farm.monitor = None
         # observation and action spaces
-        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, wet surface, microlife %,
-        # bird pop, fertilizer amount, pests pop, pollinators occurrence, weeds grow nb, weeds flower nb
+        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight #g, nb of fruits,
+        # wet surface, microlife %, fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb
         high = np.array(
-            [365, 50, 50, 50, 300, 5, 100, 10, 200, 1, 100, 20, 10, 1000, 1, 100, 100]
+            [365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100, 1, 100, 10, 1, 100, 100]
         )
         low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
-        self.action_space = spaces.Discrete(14)
+        self.action_space = spaces.Discrete(11)
 
         # monitoring writer
-        self.writer = DefaultWriter(name="farm_writer", log_interval = 5)
+        self.identifier = self.name + str(self.seeder.rng.integers(100000))
+        params = {}
+        self.output_dir = output_dir
+        if enable_tensorboard:
+            self.tensorboard_dir = os.path.join(output_dir, "tensorboard")
+            params["tensorboard_kwargs"] = dict(
+                log_dir=os.path.join(self.tensorboard_dir, "farm_" + self.identifier)
+            )
+        self.writer = DefaultWriter(name="farm_writer", **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
-        
+
         # initialize
         self.state = None
         self.reset()
 
     def reset(self):
-        observation = self.farm.gym_reset()
         self.iteration = 0
+        observation = self.farm.gym_reset()
+        self.farm.gym_step([])
+        return farmgymobs_to_obs(observation)
 
-        return self.farmgymobs_to_obs(observation)
+    def writer_to_csv(self):
+        self.writer.data.to_csv(
+            os.path.join(self.output_dir, "farm_" + self.identifier + "_writer.csv")
+        )
 
     def step(self, action):
-        obs1, _, _, info = self.farm.farmgym_step([])
-        obs, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+        # Stepping
+        #   farmgym run with a cycle of 2 steps: 1 (empty) step of getting observation ("morning"), then 1 step of acting ("afternoon").
+        #   Classic RL methodology use only 1 step : performing an action return the next observation
+        #   To match this 2, rlberry_farms run the 'farmgy observation step ("morning")' right after the action.
+        #   With this method, it will be like classic RL 'step' for the user
+        _, reward, is_done, info = self.farm.farmgym_step(self.num_to_action(action))
+        obs1, _, _, info = self.farm.gym_step([])
+
         if hasattr(reward, "__len__"):
             reward = reward[0]
 
         # Monitoring
         if self.monitor:
             self.iteration += 1
-            for i in range(len(self.monitor_variables)):
-                v= self.monitor_variables[i]
-                fi_key,entity_key,var_key,map_v,name_to_display, v_range = v
-                day = self.farm.fields[fi_key].entities['Weather-0'].variables['day#int365'].value
-                value = map_v(self.farm.fields[fi_key].entities[entity_key].variables[var_key])
-                self.writer.add_scalar(var_key, np.round(value,3),self.iteration)
-            self.writer.add_scalar('day#int365', day, self.iteration)
+            update_farm_writer(
+                self.writer, self.monitor_variables, self.farm, self.iteration
+            )
+        if np.array(obs1[8]).item() < 10:
+            reward -= 2  # if microlife is < 10%, negative reward
 
-        if obs1[8][5][0][0][0] < 20:
-            reward -= 300  # if microlife is < 20%, negative reward
-        if obs1[8][5][0][0][0] < 10:
-            reward -= 300  # if microlife is < 10%, negative reward
-
-        observation = self.farmgymobs_to_obs([obs1[i][5] for i in range(len(obs1))])
+        observation = farmgymobs_to_obs(obs1)
         return observation, reward, is_done, info
-
-    def farmgymobs_to_obs(self, obs):
-        return np.array(
-            [
-                obs[0],
-                obs[1]["mean#°C"][0],
-                obs[1]["min#°C"][0],
-                obs[1]["max#°C"][0],
-            ]
-            + [np.array([obs[i]]).ravel()[0] for i in range(2, 15)]
-        )
 
     def num_to_action(self, num):
         if (num >= 1) and (num <= 5):
@@ -146,34 +160,12 @@ class Farm1(Model):
                 (
                     "BasicFarmer-0",
                     "Field-0",
-                    "Facility-0",
-                    "put_scarecrow",
-                    {"type": "basic"},
-                )
-            ]
-        elif num == 9:
-            return [
-                (
-                    "BasicFarmer-0",
-                    "Field-0",
-                    "Facility-0",
-                    "put_scarecrow",
-                    {"type": "advanced"},
-                )
-            ]
-        elif num == 10:
-            return [("BasicFarmer-0", "Field-0", "Facility-0", "remove_scarecrow", {})]
-        elif num == 11:
-            return [
-                (
-                    "BasicFarmer-0",
-                    "Field-0",
                     "Fertilizer-0",
                     "scatter_bag",
                     {"plot": (0, 0), "amount#bag": 1},
                 )
             ]
-        elif num == 12:
+        elif num == 9:
             return [
                 (
                     "BasicFarmer-0",
@@ -183,17 +175,7 @@ class Farm1(Model):
                     {"plot": (0, 0), "amount#bag": 1},
                 )
             ]
-        elif num == 13:
-            return [
-                (
-                    "BasicFarmer-0",
-                    "Field-0",
-                    "Cide-1",
-                    "scatter_bag",
-                    {"plot": (0, 0), "amount#bag": 1},
-                )
-            ]
-        elif num == 14:
+        elif num == 10:
             return [("BasicFarmer-0", "Field-0", "Weeds-0", "remove", {"plot": (0, 0)})]
         else:
             return []  # Do nothing.
