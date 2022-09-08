@@ -10,6 +10,7 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 # Base installation (interface only)
 #
 install_requires = ["torch",
+                    "rq",
                     'rlberry @ git+https://github.com/rlberry-py/rlberry',
                     'farmgym @ git+https://gitlab.inria.fr/rl4ae/farm-gym'
 ]
