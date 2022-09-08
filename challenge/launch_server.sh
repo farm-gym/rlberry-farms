@@ -1,5 +1,5 @@
 #!/bin/bash
 
 systemctl start redis.service
-rq worker high default low
+python rq_worker.py
 systemctl  stop redis.service
