@@ -59,7 +59,27 @@ class Farm1(Model):
         - ... TODO
     """
 
-    name = "Farm0"
+    name = "Farm1"    
+    
+    observations_txt = [
+        "Day (from 1 to 365)",
+        "Mean air temperature (°C)",
+        "Min air temperature (°C)",
+        "Max air temperature (°C)",
+        "Rain amount (mm)",
+        "Sun-exposure (from 1 to 5)",
+        "Consecutive dry day (int)",
+        "Stage of growth of the plant (int)",
+        "Size of the plant in cm",
+        "Soil wet_surface (m2.day-1)",
+        "fertilizer amount (kg)",
+        "Pests plot_population (nb)",
+        "Pollinators occurrence (bin)",
+        "Weeds grow (nb)",
+        "Weeds flowers (nb)",
+        "Fruit weight (g)",
+        "nb of fruits"        
+    ]
 
     def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes

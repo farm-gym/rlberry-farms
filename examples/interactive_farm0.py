@@ -29,19 +29,6 @@ class InteractiveAgent(AgentWithSimplePolicy):
 
     def __init__(self, env, **kwargs):
         AgentWithSimplePolicy.__init__(self, env, **kwargs)
-        self.observations_txt = [
-            "Day (from 1 to 365)",
-            "Mean air temperature (°C)",
-            "Min air temperature (°C)",
-            "Max air temperature (°C)",
-            "Rain amount (mm)",
-            "Sun-exposure (from 1 to 5)",
-            "Consecutive dry day (int)",
-            "Stage of growth of the plant (int)",
-            "Size of the plant in cm",
-            "Fruit weight in g",
-            "nb of fruits",
-        ]
         self.action_str = " "
 
     def fit(self, stdscr, budget=3e5, **kwargs):
@@ -92,8 +79,8 @@ class InteractiveAgent(AgentWithSimplePolicy):
                 j, 70, "Reward for episode " + str(j) + " is " + str(self.rewards[j])
             )
 
-        for j in range(len(self.observations_txt)):
-            stdscr.addstr(10 + j, 0, self.observations_txt[j])
+        for j in range(len(self.env.observations_txt)):
+            stdscr.addstr(10 + j, 0, self.env.observations_txt[j])
             stdscr.addstr(10 + j, 40, str(observation[j]))
 
         stdscr.addstr(7, 0, "Last action: " + self.action_str + " " * 20)

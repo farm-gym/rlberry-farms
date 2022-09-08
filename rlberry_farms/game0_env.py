@@ -53,6 +53,20 @@ class Farm0(Model):
     """
 
     name = "Farm0"
+    
+    observations_txt = [
+        "Day (from 1 to 365)",
+        "Mean air temperature (°C)",
+        "Min air temperature (°C)",
+        "Max air temperature (°C)",
+        "Rain amount (mm)",
+        "Sun-exposure (from 1 to 5)",
+        "Consecutive dry day (int)",
+        "Stage of growth of the plant (int)",
+        "Size of the plant in cm",
+        "Fruit weight in g",
+        "nb of fruits"
+    ]
 
     def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes
