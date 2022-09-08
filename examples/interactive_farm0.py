@@ -79,10 +79,13 @@ class InteractiveAgent(AgentWithSimplePolicy):
 
     def policy(self, observation):
         stdscr = self.stdscr
-        stdscr.addstr(0, 0, "Available actions: 0) Do nothing")
-        stdscr.addstr(1, 19, "n) Pour nL of water (for n in {1,...,5})")
-        stdscr.addstr(2, 19, "6) Harvest the plant")
-        stdscr.addstr(3, 19, "")
+        stdscr.addstr(0, 0, "Tomatoes in Montpellier")
+
+        
+        stdscr.addstr(2, 0, "Available actions: 0) Do nothing")
+        stdscr.addstr(3, 19, "n) Pour nL of water (for n in {1,...,5})")
+        stdscr.addstr(4, 19, "6) Harvest the plant")
+        stdscr.addstr(5, 19, "")
 
         for j in range(len(self.rewards)):
             stdscr.addstr(
@@ -93,7 +96,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
             stdscr.addstr(10 + j, 0, self.observations_txt[j])
             stdscr.addstr(10 + j, 40, str(observation[j]))
 
-        stdscr.addstr(5, 0, "Last action: " + self.action_str + " " * 20)
+        stdscr.addstr(7, 0, "Last action: " + self.action_str + " " * 20)
 
         while True:
             c = stdscr.getch()
