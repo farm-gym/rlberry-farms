@@ -40,7 +40,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
             "Stage of growth of the plant (int)",
             "Size of the plant in cm",
             "Fruit weight in g",
-            "nb of fruits"
+            "nb of fruits",
         ]
         self.action_str = " "
 

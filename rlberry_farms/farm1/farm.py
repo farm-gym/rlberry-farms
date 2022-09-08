@@ -31,7 +31,8 @@ CURRENT_DIR = file_path.parent
 def env():
     ##########################################################################
     entities1 = []
-    entities1.append((Weather, "lille"))
+    # entities1.append((Weather, "lille"))
+    entities1.append((Weather, "montpellier"))
     entities1.append((Soil, "clay"))
     entities1.append((Plant, "bean"))
 
@@ -63,7 +64,6 @@ def env():
     free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
     free_observations.append(("Field-0", "Plant-0", "fruits_per_plant#nb", []))
 
-    
     free_observations.append(("Field-0", "Soil-0", "wet_surface#m2.day-1", []))
     free_observations.append(("Field-0", "Soil-0", "microlife_health_index#%", []))
 
@@ -71,8 +71,6 @@ def env():
     free_observations.append(("Field-0", "Pollinators-0", "occurrence#bin", []))
     free_observations.append(("Field-0", "Weeds-0", "grow#nb", []))
     free_observations.append(("Field-0", "Weeds-0", "flowers#nb", []))
-
-
 
     terminal_CNF_conditions = [
         [(("Field-0", "Weather-0", "day#int365", []), lambda x: x.value, ">=", 360)],

@@ -75,7 +75,7 @@ class Farm1(Model):
         high = np.array(
             [365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100, 1, 100, 10, 1, 100, 100]
         )
-        low = np.array([0, -50, -50, -50, 0, 0,0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(11)
 
