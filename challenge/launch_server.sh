@@ -2,5 +2,5 @@
 source /home/challenge_env/virtualenv/bin/activate
 
 systemctl start redis.service
-python rq_worker.py
+python3 rq_worker.py
 systemctl  stop redis.service
