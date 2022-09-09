@@ -59,8 +59,8 @@ class Farm1(Model):
         - ... TODO
     """
 
-    name = "Farm1"    
-    
+    name = "Farm1"
+
     observations_txt = [
         "Day (from 1 to 365)",
         "Mean air temperature (°C)",
@@ -78,7 +78,7 @@ class Farm1(Model):
         "Weeds grow (nb)",
         "Weeds flowers (nb)",
         "Fruit weight (g)",
-        "nb of fruits"        
+        "nb of fruits",
     ]
 
     def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):

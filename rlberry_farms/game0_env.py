@@ -53,7 +53,7 @@ class Farm0(Model):
     """
 
     name = "Farm0"
-    
+
     observations_txt = [
         "Day (from 1 to 365)",
         "Mean air temperature (°C)",
@@ -65,7 +65,7 @@ class Farm0(Model):
         "Stage of growth of the plant (int)",
         "Size of the plant in cm",
         "Fruit weight in g",
-        "nb of fruits"
+        "nb of fruits",
     ]
 
     def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):

@@ -68,7 +68,6 @@ class InteractiveAgent(AgentWithSimplePolicy):
         stdscr = self.stdscr
         stdscr.addstr(0, 0, "Tomatoes in Montpellier")
 
-        
         stdscr.addstr(2, 0, "Available actions: 0) Do nothing")
         stdscr.addstr(3, 19, "n) Pour nL of water (for n in {1,...,5})")
         stdscr.addstr(4, 19, "6) Harvest the plant")
