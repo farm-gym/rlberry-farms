@@ -18,13 +18,6 @@ parser.add_argument("agent_file", type=str, help="Python file with Agent class i
 parser.add_argument("budget", type=int, help="Number of steps", default=1000)
 
 parser.add_argument(
-    "--queue",
-    help="queue used. Possible values are low, default and high.",
-    type=str,
-    default="default",
-)
-
-parser.add_argument(
     "--farm",
     help="farm used.",
     type=int,
@@ -42,7 +35,7 @@ configure_logging(file_path=Path(output_dir) / "out.log")
 logger = logging.getLogger(__name__)
 
 redis_conn = Redis()
-q = Queue(args.queue, connection=redis_conn)
+q = Queue('default', connection=redis_conn)
 
 
 experiment_kwargs = dict(
