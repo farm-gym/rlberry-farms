@@ -59,4 +59,4 @@ experiment_kwargs = dict(
     farm=args.farm
 )
 
-job1 = q.enqueue(run_experiment, kwargs=experiment_kwargs)
+job1 = q.enqueue(run_experiment, kwargs=experiment_kwargs, job_timeout=3*3600) # limit job to 3h

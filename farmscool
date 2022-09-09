@@ -26,7 +26,7 @@ sub_add(){
     case $1 in  "" | "-h" | "--help")
                    echo "Usage: $ProgName add <python_file.py> <n_fit>"
                    echo ""
-                   echo "    Add python_file to the queue in the challenge."
+                   echo "    Add your agent to the queue in the challenge."
                    echo ""
                    echo "    Parameters:"
                    echo "       python_file: a .py file containing a rlberry agent class called \"Agent\"."
