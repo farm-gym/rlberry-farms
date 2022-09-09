@@ -1,0 +1,138 @@
+#!/bin/bash
+
+
+#!/bin/sh
+
+ProgName=$(basename $0)
+
+ChallengeHome=/home/challenge_env
+  
+sub_help(){
+    echo "Usage: $ProgName <subcommand> [options]"
+    echo ""
+    echo "Subcommands:"
+    echo "    add               Add script to queue"
+    echo "    leaderboard       Print current leaderboard"
+    echo "    info              See queue"
+    echo "    suspend           Suspend queue"
+    echo "    resume            Resume queue"
+    echo ""
+    echo "For help with each subcommand run:"
+    echo "$ProgName <subcommand> -h|--help"
+    echo ""
+}
+  
+sub_add(){
+    case $1 in  "" | "-h" | "--help")
+                   echo "Usage: $ProgName add <python_file.py> <n_fit>"
+                   echo ""
+                   echo "    Add python_file to the queue in the challenge."
+                   echo ""
+                   echo "    Parameters:"
+                   echo "       python_file: a .py file containing a rlberry agent class called \"Agent\"."
+                   echo "       n_fit: an int, number of steps to train for."
+                   echo ""
+                   echo "    Example:"
+                   echo "       $ProgName add ppo.py 10000"
+                   echo ""
+                   echo "       where ppo.py contain the following:"
+                   echo ""
+                   echo "from rlberry.agents import PPOAgent"
+                   echo "class Agent(PPOAgent):"
+                   echo "def __init__(self, env, **kwargs):"
+                   echo "    PPOAgent.__init__(self, env, **kwargs)"
+                   echo "    self.batch_size = 16"
+                   echo "    self.gamma = 0.9"
+
+                   ;;
+                   *)
+                       source $ChallengeHome/virtualenv/bin/activate
+                       python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $(realpath $1) $2
+                       deactivate
+                       ;;
+     esac
+}
+
+sub_info(){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName info"
+                   echo ""
+                   echo "    Print info on the current queue of processes in the challenge."
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       source $ChallengeHome/virtualenv/bin/activate
+                       rq info
+                       deactivate
+                       ;;
+     esac
+}
+
+
+
+sub_leaderboard(){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName leaderboard"
+                   echo ""
+                   echo "    Print current leaderboard."
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       cat $ChallengeHome/leaderboard.csv
+                       ;;
+     esac
+}
+
+
+sub_suspend(){
+    case $2 in "-h" | "--help")
+                   echo "Usage: $ProgName suspend"
+                   echo ""
+                   echo "    Suspend the current queue of processes in the challenge."
+                   echo ""
+                                      
+                   ;;
+                *)
+                    source $ChallengeHome/virtualenv/bin/activate
+                    rq suspend
+                    deactivate
+                    ;;
+     esac
+}
+
+sub_resume(){
+    case $1 in  "-h" | "--help")
+                   echo "Usage: $ProgName resume"
+                   echo ""
+                   echo "   Resume the current queue of processes in the challenge."
+                   echo ""
+                                      
+                   ;;
+                *)
+                    source $ChallengeHome/virtualenv/bin/activate
+                    rq resume
+                    deactivate
+                    ;;
+     esac
+}
+  
+subcommand=$1
+case $subcommand in
+    "" | "-h" | "--help")
+        sub_help
+        ;;
+    *)
+        shift
+        sub_${subcommand} $@
+        if [ $? = 127 ]; then
+            echo "Error: '$subcommand' is not a known subcommand." >&2
+            echo "       Run '$ProgName --help' for a list of known subcommands." >&2
+            exit 1
+        fi
+        ;;
+esac
+
+
+
