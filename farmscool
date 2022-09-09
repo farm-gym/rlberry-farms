@@ -17,6 +17,7 @@ sub_help(){
     echo "    suspend           Suspend queue"
     echo "    resume            Resume queue"
     echo "    activate          Activate environment (for pip install)"
+    echo "    dashboard         monitor rq."
     echo ""
     echo "For help with each subcommand run:"
     echo "$ProgName <subcommand> -h|--help"
@@ -53,6 +54,8 @@ sub_add(){
      esac
 }
 
+
+
 sub_info(){
     case $1 in "-h" | "--help")
                    echo "Usage: $ProgName info"
@@ -64,6 +67,39 @@ sub_info(){
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
                        rq info
+                       ;;
+     esac
+}
+
+
+
+sub_dashboard (){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName dashboard"
+                   echo ""
+                   echo "    Launch dashboard app. Can be tunneled locally with (on your local linux computer)"
+                   echo "    $ ssh -L 9181:127.0.0.1:9181 yourlogin@flanders.lille.inria.fr."
+                   echo "    where 9181 is the appropriate port and yourlogin is your inria login"
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       source $ChallengeHome/virtualenv/bin/activate
+                       rq-dashboard
+                       ;;
+     esac
+}
+
+sub_log (){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName log"
+                   echo ""
+                   echo "    Print logs"
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       tail -f $ChallengeHome/rlberry-farms/challenge/logfile.log
                        ;;
      esac
 }
