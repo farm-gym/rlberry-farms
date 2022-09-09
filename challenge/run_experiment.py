@@ -40,7 +40,7 @@ def experiment_generator(
 ):
     if not os.path.isdir("/tmp/farm_tmp"):
         os.mkdir("/tmp/farm_tmp")
-    subprocess.run(["mv", agent_file, "/tmp/farm_tmp/latest_script.py"])
+    subprocess.run(["cp", agent_file, "/tmp/farm_tmp/latest_script.py"])
     sys.path.append("/tmp/farm_tmp")
     from latest_script import Agent as ContenderAgent
 
