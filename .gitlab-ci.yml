@@ -44,10 +44,12 @@ pages:
     - pip install git+https://github.com/rlberry-py/rlberry
     - pip install /home/gitlab-runner/builds/farm-gym
     - pip install --no-deps .
-    - pip install sphinx
+    - pip install pytest
+    - pytest rlberry_farms # make tests
+    - pip install sphinx 
     - cd docs
     - pip install -r requirements.txt
-    - make html
+    - make html # make doc
     - mv _build/html/ ../public/
   artifacts:
     paths:
