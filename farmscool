@@ -16,6 +16,7 @@ sub_help(){
     echo "    info              See queue"
     echo "    suspend           Suspend queue"
     echo "    resume            Resume queue"
+    echo "    activate          Activate environment (for pip install)"
     echo ""
     echo "For help with each subcommand run:"
     echo "$ProgName <subcommand> -h|--help"
@@ -68,6 +69,22 @@ sub_info(){
                        ;;
      esac
 }
+
+sub_activate(){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName activate"
+                   echo ""
+                   echo "    Activate the virtual environment used in the challenge. Be careful to not break it!"
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       source $ChallengeHome/virtualenv/bin/activate
+                   
+                       ;;
+     esac
+}
+
 
 
 
