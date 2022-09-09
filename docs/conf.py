@@ -26,8 +26,7 @@ copyright = "2022, rlberry team"
 author = "rlberry team"
 
 
-
-release = '0.0.1'
+release = "0.0.1"
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be

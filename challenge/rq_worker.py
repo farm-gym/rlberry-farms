@@ -3,7 +3,8 @@ import sys
 from rq import Connection, Worker
 import logging
 
-logger = logging.getLogger('rq.worker')
+logger = logging.getLogger("rq.worker")
+
 
 class LoggerWriter:
     def __init__(self, level):
@@ -21,13 +22,13 @@ sys.stdout = LoggerWriter(logger.info)
 sys.stderr = LoggerWriter(logger.info)
 
 fh = logging.FileHandler("logfile.log")
-formatter = logging.Formatter('')
+formatter = logging.Formatter("")
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 with Connection():
-    logger.info('Launching queue server')
-    qs = sys.argv[1:] or ["low", 'default', "high"]
+    logger.info("Launching queue server")
+    qs = sys.argv[1:] or ["low", "default", "high"]
 
     w = Worker(qs)
     w.work()

@@ -14,7 +14,6 @@ from rlberry_farms import Farm0, Farm1
 import numpy as np
 
 
-
 logger = rlberry.logger
 
 LEADERBOARD = "leaderboard.csv"
@@ -26,26 +25,25 @@ def get_farm(farm):
     elif farm == 1:
         return Farm1, {}
     else:
-        raise RuntimeError('No such farm')
-
+        raise RuntimeError("No such farm")
 
 
 def experiment_generator(
-    agent_file = None,
+    agent_file=None,
     n_fit=4,
-    budget = 100,
-    farm= None,
+    budget=100,
+    farm=None,
     max_workers=-1,
     output_dir="results",
     parallelization="process",
     enable_tensorboard=False,
 ):
-    if not os.path.isdir('/tmp/farm_tmp'):
-        os.mkdir('/tmp/farm_tmp')
-    subprocess.run(['mv', agent_file, '/tmp/farm_tmp/latest_script.py'])
-    sys.path.append( '/tmp/farm_tmp' )
+    if not os.path.isdir("/tmp/farm_tmp"):
+        os.mkdir("/tmp/farm_tmp")
+    subprocess.run(["mv", agent_file, "/tmp/farm_tmp/latest_script.py"])
+    sys.path.append("/tmp/farm_tmp")
     from latest_script import Agent as ContenderAgent
-    
+
     if max_workers == -1:
         max_workers = None
     kwargsii = {}
@@ -57,24 +55,30 @@ def experiment_generator(
                 "Option --enable_tensorboard is not available: tensorboard is not installed."
             )
 
-    return AgentManager(ContenderAgent, farm, fit_budget = budget,  eval_kwargs=dict(eval_horizon=365),**kwargsii)
+    return AgentManager(
+        ContenderAgent,
+        farm,
+        fit_budget=budget,
+        eval_kwargs=dict(eval_horizon=365),
+        **kwargsii
+    )
 
 
 def run_experiment(
     agent_file,
-    budget = 100,
+    budget=100,
     n_fit=4,
     max_workers=-1,
     output_dir="results",
     parallelization="process",
     enable_tensorboard=False,
-    farm = 0
+    farm=0,
 ):
 
     agent_manager = experiment_generator(
-        agent_file = agent_file,
-        budget = budget,
-        farm = get_farm(farm),
+        agent_file=agent_file,
+        budget=budget,
+        farm=get_farm(farm),
         n_fit=n_fit,
         max_workers=-1,
         output_dir=output_dir,
@@ -82,20 +86,29 @@ def run_experiment(
         enable_tensorboard=enable_tensorboard,
     )
     agent_manager.fit()
-    
+
     # Evaluating
     data = evaluate_agents([agent_manager], n_simulations=100, show=False).values
-    
+
     # Saving to leaderboard
-    if not(os.path.isfile(LEADERBOARD)):
-        df = pd.DataFrame({'name':[],'name_agent':[], 'evaluation':[]})
+    if not (os.path.isfile(LEADERBOARD)):
+        df = pd.DataFrame({"name": [], "name_agent": [], "evaluation": []})
     else:
         df = pd.read_csv(LEADERBOARD, index_col=0)
-    df = pd.concat([df, pd.DataFrame({'name':[os.getlogin()],
-                                      'name_agent':[agent_manager.agent_name],
-                                      'evaluation_mean':[np.mean(data)],
-                                      'evaluation_median':[np.median(data)],
-                                      'evaluation_std':[np.std(data)]})])
+    df = pd.concat(
+        [
+            df,
+            pd.DataFrame(
+                {
+                    "name": [os.getlogin()],
+                    "name_agent": [agent_manager.agent_name],
+                    "evaluation_mean": [np.mean(data)],
+                    "evaluation_median": [np.median(data)],
+                    "evaluation_std": [np.std(data)],
+                }
+            ),
+        ]
+    )
     df = df.sort_values(by=["evaluation_mean"], ascending=False)
     df.to_csv(LEADERBOARD)
     # Deleting the manager.
