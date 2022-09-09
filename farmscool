@@ -49,7 +49,6 @@ sub_add(){
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
                        python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $(realpath $1) $2
-                       deactivate
                        ;;
      esac
 }
@@ -65,7 +64,6 @@ sub_info(){
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
                        rq info
-                       deactivate
                        ;;
      esac
 }
@@ -79,8 +77,7 @@ sub_activate(){
                                       
                    ;;
                    *)
-                        /bin/bash -c ". /home/challenge_env/virtualenv/bin/activate; exec /bin/bash -i"
-                   
+                       /bin/bash -c ". /home/challenge_env/virtualenv/bin/activate; exec /bin/bash --rcfile /home/challenge_env/.bashrc -i"
                        ;;
      esac
 }
@@ -114,7 +111,6 @@ sub_suspend(){
                 *)
                     source $ChallengeHome/virtualenv/bin/activate
                     rq suspend
-                    deactivate
                     ;;
      esac
 }
@@ -130,7 +126,6 @@ sub_resume(){
                 *)
                     source $ChallengeHome/virtualenv/bin/activate
                     rq resume
-                    deactivate
                     ;;
      esac
 }
@@ -143,11 +138,6 @@ case $subcommand in
     *)
         shift
         sub_${subcommand} $@
-        if [ $? = 127 ]; then
-            echo "Error: '$subcommand' is not a known subcommand." >&2
-            echo "       Run '$ProgName --help' for a list of known subcommands." >&2
-            exit 1
-        fi
         ;;
 esac
 
