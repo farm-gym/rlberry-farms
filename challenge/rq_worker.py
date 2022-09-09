@@ -28,7 +28,7 @@ logger.addHandler(fh)
 
 with Connection():
     logger.info("Launching queue server")
-    qs = sys.argv[1:] or ["low", "default", "high"]
+    qs = ["default"]
 
     w = Worker(qs)
     w.work()
