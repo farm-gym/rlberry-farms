@@ -79,7 +79,7 @@ sub_activate(){
                                       
                    ;;
                    *)
-                       source $ChallengeHome/virtualenv/bin/activate
+                       /bin/bash -c "$ChallengeHome/virtualenv/bin/activate; exec /bin/bash -i"
                    
                        ;;
      esac
