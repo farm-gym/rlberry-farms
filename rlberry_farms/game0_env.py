@@ -1,7 +1,11 @@
 import rlberry.spaces as spaces
 from rlberry.envs.interface import Model
 import rlberry_farms.farm0.farm as cb
-from rlberry_farms.utils import farmgymobs_to_obs, update_farm_writer
+from rlberry_farms.utils import (
+    farmgymobs_to_obs,
+    update_farm_writer,
+    observation_hide_final_state_of_plants,
+)
 import numpy as np
 from rlberry.utils.writers import DefaultWriter
 import time
@@ -53,7 +57,7 @@ class Farm0(Model):
     """
 
     name = "Farm0"
-    
+
     observations_txt = [
         "Day (from 1 to 365)",
         "Mean air temperature (°C)",
@@ -65,7 +69,7 @@ class Farm0(Model):
         "Stage of growth of the plant (int)",
         "Size of the plant in cm",
         "Fruit weight in g",
-        "nb of fruits"
+        "nb of fruits",
     ]
 
     def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
@@ -117,7 +121,9 @@ class Farm0(Model):
         self.iteration = 0
         observation = self.farm.gym_reset()
         self.farm.gym_step([])
-        return farmgymobs_to_obs(observation)
+        return observation_hide_final_state_of_plants(
+            farmgymobs_to_obs(observation), id_of_plants_stage=7
+        )
 
     def writer_to_csv(self):
         self.writer.data.to_csv(
@@ -140,7 +146,9 @@ class Farm0(Model):
                 self.writer, self.monitor_variables, self.farm, self.iteration
             )
         return (
-            farmgymobs_to_obs(obs1),
+            observation_hide_final_state_of_plants(
+                farmgymobs_to_obs(obs1), id_of_plants_stage=7
+            ),
             reward,
             is_done,
             info,
