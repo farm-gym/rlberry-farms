@@ -42,8 +42,10 @@ def experiment_generator(
         os.mkdir("/tmp/farm_tmp")
     subprocess.run(["cp", agent_file, "/tmp/farm_tmp/latest_script.py"])
     sys.path.append("/tmp/farm_tmp")
-    from latest_script import Agent as ContenderAgent
-
+    try:
+        from latest_script import Agent as ContenderAgent
+    except:
+        raise RuntimeError('Import of Agent failed')
     if max_workers == -1:
         max_workers = None
     kwargsii = {}
