@@ -36,3 +36,38 @@ def observation_hide_final_state_of_plants(obs, id_of_plants_stage):
     if obs[id_of_plants_stage] in [6, 7, 8, 9]:
         obs[id_of_plants_stage] = 6
     return obs
+
+
+def get_desc_from_value(id_to_desc, item_name_to_desc):
+
+    # self.env.farm.fields.entitys.Plant-0.variables.global_stage
+    plant_stage = {
+        0: "none",
+        1: "seed",
+        2: "entered_grow",
+        3: "grow",
+        4: "entered_bloom",
+        5: "bloom",
+        6: "entered_fruit",
+        7: "fruit",
+        8: "entered_ripe",
+        9: "ripe",
+        10: "entered_seed",
+        11: "harvested",
+        12: "dead",
+    }
+
+    # self.env.farm.fields.entitys.Weather-0.variables.rain_amount
+    rain_amount = {
+        0: "None",
+        1: "Light",
+        2: "Heavy",
+    }
+
+    desc = ""
+
+    if item_name_to_desc == "rain_amount":
+        desc = rain_amount[id_to_desc]
+    elif item_name_to_desc == "plant_stage":
+        desc = plant_stage[id_to_desc]
+    return desc
