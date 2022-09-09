@@ -41,10 +41,10 @@ sub_add(){
                    echo ""
                    echo "from rlberry.agents import PPOAgent"
                    echo "class Agent(PPOAgent):"
-                   echo "def __init__(self, env, **kwargs):"
-                   echo "    PPOAgent.__init__(self, env, **kwargs)"
-                   echo "    self.batch_size = 16"
-                   echo "    self.gamma = 0.9"
+                   echo "    def __init__(self, env, **kwargs):"
+                   echo "        PPOAgent.__init__(self, env, **kwargs)"
+                   echo "        self.batch_size = 16"
+                   echo "        self.gamma = 0.9"
 
                    ;;
                    *)
