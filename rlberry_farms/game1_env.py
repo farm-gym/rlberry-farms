@@ -5,7 +5,11 @@ import numpy as np
 import time
 import os
 from rlberry.utils.writers import DefaultWriter
-from rlberry_farms.utils import farmgymobs_to_obs, update_farm_writer
+from rlberry_farms.utils import (
+    farmgymobs_to_obs,
+    update_farm_writer,
+    observation_hide_final_state_of_plants,
+)
 
 
 class Farm1(Model):
@@ -121,7 +125,9 @@ class Farm1(Model):
         self.iteration = 0
         observation = self.farm.gym_reset()
         self.farm.gym_step([])
-        return farmgymobs_to_obs(observation)
+        return observation_hide_final_state_of_plants(
+            farmgymobs_to_obs(observation), id_of_plants_stage=7
+        )
 
     def writer_to_csv(self):
         self.writer.data.to_csv(
@@ -149,7 +155,9 @@ class Farm1(Model):
         if np.array(obs1[8]).item() < 10:
             reward -= 2  # if microlife is < 10%, negative reward
 
-        observation = farmgymobs_to_obs(obs1)
+        observation = observation_hide_final_state_of_plants(
+            farmgymobs_to_obs(obs1), id_of_plants_stage=7
+        )
         return observation, reward, is_done, info
 
     def num_to_action(self, num):
