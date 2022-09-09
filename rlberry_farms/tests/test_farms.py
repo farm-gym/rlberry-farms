@@ -4,12 +4,10 @@ from rlberry_farms import Farm0, Farm1
 from rlberry.agents import AgentWithSimplePolicy
 
 
-ALL_ENVS = [
-    Farm0,
-    Farm1
-]
+ALL_ENVS = [Farm0, Farm1]
 
 # test gym compatibility
+
 
 @pytest.mark.parametrize("Env", ALL_ENVS)
 def test_env(Env):
@@ -17,6 +15,7 @@ def test_env(Env):
 
 
 # test with random agent
+
 
 class RandomAgent(AgentWithSimplePolicy):
     name = "RandomAgent"
@@ -38,6 +37,7 @@ class RandomAgent(AgentWithSimplePolicy):
 
     def policy(self, observation):
         return self.env.action_space.sample()  # choose an action at random
+
 
 @pytest.mark.parametrize("Env", ALL_ENVS)
 def test_env_agent(Env):
