@@ -10,7 +10,7 @@ For windows users, they need to install windows-curses beforehand (installable v
 from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms.game0_env import Farm0
-from rlberry_farms.utils import farmgymobs_to_obs
+from rlberry_farms.utils import farmgymobs_to_obs, get_desc_from_value
 from rlberry.agents.torch.utils.training import model_factory_from_env
 import numpy as np
 
@@ -43,12 +43,9 @@ class InteractiveAgent(AgentWithSimplePolicy):
         for ep in range(int(budget)):
             self.stdscr.clear()
 
-            action = self.policy(farmgym_obs)
-
+            action = self.policy(observation)
             observation, reward, done, info = self.env.step(action)
-            farmgym_obs = farmgymobs_to_obs(
-                [obs[5] for obs in info["farmgym observations"]]
-            )
+
             self.episode_reward += reward
             if done:
                 self.writer.add_scalar("episode_rewards", self.episode_reward, ep)
@@ -80,7 +77,22 @@ class InteractiveAgent(AgentWithSimplePolicy):
 
         for j in range(len(self.env.observations_txt)):
             stdscr.addstr(10 + j, 0, self.env.observations_txt[j])
-            stdscr.addstr(10 + j, 40, str(observation[j]))
+
+            if j not in [4, 7]:
+                stdscr.addstr(10 + j, 40, str(observation[j]))
+            else:
+                if j == 4:
+                    stdscr.addstr(
+                        10 + j,
+                        40,
+                        str(get_desc_from_value(observation[j], "rain_amount")),
+                    )
+                elif j == 7:
+                    stdscr.addstr(
+                        10 + j,
+                        40,
+                        str(get_desc_from_value(observation[j], "plant_stage")),
+                    )
 
         stdscr.addstr(7, 0, "Last action: " + self.action_str + " " * 20)
 

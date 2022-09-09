@@ -63,10 +63,10 @@ class Farm0(Model):
         "Mean air temperature (°C)",
         "Min air temperature (°C)",
         "Max air temperature (°C)",
-        "Rain amount (mm)",
+        "Rain amount",
         "Sun-exposure (from 1 to 5)",
         "Consecutive dry day (int)",
-        "Stage of growth of the plant (int)",
+        "Stage of growth of the plant",
         "Size of the plant in cm",
         "Fruit weight in g",
         "nb of fruits",
@@ -145,6 +145,7 @@ class Farm0(Model):
             update_farm_writer(
                 self.writer, self.monitor_variables, self.farm, self.iteration
             )
+
         return (
             observation_hide_final_state_of_plants(
                 farmgymobs_to_obs(obs1), id_of_plants_stage=7
