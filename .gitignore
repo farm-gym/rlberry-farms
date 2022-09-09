@@ -161,3 +161,10 @@ dmypy.json
 
 # PyCharm
 .idea
+
+#list Julien
+examples/*_results/
+examples/*.out
+.project
+.pydevproject
+
