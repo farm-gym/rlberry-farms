@@ -14,14 +14,12 @@ from rlberry_farms.utils import (
 
 class Farm1(Model):
     """
-    TODO : explain more
     Farm1 is a difficult 1x1 farm with only one possible plant : beans, planted in a clay ground.
-    The observation of the field state is free.
     The advised maximum episode length is 365 (as in 365 days).
 
-    The Farm has the weather of Montpellier in France (e.g. fairly warm weather, well suited for the culture of beans), the initial day is 120. Initially the field is healthy and contains all the nutrient necessary to the plant.
+    The Farm has the weather of Lille in France (e.g. well suited for the culture of beans), the initial day is 120. Initially the field is healthy and contains all the nutrient necessary to the plant.
 
-    The reward is the number of grams of harvested beans, and there is a high negative reward for very low microlife in soil (due to pesticides).
+    The reward is the number of grams of harvested beans, and there is a negative reward for very low microlife in soil (due to pesticides).
 
     The condition for end of episode (self.step returns done) is that the day is >= 365 or that the plant is dead.
 
@@ -53,14 +51,18 @@ class Farm1(Model):
         - Pollinators occurrence#bin
         - Weeds grow#nb
         - Weeds flowers#nb
+        - Weight of fruits (g)
 
     Actions:
         The actions are :
         - doing nothing.
-        - 5 levels of watering the field (from 1L to 5L of water)
+        - 2 levels of watering the field (1L or 5L of water)
         - harvesting
-        - ...
-        - ... TODO
+        - sow some seeds
+        - scatter fertilizer
+        - scatter herbicide
+        - scatter pesticide
+        - remove weeds by hand
     """
 
     name = "Farm1"
@@ -78,10 +80,10 @@ class Farm1(Model):
         "Size of the plant in cm",
         "Soil wet_surface (m2.day-1)",
         "fertilizer amount (kg)",
-        "Pests plot_population (nb)",
         "Pollinators occurrence (bin)",
         "Weeds grow (nb)",
         "Weeds flowers (nb)",
+        "weight of fruits",
     ]
 
     def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
@@ -94,13 +96,13 @@ class Farm1(Model):
         self.farm.monitor = None
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, nb of fruits,
-        # wet surface, microlife %, fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb
+        # wet surface,  fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb, weight of fruits
         high = np.array(
-            [365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100, 1, 100, 10, 1, 100, 100]
+            [365, 50, 50, 50, 300, 5, 10, 7, 100, 300, 10, 10, 1, 100, 100, 5000]
         )
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
-        self.action_space = spaces.Discrete(11)
+        self.action_space = spaces.Discrete(9)
 
         # monitoring writer
         self.identifier = self.name + str(self.seeder.rng.integers(100000))
@@ -159,19 +161,29 @@ class Farm1(Model):
         return observation, reward, is_done, info
 
     def num_to_action(self, num):
-        if (num >= 1) and (num <= 5):
+        if num == 1:
             return [
                 (
                     "BasicFarmer-0",
                     "Field-0",
                     "Soil-0",
                     "water_discrete",
-                    {"plot": (0, 0), "amount#L": num, "duration#min": 60},
+                    {"plot": (0, 0), "amount#L": 1, "duration#min": 60},
                 )
             ]
-        elif num == 6:
+        elif num == 2:
+            return [
+                (
+                    "BasicFarmer-0",
+                    "Field-0",
+                    "Soil-0",
+                    "water_discrete",
+                    {"plot": (0, 0), "amount#L": 5, "duration#min": 60},
+                )
+            ]
+        elif num == 3:
             return [("BasicFarmer-0", "Field-0", "Plant-0", "harvest", {})]
-        elif num == 7:
+        elif num == 4:
             return [
                 (
                     "BasicFarmer-0",
@@ -181,7 +193,7 @@ class Farm1(Model):
                     {"plot": (0, 0), "amount#seed": 1, "spacing#cm": 10},
                 )
             ]
-        elif num == 8:
+        elif num == 5:
             return [
                 (
                     "BasicFarmer-0",
@@ -191,7 +203,7 @@ class Farm1(Model):
                     {"plot": (0, 0), "amount#bag": 1},
                 )
             ]
-        elif num == 9:
+        elif num == 6:
             return [
                 (
                     "BasicFarmer-0",
@@ -201,7 +213,17 @@ class Farm1(Model):
                     {"plot": (0, 0), "amount#bag": 1},
                 )
             ]
-        elif num == 10:
+        elif num == 7:
+            return [
+                (
+                    "BasicFarmer-0",
+                    "Field-0",
+                    "Cide-1",
+                    "scatter_bag",
+                    {"plot": (0, 0), "amount#bag": 1},
+                )
+            ]
+        elif num == 8:
             return [("BasicFarmer-0", "Field-0", "Weeds-0", "remove", {"plot": (0, 0)})]
         else:
             return []  # Do nothing.

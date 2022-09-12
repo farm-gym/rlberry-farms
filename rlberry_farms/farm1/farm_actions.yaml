@@ -50,3 +50,7 @@ interventions:
       scatter_bag: 
         plot: ['(0, 0)']
         amount#bag: [1]
+    Cide-1:
+      scatter_bag: 
+        plot: ['(0, 0)']
+        amount#bag: [1]

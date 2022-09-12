@@ -72,9 +72,9 @@ class InteractiveAgent(AgentWithSimplePolicy):
         )
 
         stdscr.addstr(2, 0, "Available actions: 0) Do nothing")
-        stdscr.addstr(3, 19, "n) Pour nL of water (for n in {1,...,5})")
-        stdscr.addstr(4, 19, "6) Harvest the plant")
-        stdscr.addstr(5, 19, "")
+        stdscr.addstr(3, 19, "1) Pour 1L of water")
+        stdscr.addstr(4, 19, "2) Pour 5L of water")
+        stdscr.addstr(5, 19, "3) Harvest the plant")
 
         # Rewards
         for j in range(len(self.rewards)):
@@ -88,7 +88,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
             stdscr.addstr(12 + j, 0, self.env.observations_txt[j])
 
             if j not in [4, 7]:
-                stdscr.addstr(12 + j, 40, str(observation[j]))
+                stdscr.addstr(12 + j, 40, str(np.round(float(observation[j]), 3)))
             else:
                 if j == 4:
                     stdscr.addstr(
@@ -108,14 +108,28 @@ class InteractiveAgent(AgentWithSimplePolicy):
         )  # empty string to clean the line.
 
         # unobservable monitored values
+        maxy, maxx = stdscr.getmaxyx()
+        df = get_last_monitor_values(self.env.writer)
+
+        if maxy < 33 + len(df):
+            init_y = 14
+            init_x = maxx // 2
+        else:
+            init_y = 31
+            init_x = 0
+
         stdscr.addstr(
-            28, 0, "Unobservable farm values:", curses.A_BOLD + curses.A_UNDERLINE
+            init_y,
+            init_x,
+            "Unobservable farm values:",
+            curses.A_BOLD + curses.A_UNDERLINE,
         )
 
-        df = get_last_monitor_values(self.env.writer)
         for j in range(len(df)):
-            stdscr.addstr(30 + j, 0, df.iloc[j]["tag"])
-            stdscr.addstr(30 + j, 40, str(df.iloc[j]["value"]))
+            stdscr.addstr(init_y + 2 + j, init_x, df.iloc[j]["tag"])
+            stdscr.addstr(
+                init_y + 2 + j, init_x + 40, str(np.round(df.iloc[j]["value"], 3))
+            )
 
         # Actions
         while True:
@@ -128,18 +142,9 @@ class InteractiveAgent(AgentWithSimplePolicy):
                 action_str = "Pour 1L of water"
             elif c == 50:
                 action = 2
-                action_str = "Pour 2L of water"
+                action_str = "Pour 5L of water"
             elif c == 51:
                 action = 3
-                action_str = "Pour 3L of water"
-            elif c == 52:
-                action = 4
-                action_str = "Pour 4L of water"
-            elif c == 53:
-                action = 5
-                action_str = "Pour 5L of water"
-            elif c == 54:
-                action = 6
                 action_str = "Harvest"
             else:
                 action = None
@@ -161,9 +166,3 @@ if __name__ == "__main__":
         output_dir="interactive_results",
     )
     wrapper(manager.fit)
-    evaluation = evaluate_agents([manager], n_simulations=128, show=False).values
-    np.savetxt("random_farm0.out", np.array(evaluation), delimiter=",")
-    data = plot_writer_data("random_results", "episode_rewards", smooth_weight=0.95)
-
-
-# This template file gives mean evaluation reward 96.
