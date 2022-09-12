@@ -185,6 +185,16 @@ def env():
             "range_auto",
         )
     )
+    var.append(
+        (
+            "Field-0",
+            "Weeds-0",
+            "seeds#nb",
+            lambda x: x[0, 0].value,
+            "Weeds seed nb",
+            "range_auto",
+        )
+    )
 
     farm.add_monitoring(var)
     farm.monitor_variables = var
