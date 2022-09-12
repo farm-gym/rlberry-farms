@@ -17,6 +17,8 @@ parser.add_argument("agent_file", type=str, help="Python file with Agent class i
 
 parser.add_argument("budget", type=int, help="Number of steps", default=1000)
 
+parser.add_argument("name", type=str, help="Name of submition", default="Anon")
+
 parser.add_argument(
     "--farm",
     help="farm used.",
@@ -46,6 +48,7 @@ experiment_kwargs = dict(
     parallelization="process",
     enable_tensorboard=args.enable_tensorboard,
     farm=args.farm,
+    name = args.name
 )
 
 job1 = q.enqueue(

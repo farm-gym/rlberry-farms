@@ -72,7 +72,7 @@ class Farm0(Model):
         "nb of fruits",
     ]
 
-    def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
+    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
@@ -96,7 +96,7 @@ class Farm0(Model):
             params["tensorboard_kwargs"] = dict(
                 log_dir=os.path.join(self.tensorboard_dir, "farm_" + self.identifier)
             )
-        self.writer = DefaultWriter(name="farm_writer", **params)
+        self.writer = DefaultWriter(name="farm_writer", print_log = False, **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
@@ -118,7 +118,6 @@ class Farm0(Model):
         self.reset()
 
     def reset(self):
-        self.iteration = 0
         observation = self.farm.gym_reset()
         self.farm.gym_step([])
         return observation_hide_final_state_of_plants(

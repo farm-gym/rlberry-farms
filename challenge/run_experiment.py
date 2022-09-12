@@ -75,6 +75,7 @@ def run_experiment(
     parallelization="process",
     enable_tensorboard=False,
     farm=0,
+    name = "Anone"
 ):
 
     agent_manager = experiment_generator(
@@ -102,7 +103,7 @@ def run_experiment(
             df,
             pd.DataFrame(
                 {
-                    "name": [os.getlogin()],
+                    "name": [name],
                     "name_agent": [agent_manager.agent_name],
                     "evaluation_mean": [np.mean(data)],
                     "evaluation_median": [np.median(data)],

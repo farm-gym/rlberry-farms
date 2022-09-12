@@ -37,6 +37,10 @@ def observation_hide_final_state_of_plants(obs, id_of_plants_stage):
         obs[id_of_plants_stage] = 6
     return obs
 
+def get_last_monitor_values(writer):
+    global_step = writer.data['global_step'].max()
+    return writer.data.loc[writer.data['global_step']==global_step, ['tag', 'value']]
+
 
 def get_desc_from_value(id_to_desc, item_name_to_desc):
 
