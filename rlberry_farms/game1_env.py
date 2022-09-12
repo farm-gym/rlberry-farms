@@ -100,9 +100,9 @@ class Farm1(Model):
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, nb of fruits,
         # wet surface,  fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb, weight of fruits, microlife health index %
         high = np.array(
-            [365, 50, 50, 50, 300, 5, 10, 7, 100, 300, 10, 10, 1, 100, 100, 5000]
+            [365, 50, 50, 50, 300, 5, 10, 7, 100, 300, 10, 10, 1, 100, 100, 5000, 100]
         )
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(9)
 

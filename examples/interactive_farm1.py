@@ -85,7 +85,10 @@ class InteractiveAgent(AgentWithSimplePolicy):
             stdscr.addstr(
                 2 + j,
                 70,
-                "Reward for episode " + str(j) + " is " + str(np.round(self.rewards[j],3)),
+                "Reward for episode "
+                + str(j)
+                + " is "
+                + str(np.round(self.rewards[j], 3)),
             )
 
         # Observations
