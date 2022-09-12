@@ -44,8 +44,8 @@ def env():
 
     free_observations.append(("Field-0", "Plant-0", "stage", []))
     free_observations.append(("Field-0", "Plant-0", "size#cm", []))
-    free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
     free_observations.append(("Field-0", "Plant-0", "fruits_per_plant#nb", []))
+    free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
 
     terminal_CNF_conditions = [
         [(("Field-0", "Weather-0", "day#int365", []), lambda x: x.value, ">=", 360)],
@@ -118,9 +118,9 @@ def env():
         (
             "Field-0",
             "Plant-0",
-            "fruits_per_plant#nb",
+            "fruit_weight#g",
             lambda x: sum_value(x),
-            "Fruits (nb)",
+            "Fruits weight (g)",
             "range_auto",
         )
     )

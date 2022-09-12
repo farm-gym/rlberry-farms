@@ -11,14 +11,14 @@ import numpy as np
 
 policy_configs = {
     "type": "MultiLayerPerceptron",  # A network architecture
-    "layer_sizes": (8, 8),  # Network dimensions
+    "layer_sizes": (256, 256),  # Network dimensions
     "reshape": False,
     "is_policy": True,
 }
 
 value_configs = {
     "type": "MultiLayerPerceptron",
-    "layer_sizes": (8, 8),
+    "layer_sizes": (256, 256),
     "reshape": False,
     "out_size": 1,
 }
@@ -35,12 +35,12 @@ if __name__ == "__main__":
             policy_net_kwargs=policy_configs,
             value_net_fn=model_factory_from_env,
             value_net_kwargs=value_configs,
-            learning_rate=1e-3,
-            n_steps=128,
-            batch_size=14,
+            learning_rate=9e-5,
+            n_steps=5 * 365,
+            batch_size=365,
             eps_clip=0.2,
         ),
-        fit_budget=5e4,
+        fit_budget=2e5,
         eval_kwargs=dict(eval_horizon=365),
         n_fit=2,
         parallelization="process",

@@ -15,8 +15,8 @@ from rlberry.utils.check_env import check_env, check_rlberry_env
 
 class Farm0(Model):
     """
-    Farm0 is a very basic 1x1 farm with only one possible plant : beans, planted in a clay ground. The only possible actions are to water the field or to harvest it.
-    The observation of the field state is free.
+    Farm0 is a very basic 1x1 farm with only one possible plant : tomato, planted in a clay ground.
+    The actions are to water the field or to harvest it.
     The advised maximum episode length is 365 (as in 365 days).
 
     The Farm has the weather of Montpellier in France (e.g. fairly warm weather, well suited for the culture of beans), the initial day is 120. Initially the field is healthy and contains all the nutrient necessary to the plant.
@@ -47,13 +47,14 @@ class Farm0(Model):
         - sun-exposure (from 1 to 5)
         - consecutive dry day (int)
         - stage of growth of the plant (int)
-        - size of the plant in cm.
-        - Fruit weight in g
+        - size of the plant in cm
+        - numbre of fruits (int)
+        - weight of fruits (g).
 
     Actions:
         The actions are :
         - doing nothing.
-        - 5 levels of watering the field (from 1L to 5L of water)
+        - 2 levels of watering the field (1L or 5L of water)
         - harvesting
     """
 
@@ -69,8 +70,8 @@ class Farm0(Model):
         "Consecutive dry day (int)",
         "Stage of growth of the plant",
         "Size of the plant in cm",
-        "Fruit weight in g",
         "nb of fruits",
+        "weight of fruits",
     ]
 
     def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
@@ -81,12 +82,12 @@ class Farm0(Model):
         self.farm.monitor = None
         self.farm.gym_step([])
         # observation and action spaces
-        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight, nb of fruits
-        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100])
+        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight, nb of fruits, weights
+        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200, 100, 5000])
         low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0])
         self.n_obs = len(high)
         self.observation_space = spaces.Box(low=low, high=high)
-        self.action_space = spaces.Discrete(7)
+        self.action_space = spaces.Discrete(4)
 
         # monitoring writer
         params = {}
@@ -156,17 +157,27 @@ class Farm0(Model):
         )
 
     def num_to_action(self, num):
-        if (num >= 1) and (num <= 5):
+        if num == 1:
             return [
                 (
                     "BasicFarmer-0",
                     "Field-0",
                     "Soil-0",
                     "water_discrete",
-                    {"plot": (0, 0), "amount#L": num, "duration#min": 60},
+                    {"plot": (0, 0), "amount#L": 1, "duration#min": 60},
                 )
             ]
-        elif num == 6:
+        elif num == 2:
+            return [
+                (
+                    "BasicFarmer-0",
+                    "Field-0",
+                    "Soil-0",
+                    "water_discrete",
+                    {"plot": (0, 0), "amount#L": 5, "duration#min": 60},
+                )
+            ]
+        elif num == 3:
             return [("BasicFarmer-0", "Field-0", "Plant-0", "harvest", {})]
         else:
             return []  # Do nothing.
