@@ -113,11 +113,10 @@ def run_experiment(
     )
 
     # keep only max for leaderboard
-    if len(df)>0:
-        if name in df["name"]:
-            if df.loc[df["name"] == name, "evaluation_mean"] < new_score["evaluation_mean"]:
-                for key in ["evaluation_mean", "evaluation_median", "evaluation_std"]:
-                    df.loc[df["name"] == name, key] = new_score[key]
+    if (len(df)>0) and (name in df["name"]):
+        if df.loc[df["name"] == name, "evaluation_mean"] < new_score["evaluation_mean"]:
+            for key in ["evaluation_mean", "evaluation_median", "evaluation_std", 'time (m)']:
+                df.loc[df["name"] == name, key] = new_score[key]
     else:
         df = pd.concat([df, new_score], ignore_index=True)
 
