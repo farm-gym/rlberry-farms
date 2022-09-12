@@ -80,7 +80,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
         stdscr.addstr(0, 70, "Current reward is " + str(self.episode_reward))
         for j in range(len(self.rewards)):
             stdscr.addstr(
-                4 + j,
+                2 + j,
                 70,
                 "Reward for episode " + str(j) + " is " + str(self.rewards[j]),
             )
