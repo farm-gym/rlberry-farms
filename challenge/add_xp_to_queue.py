@@ -29,26 +29,21 @@ parser.add_argument(
 parser.add_argument("--enable-tensorboard", action="store_true")
 args = parser.parse_args()
 
-output_dir = "results_" + os.getlogin()
-if not os.path.isdir(output_dir):
-    os.mkdir(output_dir)
-
 configure_logging(file_path=Path(output_dir) / "out.log")
 logger = logging.getLogger(__name__)
 
 redis_conn = Redis()
-q = Queue('default', connection=redis_conn)
+q = Queue("default", connection=redis_conn)
 
 
 experiment_kwargs = dict(
     agent_file=args.agent_file,
     budget=args.budget,
     n_fit=1,
-    output_dir=output_dir,
     parallelization="process",
     enable_tensorboard=args.enable_tensorboard,
     farm=args.farm,
-    name = args.name
+    name=args.name,
 )
 
 job1 = q.enqueue(
