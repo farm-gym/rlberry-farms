@@ -25,7 +25,7 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - venv/
+    - virtualenv/
 
 before_script:
   - python3 --version  # For debugging
@@ -38,6 +38,8 @@ format:
   script:
     - pip install black
     - black --check examples rlberry_farms *py
+  only:
+    - main
 
 pages:
   script:
@@ -51,6 +53,8 @@ pages:
     - pip install -r requirements.txt
     - make html # make doc
     - mv _build/html/ ../public/
+  only:
+    - main
   artifacts:
     paths:
       - public
