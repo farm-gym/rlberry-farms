@@ -132,8 +132,9 @@ sub_leaderboard(){
                    echo ""
                                       
                    ;;
-                   *)
-                       python $ChallengeHome/challenge/print_leaderboard.py
+                *)
+                       source $ChallengeHome/virtualenv/bin/activate
+                       python $ChallengeHome/rlberry-farms/challenge/print_leaderboard.py
                        ;;
      esac
 }
