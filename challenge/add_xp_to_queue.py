@@ -11,7 +11,7 @@ from rlberry.utils.logging import configure_logging
 from pathlib import Path
 import os
 
-ARCHIVE_DIR = "/media/data1/challenge"
+CHALLENGE_DIR = "/home/challenge_env"
 
 
 parser = argparse.ArgumentParser()
@@ -32,8 +32,8 @@ parser.add_argument(
 parser.add_argument("--enable-tensorboard", action="store_true")
 args = parser.parse_args()
 
-output_dir = os.path.join(ARCHIVE_DIR, args.name)
-configure_logging(file_path=Path(output_dir) / "out.log")
+
+configure_logging(file_path=Path(CHALLENGE_DIR) / name+"_out.log")
 logger = logging.getLogger(__name__)
 
 redis_conn = Redis()
