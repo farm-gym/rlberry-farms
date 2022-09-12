@@ -10,7 +10,11 @@ For windows users, they need to install windows-curses beforehand (installable v
 from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms.game0_env import Farm0
-from rlberry_farms.utils import farmgymobs_to_obs, get_desc_from_value, get_last_monitor_values
+from rlberry_farms.utils import (
+    farmgymobs_to_obs,
+    get_desc_from_value,
+    get_last_monitor_values,
+)
 from rlberry.agents.torch.utils.training import model_factory_from_env
 import numpy as np
 
@@ -63,7 +67,9 @@ class InteractiveAgent(AgentWithSimplePolicy):
 
     def policy(self, observation):
         stdscr = self.stdscr
-        stdscr.addstr(0, 0, "Tomatoes in Montpellier", curses.A_BOLD + curses.A_UNDERLINE)
+        stdscr.addstr(
+            0, 0, "Tomatoes in Montpellier", curses.A_BOLD + curses.A_UNDERLINE
+        )
 
         stdscr.addstr(2, 0, "Available actions: 0) Do nothing")
         stdscr.addstr(3, 19, "n) Pour nL of water (for n in {1,...,5})")
@@ -97,16 +103,20 @@ class InteractiveAgent(AgentWithSimplePolicy):
                         str(get_desc_from_value(observation[j], "plant_stage")),
                     )
         stdscr.addstr(7, 0, "Last action: ", curses.A_BOLD + curses.A_UNDERLINE)
-        stdscr.addstr(7, len("Last action: "), self.action_str + " " * 20) # empty string to clean the line.
+        stdscr.addstr(
+            7, len("Last action: "), self.action_str + " " * 20
+        )  # empty string to clean the line.
 
         # unobservable monitored values
-        stdscr.addstr(28, 0, "Unobservable farm values:", curses.A_BOLD + curses.A_UNDERLINE)
+        stdscr.addstr(
+            28, 0, "Unobservable farm values:", curses.A_BOLD + curses.A_UNDERLINE
+        )
 
         df = get_last_monitor_values(self.env.writer)
         for j in range(len(df)):
-             stdscr.addstr(30 + j, 0, df.iloc[j]['tag'])
-             stdscr.addstr(30 + j, 40, str(df.iloc[j]['value']))
-        
+            stdscr.addstr(30 + j, 0, df.iloc[j]["tag"])
+            stdscr.addstr(30 + j, 40, str(df.iloc[j]["value"]))
+
         # Actions
         while True:
             c = stdscr.getch()
