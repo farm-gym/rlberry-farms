@@ -44,7 +44,6 @@ def env():
 
     free_observations.append(("Field-0", "Plant-0", "stage", []))
     free_observations.append(("Field-0", "Plant-0", "size#cm", []))
-    free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
     free_observations.append(("Field-0", "Plant-0", "fruits_per_plant#nb", []))
 
     terminal_CNF_conditions = [

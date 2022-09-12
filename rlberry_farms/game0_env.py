@@ -47,8 +47,8 @@ class Farm0(Model):
         - sun-exposure (from 1 to 5)
         - consecutive dry day (int)
         - stage of growth of the plant (int)
-        - size of the plant in cm.
-        - Fruit weight in g
+        - size of the plant in cm
+        - numbre of fruits (int).
 
     Actions:
         The actions are :
@@ -69,7 +69,6 @@ class Farm0(Model):
         "Consecutive dry day (int)",
         "Stage of growth of the plant",
         "Size of the plant in cm",
-        "Fruit weight in g",
         "nb of fruits",
     ]
 
@@ -82,8 +81,8 @@ class Farm0(Model):
         self.farm.gym_step([])
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight, nb of fruits
-        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100])
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0])
+        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200, 100])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0])
         self.n_obs = len(high)
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(7)

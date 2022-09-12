@@ -74,6 +74,7 @@ class Farm1(Model):
         "Sun-exposure (from 1 to 5)",
         "Consecutive dry day (int)",
         "Stage of growth of the plant",
+        "Number of fruits (int)",
         "Size of the plant in cm",
         "Soil wet_surface (m2.day-1)",
         "fertilizer amount (kg)",
@@ -81,8 +82,6 @@ class Farm1(Model):
         "Pollinators occurrence (bin)",
         "Weeds grow (nb)",
         "Weeds flowers (nb)",
-        "Fruit weight (g)",
-        "nb of fruits",
     ]
 
     def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
@@ -94,7 +93,7 @@ class Farm1(Model):
 
         self.farm.monitor = None
         # observation and action spaces
-        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight #g, nb of fruits,
+        # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, nb of fruits,
         # wet surface, microlife %, fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb
         high = np.array(
             [365, 50, 50, 50, 300, 5, 100, 10, 200, 5000, 100, 1, 100, 10, 1, 100, 100]
