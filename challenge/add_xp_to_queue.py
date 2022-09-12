@@ -33,7 +33,7 @@ parser.add_argument("--enable-tensorboard", action="store_true")
 args = parser.parse_args()
 
 
-configure_logging(file_path=Path(CHALLENGE_DIR) / args.name+"_out.log")
+configure_logging(file_path=Path(CHALLENGE_DIR) / (args.name+"_out.log"))
 logger = logging.getLogger(__name__)
 
 redis_conn = Redis()
