@@ -181,7 +181,7 @@ def env():
             "Soil-0",
             "amount_cide#g",
             lambda x: x["soil"][0, 0].value,
-            "Amounct cide (g)",
+            "Amount cide (g)",
             "range_auto",
         )
     )
