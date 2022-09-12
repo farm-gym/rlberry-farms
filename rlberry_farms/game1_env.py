@@ -27,7 +27,7 @@ class Farm1(Model):
 
     Parameters
     ----------
-    monitor: boolean, default = False
+    monitor: boolean, default = True
         If monitor is True, then some (unobserved) variables are saved to a writer that is displayed during training.
     enable_tensorboard: boolean, default = False
         If True and monitor is True, save writer as tensorboard data
@@ -112,7 +112,7 @@ class Farm1(Model):
             params["tensorboard_kwargs"] = dict(
                 log_dir=os.path.join(self.tensorboard_dir, "farm_" + self.identifier)
             )
-        self.writer = DefaultWriter(name="farm_writer", print_log = False, **params)
+        self.writer = DefaultWriter(name="farm_writer", print_log=False, **params)
         self.monitor_variables = self.farm.monitor_variables
         self.iteration = 0
         self.monitor = monitor
