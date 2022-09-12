@@ -77,9 +77,12 @@ class InteractiveAgent(AgentWithSimplePolicy):
         stdscr.addstr(5, 19, "3) Harvest the plant")
 
         # Rewards
+        stdscr.addstr(0, 70, "Current reward is " + str(self.episode_reward))
         for j in range(len(self.rewards)):
             stdscr.addstr(
-                j, 70, "Reward for episode " + str(j) + " is " + str(self.rewards[j])
+                4 + j,
+                70,
+                "Reward for episode " + str(j) + " is " + str(self.rewards[j]),
             )
 
         # Observations
@@ -115,7 +118,7 @@ class InteractiveAgent(AgentWithSimplePolicy):
             init_y = 14
             init_x = maxx // 2
         else:
-            init_y = 31
+            init_y = 30
             init_x = 0
 
         stdscr.addstr(
@@ -126,9 +129,9 @@ class InteractiveAgent(AgentWithSimplePolicy):
         )
 
         for j in range(len(df)):
-            stdscr.addstr(init_y + 2 + j, init_x, df.iloc[j]["tag"])
+            stdscr.addstr(init_y + 1 + j, init_x, df.iloc[j]["tag"])
             stdscr.addstr(
-                init_y + 2 + j, init_x + 40, str(np.round(df.iloc[j]["value"], 3))
+                init_y + 1 + j, init_x + 40, str(np.round(df.iloc[j]["value"], 3))
             )
 
         # Actions

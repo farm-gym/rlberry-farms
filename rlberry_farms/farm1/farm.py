@@ -75,6 +75,8 @@ def env():
     free_observations.append(("Field-0", "Weeds-0", "flowers#nb", []))
     free_observations.append(("Field-0", "Plant-0", "fruit_weight#g", []))
 
+    free_observations.append(("Field-0", "Soil-0", "microlife_health_index#%", []))
+
     terminal_CNF_conditions = [
         [(("Field-0", "Weather-0", "day#int365", []), lambda x: x.value, ">=", 360)],
         [(("Field-0", "Plant-0", "global_stage", []), lambda x: x.value, "==", "dead")],

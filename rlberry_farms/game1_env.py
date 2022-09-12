@@ -52,6 +52,7 @@ class Farm1(Model):
         - Weeds grow#nb
         - Weeds flowers#nb
         - Weight of fruits (g)
+        - Microlife health index (%)
 
     Actions:
         The actions are :
@@ -84,6 +85,7 @@ class Farm1(Model):
         "Weeds grow (nb)",
         "Weeds flowers (nb)",
         "weight of fruits",
+        "microlife health index (%)",
     ]
 
     def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
@@ -96,7 +98,7 @@ class Farm1(Model):
         self.farm.monitor = None
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, nb of fruits,
-        # wet surface,  fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb, weight of fruits
+        # wet surface,  fertilizer amount,  pollinators occurrence, weeds grow nb, weeds flower nb, weight of fruits, microlife health index %
         high = np.array(
             [365, 50, 50, 50, 300, 5, 10, 7, 100, 300, 10, 10, 1, 100, 100, 5000]
         )
@@ -152,7 +154,7 @@ class Farm1(Model):
             update_farm_writer(
                 self.writer, self.monitor_variables, self.farm, self.iteration
             )
-        if np.array(obs1[8]).item() < 10:
+        if np.array(obs1[-1]).item() < 10:
             reward -= 2  # if microlife is < 10%, negative reward
 
         observation = observation_hide_final_state_of_plants(
