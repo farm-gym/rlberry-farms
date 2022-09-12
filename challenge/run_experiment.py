@@ -12,7 +12,7 @@ import subprocess
 import rlberry
 from rlberry_farms import Farm0, Farm1
 import numpy as np
-
+import time
 
 logger = rlberry.logger
 
@@ -90,8 +90,9 @@ def run_experiment(
         enable_tensorboard=enable_tensorboard,
         output_dir=output_dir,
     )
+    a = time.time()
     agent_manager.fit()
-
+    time_to_completion = time.time()-a
     # Evaluating
     data = evaluate_agents([agent_manager], n_simulations=100, show=False).values
 
@@ -107,14 +108,16 @@ def run_experiment(
             "evaluation_mean": [np.mean(data)],
             "evaluation_median": [np.median(data)],
             "evaluation_std": [np.std(data)],
+            "time (m)":[time_to_completion/60]
         }
     )
 
     # keep only max for leaderboard
-    if name in df["name"]:
-        if df.loc[df["name"] == name, "evaluation_mean"] < new_score["evaluation_mean"]:
-            for key in ["evaluation_mean", "evaluation_median", "evaluation_std"]:
-                df.loc[df["name"] == name, key] = new_score[key]
+    if len(df)>0:
+        if name in df["name"]:
+            if df.loc[df["name"] == name, "evaluation_mean"] < new_score["evaluation_mean"]:
+                for key in ["evaluation_mean", "evaluation_median", "evaluation_std"]:
+                    df.loc[df["name"] == name, key] = new_score[key]
     else:
         df = pd.concat([df, new_score], ignore_index=True)
 
