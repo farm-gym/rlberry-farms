@@ -17,6 +17,7 @@ import numpy as np
 logger = rlberry.logger
 
 LEADERBOARD = "leaderboard.csv"
+ARCHIVE_DIR = "/media/data1/challenge"
 
 
 def get_farm(farm):
@@ -75,9 +76,9 @@ def run_experiment(
     parallelization="process",
     enable_tensorboard=False,
     farm=0,
-    name = "Anone"
+    name = "Anon"
 ):
-
+    output_dir = os.path.join(ARCHIVE_DIR, name+'_'+time.time())
     agent_manager = experiment_generator(
         agent_file=agent_file,
         budget=budget,
@@ -87,6 +88,7 @@ def run_experiment(
         output_dir=output_dir,
         parallelization="process",
         enable_tensorboard=enable_tensorboard,
+        output_dir = output_dir
     )
     agent_manager.fit()
 
@@ -95,13 +97,10 @@ def run_experiment(
 
     # Saving to leaderboard
     if not (os.path.isfile(LEADERBOARD)):
-        df = pd.DataFrame({"name": [], "name_agent": [], "evaluation": []})
+        df = pd.DataFrame()
     else:
         df = pd.read_csv(LEADERBOARD, index_col=0)
-    df = pd.concat(
-        [
-            df,
-            pd.DataFrame(
+    new_score = pd.DataFrame(
                 {
                     "name": [name],
                     "name_agent": [agent_manager.agent_name],
@@ -109,10 +108,27 @@ def run_experiment(
                     "evaluation_median": [np.median(data)],
                     "evaluation_std": [np.std(data)],
                 }
-            ),
-        ]
-    )
+            )
+    
+    # keep only max for leaderboard
+    if name in df['name']:
+        if df.loc[df['name']==name, 'evaluation_mean'] < new_score['evaluation_mean']:
+            for key in ["evaluation_mean",  "evaluation_median", "evaluation_std"]:
+                df.loc[df['name']==name, key] = new_score[key]
+    else:
+        df = pd.concat([df, new_score], ignore_index = True)
+    
     df = df.sort_values(by=["evaluation_mean"], ascending=False)
     df.to_csv(LEADERBOARD)
+
+    # Archiving data
+    archive_scores = os.path.join(ARCHIVE_DIR, "all_scores.csv")
+    if not (os.path.isfile(archive_scores)):
+        df = pd.DataFrame()
+    else:
+        df = pd.read_csv(archive_scores, index_col=0)
+    df = pd.concat([df, new_score], ignore_index = True)
+    df.to_csv(archive_scores)
+    
     # Deleting the manager.
     del agent_manager

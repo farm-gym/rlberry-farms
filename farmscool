@@ -133,7 +133,7 @@ sub_leaderboard(){
                                       
                    ;;
                    *)
-                       cat $ChallengeHome/rlberry-farms/challenge/leaderboard.csv
+                       python $ChallengeHome/challenge/print_leaderboard.py
                        ;;
      esac
 }
