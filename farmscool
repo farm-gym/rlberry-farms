@@ -187,6 +187,22 @@ sub_resume(){
      esac
 }
 
+sub_kill(){
+    case $1 in  "-h" | "--help")
+                   echo "Usage: $ProgName kill <hash_job>"
+                   echo ""
+                   echo "   Kill the job <hash_job>. The hash can be obtained through $ProgName info"
+                   echo ""
+                                      
+                   ;;
+                *)
+                    source $ChallengeHome/virtualenv/bin/activate
+                    python $ChallengeHome/rlberry-farms/challenge/stop_job.py $1
+                    ;;
+     esac
+}
+
+
 sub_egg(){
     cat $ChallengeHome/rlberry-farms/challenge/.egg.txt
 }
