@@ -83,6 +83,7 @@ if __name__ == "__main__":
     manager.fit()
     evaluation = evaluate_agents([manager], n_simulations=128, plot=False).values
     np.savetxt("expert_farm0.out", np.array(evaluation), delimiter=",")
+    display_evaluation_result(evaluation)
     data = plot_writer_data(
         "expert_farm0_results", "episode_rewards", smooth_weight=0.95
     )

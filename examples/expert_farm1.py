@@ -7,6 +7,7 @@ from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms import Farm1
 import numpy as np
+from rlberry_farms.utils import display_evaluation_result
 
 env_ctor, env_kwargs = Farm1, {}
 
@@ -96,12 +97,17 @@ class Agent(AgentWithSimplePolicy):
             next_action = 1  # 1L of water
         elif observation[0] > 105:
             if observation[7] in [6, 7, 8, 9]:
-                if self.previous_weight > 0 and self.previous_weight == observation[15]:
+                if (
+                    self.previous_weight == observation[15]
+                    and self.fruit_stage_duration_count > 4
+                ):
                     next_action = 3  # harvesting
                     self.previous_weight = 0
+                    self.fruit_stage_duration_count = 0
                 else:
                     next_action = 0  # do nothing
                     self.previous_weight = observation[15]
+                    self.fruit_stage_duration_count += 1
             else:
                 next_action = 0  # do nothing
 
@@ -123,6 +129,7 @@ if __name__ == "__main__":
     manager.fit()
     evaluation = evaluate_agents([manager], n_simulations=128, plot=False).values
     np.savetxt("expert_farm1.out", np.array(evaluation), delimiter=",")
+    display_evaluation_result(evaluation)
     data = plot_writer_data(
         "expert_farm1_results", "episode_rewards", smooth_weight=0.95
     )
