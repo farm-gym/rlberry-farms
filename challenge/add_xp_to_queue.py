@@ -47,6 +47,7 @@ experiment_kwargs = dict(
     name=args.name,
 )
 
-job1 = q.enqueue(
+job = q.enqueue(
     run_experiment, kwargs=experiment_kwargs, job_timeout=3 * 3600
 )  # limit job to 3h
+

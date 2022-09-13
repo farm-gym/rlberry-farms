@@ -19,6 +19,7 @@ sub_help(){
     echo "    resume            Resume queue"
     echo "    activate          Activate environment (for pip install)"
     echo "    play              Play manually."
+    echo "    top               Display all jobs and kill them if necessary."    
     echo "    "
     echo ""
     echo "For help with each subcommand run:"
@@ -143,15 +144,19 @@ sub_activate(){
 
 sub_leaderboard(){
     case $1 in "-h" | "--help")
-                   echo "Usage: $ProgName leaderboard"
+                   echo "Usage: $ProgName leaderboard [OPTIONS]"
                    echo ""
                    echo "    Print current leaderboard."
+                   echo "  "
+                   echo "    Options "
+                   echo "      -a       print all scores "
+                   echo "      -m       print all my scores "
                    echo ""
                                       
                    ;;
                 *)
                        source $ChallengeHome/virtualenv/bin/activate
-                       python $ChallengeHome/rlberry-farms/challenge/print_leaderboard.py
+                       python $ChallengeHome/rlberry-farms/challenge/print_leaderboard.py $1
                        ;;
      esac
 }
@@ -187,17 +192,17 @@ sub_resume(){
      esac
 }
 
-sub_kill(){
+sub_top(){
     case $1 in  "-h" | "--help")
-                   echo "Usage: $ProgName kill <hash_job>"
+                   echo "Usage: $ProgName top"
                    echo ""
-                   echo "   Kill the job <hash_job>. The hash can be obtained through $ProgName info"
+                   echo "   Get advanced information on the queue. Can be used to kill jobs."
                    echo ""
                                       
                    ;;
                 *)
                     source $ChallengeHome/virtualenv/bin/activate
-                    python $ChallengeHome/rlberry-farms/challenge/stop_job.py $1
+                    python $ChallengeHome/rlberry-farms/challenge/advanced_info.py
                     ;;
      esac
 }
@@ -206,6 +211,8 @@ sub_kill(){
 sub_egg(){
     cat $ChallengeHome/rlberry-farms/challenge/.egg.txt
 }
+
+
   
 subcommand=$1
 case $subcommand in
