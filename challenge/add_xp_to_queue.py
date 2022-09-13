@@ -40,7 +40,7 @@ q = Queue("default", connection=redis_conn)
 experiment_kwargs = dict(
     agent_file=args.agent_file,
     budget=args.budget,
-    n_fit=1,
+    n_fit=20,
     parallelization="process",
     enable_tensorboard=args.enable_tensorboard,
     farm=args.farm,
