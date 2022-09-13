@@ -26,7 +26,7 @@ parser.add_argument(
     "--farm",
     help="farm used.",
     type=int,
-    default=0,
+    default=1,
 )
 
 parser.add_argument("--enable-tensorboard", action="store_true")

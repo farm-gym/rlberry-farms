@@ -18,7 +18,7 @@ sub_help(){
     echo "    suspend           Suspend queue"
     echo "    resume            Resume queue"
     echo "    activate          Activate environment (for pip install)"
-    echo "    dashboard         monitor rq (still in construction)."
+    echo "    play              Play manually."
     echo "    "
     echo ""
     echo "For help with each subcommand run:"
@@ -70,6 +70,23 @@ sub_info(){
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
                        rq info
+                       ;;
+     esac
+}
+
+
+
+sub_play(){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName play <farm_num>"
+                   echo ""
+                   echo "    Play to farm number <farm_num>."
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       source $ChallengeHome/virtualenv/bin/activate
+                       python $ChallengeHome/rlberry-farms/examples/interactive_farm$1.py
                        ;;
      esac
 }
