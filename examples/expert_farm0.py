@@ -12,7 +12,7 @@ env_ctor, env_kwargs = Farm0, {}
 
 
 class Agent(AgentWithSimplePolicy):
-    name = "ExpertAgent"
+    name = "ExpertAgentFarm0"
     fruit_stage_duration_count = 0
 
     def __init__(self, env, **kwargs):
@@ -31,7 +31,7 @@ class Agent(AgentWithSimplePolicy):
                 self.env.reset()
 
     def policy(self, observation):
-        # Policy : if the plants are in 'entered_ripe' or 'ripe' we harvest them, otherwise we use 1L water.
+        # Policy : When the plant stage go to 'fruit', wait 8 days, and harvest on the 9
 
         # The actions are :
         #     0) Do nothing
@@ -72,15 +72,17 @@ if __name__ == "__main__":
     manager = AgentManager(
         Agent,
         (env_ctor, env_kwargs),
-        agent_name="ExpertAgent",
+        agent_name="ExpertAgentFarm0",
         fit_budget=1e4,
         eval_kwargs=dict(eval_horizon=365),
         n_fit=4,
         parallelization="process",
         mp_context="spawn",
-        output_dir="expert_results",
+        output_dir="expert_farm0_results",
     )
     manager.fit()
     evaluation = evaluate_agents([manager], n_simulations=128, plot=False).values
     np.savetxt("expert_farm0.out", np.array(evaluation), delimiter=",")
-    data = plot_writer_data("expert_results", "episode_rewards", smooth_weight=0.95)
+    data = plot_writer_data(
+        "expert_farm0_results", "episode_rewards", smooth_weight=0.95
+    )
