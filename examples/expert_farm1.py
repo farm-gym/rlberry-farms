@@ -19,7 +19,6 @@ class Agent(AgentWithSimplePolicy):
     def __init__(self, env, **kwargs):
         AgentWithSimplePolicy.__init__(self, env, **kwargs)
 
-
     def fit(self, budget=100, **kwargs):
         observation = self.env.reset()
         episode_reward = 0
@@ -82,19 +81,19 @@ class Agent(AgentWithSimplePolicy):
         # print(self.env.farm.get_free_observations())
 
         if observation[0] < 100:
-            next_action = 0     #nothing
+            next_action = 0  # nothing
         elif observation[0] == 100:
-            next_action = 2     #5L of water
+            next_action = 2  # 5L of water
         elif observation[0] == 101:
-            next_action = 6     #herbicide
+            next_action = 6  # herbicide
         elif observation[0] == 102:
-            next_action = 7     #pesticide
+            next_action = 7  # pesticide
         elif observation[0] == 103:
-            next_action = 5     #Fertilizer
+            next_action = 5  # Fertilizer
         elif observation[0] == 104:
-            next_action = 4     #sow
+            next_action = 4  # sow
         elif observation[0] == 105:
-            next_action = 1     #1L of water
+            next_action = 1  # 1L of water
         elif observation[0] > 105:
             if observation[7] in [6, 7, 8, 9]:
                 if self.previous_weight > 0 and self.previous_weight == observation[15]:
