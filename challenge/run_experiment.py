@@ -113,14 +113,15 @@ def run_experiment(
     )
 
     # keep only max for leaderboard
-    if (len(df)>0) and (name in df["name"]):
-        if df.loc[df["name"] == name, "evaluation_mean"] < new_score["evaluation_mean"]:
-            for key in ["evaluation_mean", "evaluation_median", "evaluation_std", 'time (m)']:
-                df.loc[df["name"] == name, key] = new_score[key]
-    else:
-        df = pd.concat([df, new_score], ignore_index=True)
-
-    df = df.sort_values(by=["evaluation_mean"], ascending=False)
+    df = pd.concat([df, new_score], ignore_index=True)
+    df2 = pd.DataFrame()
+    for name in df['name'].unique():
+        dfname = df.loc[df['name']==name]
+        df2 =df2.append(dfname.iloc[np.argmax(dfname['evaluation_mean'])], ignore_index=True)
+    
+    df = df2.reset_index()
+    
+    df = df2.sort_values(by=["evaluation_mean"], ascending=False)
     df.to_csv(LEADERBOARD)
 
     # Archiving data
