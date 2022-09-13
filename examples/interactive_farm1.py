@@ -1,5 +1,5 @@
 """
-Interactive manual agent on Farm0
+Interactive manual agent on Farm1
 =================================
 
 You are the agent.
@@ -9,7 +9,7 @@ For windows users, they need to install windows-curses beforehand (installable v
 
 from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
-from rlberry_farms.game0_env import Farm0
+from rlberry_farms import Farm1
 from rlberry_farms.utils import (
     farmgymobs_to_obs,
     get_desc_from_value,
@@ -25,7 +25,7 @@ from rlberry.utils.logging import set_level
 
 set_level("WARNING")
 
-env_ctor, env_kwargs = Farm0, {"monitor": True}
+env_ctor, env_kwargs = Farm1, {"monitor": True}
 
 
 class InteractiveAgent(AgentWithSimplePolicy):
@@ -67,14 +67,17 @@ class InteractiveAgent(AgentWithSimplePolicy):
 
     def policy(self, observation):
         stdscr = self.stdscr
-        stdscr.addstr(
-            0, 0, "Tomatoes in Montpellier", curses.A_BOLD + curses.A_UNDERLINE
-        )
+        stdscr.addstr(0, 0, "Beans in Lille", curses.A_BOLD + curses.A_UNDERLINE)
 
-        stdscr.addstr(2, 0, "Available actions: 0) Do nothing")
-        stdscr.addstr(3, 19, "1) Pour 1L of water")
-        stdscr.addstr(4, 19, "2) Pour 5L of water")
-        stdscr.addstr(5, 19, "3) Harvest the plant")
+        stdscr.addstr(1, 0, "Available actions: 0) Do nothing")
+        stdscr.addstr(2, 19, "1) Pour 1L of water")
+        stdscr.addstr(3, 19, "2) Pour 5L of water")
+        stdscr.addstr(4, 19, "3) Harvest the plant")
+        stdscr.addstr(5, 19, "4) sow")
+        stdscr.addstr(1, 45, "5) Fertilizer")
+        stdscr.addstr(2, 45, "6) Herbicide")
+        stdscr.addstr(3, 45, "7) Pesticide")
+        stdscr.addstr(4, 45, "8) Remove weeds by hand")
 
         # Rewards
         stdscr.addstr(0, 70, "Current reward is " + str(self.episode_reward))
@@ -82,26 +85,29 @@ class InteractiveAgent(AgentWithSimplePolicy):
             stdscr.addstr(
                 2 + j,
                 70,
-                "Reward for episode " + str(j) + " is " + str(self.rewards[j]),
+                "Reward for episode "
+                + str(j)
+                + " is "
+                + str(np.round(self.rewards[j], 3)),
             )
 
         # Observations
-        stdscr.addstr(10, 0, "Observations:", curses.A_BOLD + curses.A_UNDERLINE)
+        stdscr.addstr(9, 0, "Observations:", curses.A_BOLD + curses.A_UNDERLINE)
         for j in range(len(self.env.observations_txt)):
-            stdscr.addstr(12 + j, 0, self.env.observations_txt[j])
+            stdscr.addstr(10 + j, 0, self.env.observations_txt[j])
 
             if j not in [4, 7]:
-                stdscr.addstr(12 + j, 40, str(np.round(float(observation[j]), 3)))
+                stdscr.addstr(10 + j, 40, str(np.round(float(observation[j]), 3)))
             else:
                 if j == 4:
                     stdscr.addstr(
-                        12 + j,
+                        10 + j,
                         40,
                         str(get_desc_from_value(observation[j], "rain_amount")),
                     )
                 elif j == 7:
                     stdscr.addstr(
-                        12 + j,
+                        10 + j,
                         40,
                         str(get_desc_from_value(observation[j], "plant_stage")),
                     )
@@ -111,14 +117,15 @@ class InteractiveAgent(AgentWithSimplePolicy):
         )  # empty string to clean the line.
 
         # unobservable monitored values
-        maxy, maxx = stdscr.getmaxyx()
         df = get_last_monitor_values(self.env.writer)
 
+        maxy, maxx = stdscr.getmaxyx()
+
         if maxy < 33 + len(df):
-            init_y = 14
+            init_y = 9
             init_x = maxx // 2
         else:
-            init_y = 30
+            init_y = 28
             init_x = 0
 
         stdscr.addstr(
@@ -149,6 +156,21 @@ class InteractiveAgent(AgentWithSimplePolicy):
             elif c == 51:
                 action = 3
                 action_str = "Harvest"
+            elif c == 52:
+                action = 4
+                action_str = "Sow"
+            elif c == 53:
+                action = 5
+                action_str = "Fertilizer"
+            elif c == 54:
+                action = 6
+                action_str = "Herbicide"
+            elif c == 55:
+                action = 7
+                action_str = "Pesticide"
+            elif c == 56:
+                action = 8
+                action_str = "Remove weeds by hand"
             else:
                 action = None
                 action_str = "Action not recognized"

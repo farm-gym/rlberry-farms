@@ -11,8 +11,9 @@ import numpy as np
 env_ctor, env_kwargs = Farm0, {}
 
 
-class ExpertAgent(AgentWithSimplePolicy):
+class Agent(AgentWithSimplePolicy):
     name = "ExpertAgent"
+    fruit_stage_duration_count = 0
 
     def __init__(self, env, **kwargs):
         AgentWithSimplePolicy.__init__(self, env, **kwargs)
@@ -33,9 +34,10 @@ class ExpertAgent(AgentWithSimplePolicy):
         # Policy : if the plants are in 'entered_ripe' or 'ripe' we harvest them, otherwise we use 1L water.
 
         # The actions are :
-        #   0: doing nothing.
-        #   1-5 : 5 levels of watering the field (from 1L to 5L of water)
-        #   6 : harvesting
+        #     0) Do nothing
+        #     1) Pour 1L of water
+        #     2) Pour 5L of water
+        #     3) Harvest the plant
 
         # states for 'stage for plants' (observation[7]) are :
         # 0:'none'
@@ -53,8 +55,13 @@ class ExpertAgent(AgentWithSimplePolicy):
         # 12:'dead'
 
         # print(self.env.farm.get_free_observations())
-        if observation[7] in [8, 9]:
-            next_action = 6  # harvesting
+        if observation[7] in [6, 7, 8, 9]:
+            if self.fruit_stage_duration_count > 8:
+                next_action = 3  # harvesting
+                self.fruit_stage_duration_count = 0
+            else:
+                next_action = 1  # watering slowly
+                self.fruit_stage_duration_count += 1
         else:
             next_action = 1  # watering slowly
 
@@ -63,7 +70,7 @@ class ExpertAgent(AgentWithSimplePolicy):
 
 if __name__ == "__main__":
     manager = AgentManager(
-        ExpertAgent,
+        Agent,
         (env_ctor, env_kwargs),
         agent_name="ExpertAgent",
         fit_budget=1e4,

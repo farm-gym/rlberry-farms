@@ -25,7 +25,7 @@ def update_farm_writer(writer, monitor_variables, farm, iteration):
         fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
         day = farm.fields[fi_key].entities["Weather-0"].variables["day#int365"].value
         value = map_v(farm.fields[fi_key].entities[entity_key].variables[var_key])
-        writer.add_scalar(var_key, np.round(value, 3), iteration)
+        writer.add_scalar(name_to_display, np.round(value, 3), iteration)
     writer.add_scalar("day#int365", day, iteration)
 
 
