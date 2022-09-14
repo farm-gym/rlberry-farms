@@ -83,10 +83,10 @@ class Farm0(Model):
         self.farm.gym_step([])
         # observation and action spaces
         # Day, temp mean, temp min, temp max, rain amount, sun exposure, consecutive dry day, stage, size#cm, fruit weight, nb of fruits, weights
-        high = np.array([365, 50, 50, 50, 300, 5, 100, 10, 200, 100, 5000],dtype=np.float32)
-        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0],dtype=np.float32)
+        high = np.array([365, 50, 50, 50, 300, 7, 100, 10, 200, 100, 5000])
+        low = np.array([0, -50, -50, -50, 0, 0, 0, 0, 0, 0, 0])
         self.n_obs = len(high)
-        self.observation_space = spaces.Box(low=low, high=high,dtype=np.float32)
+        self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(4)
 
         # monitoring writer
@@ -121,9 +121,9 @@ class Farm0(Model):
 
     def reset(self):
         observation = self.farm.gym_reset()
-        self.farm.gym_step([])
+        obs1, _, _, info = self.farm.gym_step([])
         return observation_hide_final_state_of_plants(
-            farmgymobs_to_obs(observation), id_of_plants_stage=7
+            farmgymobs_to_obs(obs1), id_of_plants_stage=7
         )
 
     def writer_to_csv(self):
