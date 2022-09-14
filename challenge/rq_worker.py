@@ -9,10 +9,12 @@ logger = logging.getLogger("rq.worker")
 class LoggerWriter:
     def __init__(self, level):
         self.level = level
-
+        self.terminal = sys.stdout
+        
     def write(self, message):
         if message != "\n":
             self.level(message)
+            self.terminal.write(message)
 
     def flush(self):
         pass
@@ -29,6 +31,6 @@ logger.addHandler(fh)
 with Connection():
     logger.info("Launching queue server")
     qs = ["default"]
-
+    
     w = Worker(qs)
     w.work()

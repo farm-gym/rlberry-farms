@@ -62,6 +62,9 @@ def experiment_generator(
         ContenderAgent,
         farm,
         fit_budget=budget,
+        output_dir=output_dir,
+        parallelization="process",
+        mp_context="forkserver",
         eval_kwargs=dict(eval_horizon=365),
         **kwargsii
     )
