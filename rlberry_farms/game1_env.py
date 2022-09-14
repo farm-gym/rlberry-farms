@@ -106,6 +106,7 @@ class Farm1(Model):
         self.observation_space = spaces.Box(low=low, high=high)
         self.action_space = spaces.Discrete(9)
 
+        
         # monitoring writer
         self.identifier = self.name + str(self.seeder.rng.integers(100000))
         params = {}
