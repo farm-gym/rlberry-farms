@@ -43,7 +43,7 @@ if __name__ == "__main__":
         ),
         fit_budget=5e4,
         eval_kwargs=dict(eval_horizon=365),
-        n_fit=1,
+        n_fit=2,
         parallelization="process",
         mp_context="spawn",
         output_dir="ppo0_results",

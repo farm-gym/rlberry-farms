@@ -144,6 +144,7 @@ def env():
             "range_auto",
         )
     )
+    
     var.append(
         (
             "Field-0",
@@ -169,19 +170,9 @@ def env():
         (
             "Field-0",
             "Soil-0",
-            "microlife_health_index#%",
-            lambda x: x[(0, 0)].value,
-            "Microlife Soil",
-            "range_auto",
-        )
-    )
-    var.append(
-        (
-            "Field-0",
-            "Soil-0",
             "amount_cide#g",
             lambda x: x["soil"][0, 0].value,
-            "Amount cide (g)",
+            "Herbicide + pesticide in soil",
             "range_auto",
         )
     )
