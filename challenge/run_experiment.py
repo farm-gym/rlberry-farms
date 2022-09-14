@@ -64,7 +64,7 @@ def experiment_generator(
         fit_budget=budget,
         output_dir=output_dir,
         parallelization="process",
-        mp_context="forkserver",
+        mp_context="spawn",
         eval_kwargs=dict(eval_horizon=365),
         **kwargsii
     )

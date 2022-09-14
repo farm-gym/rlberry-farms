@@ -28,9 +28,10 @@ formatter = logging.Formatter("")
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
-with Connection():
-    logger.info("Launching queue server")
-    qs = ["default"]
-    
-    w = Worker(qs)
-    w.work()
+if __name__ == "__main__":
+    with Connection():
+        logger.info("Launching queue server")
+        qs = ["default"]
+
+        w = Worker(qs)
+        w.work()
