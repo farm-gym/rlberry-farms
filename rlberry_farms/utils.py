@@ -23,10 +23,8 @@ def update_farm_writer(writer, monitor_variables, farm, iteration):
     for i in range(len(monitor_variables)):
         v = monitor_variables[i]
         fi_key, entity_key, var_key, map_v, name_to_display, v_range = v
-        day = farm.fields[fi_key].entities["Weather-0"].variables["day#int365"].value
         value = map_v(farm.fields[fi_key].entities[entity_key].variables[var_key])
         writer.add_scalar(name_to_display, np.round(value, 3), iteration)
-    writer.add_scalar("day#int365", day, iteration)
 
 
 def observation_hide_final_state_of_plants(obs, id_of_plants_stage):
@@ -76,3 +74,9 @@ def get_desc_from_value(id_to_desc, item_name_to_desc):
     elif item_name_to_desc == "plant_stage":
         desc = plant_stage[id_to_desc]
     return desc
+
+
+def display_evaluation_result(evaluation):
+    print("evaluation_mean : " + str(np.mean(evaluation)))
+    print("evaluation_median : " + str(np.median(evaluation)))
+    print("evaluation_std : " + str(np.std(evaluation)))
