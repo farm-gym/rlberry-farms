@@ -31,7 +31,7 @@ def get_farm(farm):
 
 def experiment_generator(
     agent_file=None,
-    n_fit=4,
+    n_fit=15,
     budget=100,
     farm=None,
     max_workers=-1,
@@ -63,6 +63,7 @@ def experiment_generator(
         farm,
         fit_budget=budget,
         output_dir=output_dir,
+        n_fit = n_fit,
         parallelization="process",
         mp_context="spawn",
         eval_kwargs=dict(eval_horizon=365),
@@ -73,7 +74,7 @@ def experiment_generator(
 def run_experiment(
     agent_file,
     budget=100,
-    n_fit=4,
+    n_fit=15,
     max_workers=-1,
     parallelization="process",
     enable_tensorboard=False,
@@ -88,7 +89,6 @@ def run_experiment(
         budget=budget,
         farm=get_farm(farm),
         n_fit=n_fit,
-        max_workers=-1,
         parallelization="process",
         enable_tensorboard=enable_tensorboard,
         output_dir=output_dir,
