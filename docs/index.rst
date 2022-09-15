@@ -31,4 +31,12 @@ To confirm the installation, you can run
 Documentation Contents
 ======================
 
-In construction
+We provide two small guides: how to make an expert agent and how to use ppo in :class:`rlberry_farms.Farm1`.
+
+.. toctree::
+   :maxdepth: 2
+
+   tuto/Tuto_AgentExpert.rst
+   tuto/tuto_ppo.rst
+
+See also the :ref:`the examples<examples>` and the :ref:`API<api>` sections.
