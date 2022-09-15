@@ -74,4 +74,3 @@ def get_desc_from_value(id_to_desc, item_name_to_desc):
     elif item_name_to_desc == "plant_stage":
         desc = plant_stage[id_to_desc]
     return desc
-
