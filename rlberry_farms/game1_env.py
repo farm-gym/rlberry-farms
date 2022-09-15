@@ -11,7 +11,6 @@ from rlberry_farms.utils import (
     observation_hide_final_state_of_plants,
 )
 
-
 class Farm1(Model):
     """
     Farm1 is a difficult 1x1 farm with only one possible plant : beans, planted in a clay ground.
@@ -88,7 +87,7 @@ class Farm1(Model):
         "microlife health index (%)",
     ]
 
-    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
+    def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
