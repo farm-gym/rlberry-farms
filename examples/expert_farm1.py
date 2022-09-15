@@ -7,7 +7,6 @@ from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms import Farm1
 import numpy as np
-from rlberry_farms.utils import display_evaluation_result
 
 env_ctor, env_kwargs = Farm1, {}
 starting_day_for_policy = 100
@@ -125,9 +124,9 @@ if __name__ == "__main__":
         output_dir="expert_farm1_results",
     )
     manager.fit()
-    evaluation = evaluate_agents([manager], n_simulations=128, plot=False).values
-    np.savetxt("expert_farm1.out", np.array(evaluation), delimiter=",")
-    display_evaluation_result(evaluation)
+    evaluation = evaluate_agents([manager], n_simulations=128, plot=False)
+    np.savetxt("expert_farm1.out", np.array(evaluation.values), delimiter=",")
+    print(evaluation.describe())
     data = plot_writer_data(
         "expert_farm1_results", "episode_rewards", smooth_weight=0.95
     )
