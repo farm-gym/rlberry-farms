@@ -11,6 +11,7 @@ from rlberry_farms.utils import (
     observation_hide_final_state_of_plants,
 )
 
+
 class Farm1(Model):
     """
     Farm1 is a difficult 1x1 farm with only one possible plant : beans, planted in a clay ground.
