@@ -1,0 +1,30 @@
+Bootstrap: docker
+From: pytorch/pytorch
+
+%post
+    apt-get -y update
+    apt-get -y install python python3-pip git vim redis
+    pip3 install -U pip
+    pip3 install notebook tabulate
+    pip3 install rq
+    mkdir /home/challenge_env
+    cd /home/challenge_env
+    git clone https://gitlab.inria.fr/scool/rlberry-farms
+    cd rlberry-farms
+    git checkout challenge
+    pip install -e .
+    cp challenge/farmscool /usr/bin
+    chmod +x /usr/bin/farmscool
+    mkdir /challenge_bin
+    cp -r challenge/* /challenge_bin
+    chmod +xr /challenge_bin/*
+
+%environment
+    export LC_ALL=C
+    export challenge_data_dir=data1
+
+%startscript
+    /challenge_bin/launch_server.sh
+    
+%labels
+    Author anonymous_berries_eater

@@ -10,8 +10,8 @@ import argparse
 from pathlib import Path
 import os
 
-CHALLENGE_DIR = "/home/challenge_env"
-LOGFILE_LOC = "/home/challenge_env/rlberry-farms/challenge/"
+CHALLENGE_DIR = "/challenge_bin"
+DATA_LOC = os.environ.get('challenge_data_dir')
 
 parser = argparse.ArgumentParser()
 
@@ -44,7 +44,7 @@ experiment_kwargs = dict(
     farm=args.farm,
     name=args.name,
 )
-with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:
+with open(os.path.join(DATA_LOC,"logfile.log"), 'w') as f:
     f.write('')
 job = q.enqueue(
     run_experiment, kwargs=experiment_kwargs, job_timeout=3 * 3600

@@ -15,8 +15,11 @@ import datetime
 from dateutil.parser import parse
 from datetime import timedelta
 
+CHALLENGE_DIR = "/challenge_bin"
+DATA_LOC = os.environ.get('challenge_data_dir')
+
 today = str(datetime.datetime.today().date())
-LOG_FILE = "/home/challenge_env/rlberry-farms/challenge/logfile.log"
+LOG_FILE = os.path.join(DATA_LOC,"logfile.log")
 
 def get_eta():
     if os.path.isfile(LOG_FILE):

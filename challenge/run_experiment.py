@@ -18,9 +18,13 @@ import datetime
 
 logger = rlberry.logger
 
-LEADERBOARD = "leaderboard.csv"
-ARCHIVE_DIR = "/media/data1/challenge"
-LOGFILE_LOC = "/home/challenge_env/rlberry-farms/challenge/"
+CHALLENGE_DIR = "/challenge_bin"
+DATA_DIR = os.environ.get('challenge_data_dir')
+
+
+LEADERBOARD = os.path.join(DATA_DIR,"leaderboard.csv")
+ARCHIVE_DIR = DATA_DIR
+LOGFILE_LOC = DATA_DIR
 
 def get_farm(farm):
     if farm == 0:

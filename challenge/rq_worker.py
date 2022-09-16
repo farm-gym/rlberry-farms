@@ -6,8 +6,6 @@ import rlberry
 
 
 
-
-
 if __name__ == "__main__":
 
     logger = logging.getLogger("rq.worker")
