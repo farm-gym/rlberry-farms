@@ -28,6 +28,14 @@ To confirm the installation, you can run
     $ python examples/installation_test.py
 
 
+Pour essayer les environnements manuellement (vous êtes l'agent), vous pouvez utiliser :
+
+.. code:: bash
+
+    $ python examples/interactive_farm0.py
+    $ python examples/interactive_farm1.py
+    
+
 Documentation Contents
 ======================
 
