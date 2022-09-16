@@ -53,7 +53,7 @@ sub_add(){
 
                    ;;
                    *)
-                       python $ChallengeBin/add_xp_to_queue.py $(realpath $1) $2 $(whoami)
+                       python3 $ChallengeBin/add_xp_to_queue.py $(realpath $1) $2 $(whoami)
                        ;;
      esac
 }
@@ -85,7 +85,7 @@ sub_play(){
                                       
                    ;;
                    *)
-                       python $ChallengeBin/interactive_farm$1.py
+                       python3 $ChallengeBin/interactive_farm$1.py
                        ;;
      esac
 }
@@ -152,7 +152,7 @@ sub_leaderboard(){
                                       
                    ;;
                 *)
-                       python $ChallengeBin/print_leaderboard.py $1
+                       python3 $ChallengeBin/print_leaderboard.py $1
                        ;;
      esac
 }
@@ -195,7 +195,7 @@ sub_top(){
                                       
                    ;;
                 *)
-                    python $ChallengeBin/advanced_info.py
+                    python3 $ChallengeBin/advanced_info.py
                     ;;
      esac
 }
