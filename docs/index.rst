@@ -28,7 +28,7 @@ To confirm the installation, you can run
     $ python examples/installation_test.py
 
 
-To try the environments manually (to be the agent), you can use :
+To try the environments manually (you are the agent), you can use :
 
 .. code:: bash
 
