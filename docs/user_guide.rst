@@ -5,4 +5,5 @@
 ==========
 User guide
 ==========
-In construction
+
+We provide two small guides: how to make an expert agent and how to use ppo in :class:`rlberry_farms.Farm1`.

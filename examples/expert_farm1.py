@@ -7,18 +7,19 @@ from rlberry.agents import AgentWithSimplePolicy
 from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms import Farm1
 import numpy as np
-from rlberry_farms.utils import display_evaluation_result
 
 env_ctor, env_kwargs = Farm1, {}
+starting_day_for_policy = 100
 
 
-class Agent(AgentWithSimplePolicy):
+class ExpertAgent(AgentWithSimplePolicy):
     name = "ExpertAgentFarm1"
     fruit_stage_duration_count = 0
     previous_weight = 0
 
-    def __init__(self, env, **kwargs):
+    def __init__(self, env, starting_day_for_policy=0, **kwargs):
         AgentWithSimplePolicy.__init__(self, env, **kwargs)
+        self.starting_day_for_policy = starting_day_for_policy
 
     def fit(self, budget=100, **kwargs):
         observation = self.env.reset()
@@ -57,7 +58,7 @@ class Agent(AgentWithSimplePolicy):
         # observation[8] : Number of fruits (int)
         # observation[9] : Size of the plant in cm
         # observation[10] : Soil wet_surface (m2.day-1)
-        # observation[11) : fertilizer amount (kg)
+        # observation[11] : fertilizer amount (kg)
         # observation[12] : Pollinators occurrence (bin)
         # observation[13] : Weeds grow (nb)
         # observation[14] : Weeds flowers (nb)
@@ -81,37 +82,33 @@ class Agent(AgentWithSimplePolicy):
 
         # print(self.env.farm.get_free_observations())
 
-        if observation[0] < 100:
-            next_action = 0  # nothing
-        elif observation[0] == 100:
+        next_action = 0  # default
+        if observation[0] == starting_day_for_policy:
             next_action = 2  # 5L of water
-        elif observation[0] == 101:
+        elif observation[0] == starting_day_for_policy + 1:
             next_action = 6  # herbicide
-        elif observation[0] == 102:
+        elif observation[0] == starting_day_for_policy + 2:
             next_action = 7  # pesticide
-        elif observation[0] == 103:
+        elif observation[0] == starting_day_for_policy + 3:
             next_action = 5  # Fertilizer
-        elif observation[0] == 104:
+        elif observation[0] == starting_day_for_policy + 4:
             next_action = 4  # sow
-        elif observation[0] == 105:
+        elif observation[0] == starting_day_for_policy + 5:
             next_action = 1  # 1L of water
-        elif observation[0] > 105:
+        elif observation[0] > starting_day_for_policy + 5:
             if observation[7] in [6, 7, 8, 9]:
-                if (
-                    self.previous_weight == observation[15]
-                    and self.fruit_stage_duration_count > 4
-                ):
+                if self.fruit_stage_duration_count > 4:
                     next_action = 3  # harvesting
-                    self.previous_weight = 0
                     self.fruit_stage_duration_count = 0
                 else:
-                    next_action = 0  # do nothing
-                    self.previous_weight = observation[15]
                     self.fruit_stage_duration_count += 1
-            else:
-                next_action = 0  # do nothing
 
         return next_action
+
+
+class Agent(ExpertAgent):
+    def __init__(self, env, **kwargs):
+        ExpertAgent.__init__(self, env, starting_day_for_policy, **kwargs)
 
 
 if __name__ == "__main__":
@@ -119,7 +116,7 @@ if __name__ == "__main__":
         Agent,
         (env_ctor, env_kwargs),
         agent_name="ExpertAgentFarm1",
-        fit_budget=1e4,
+        fit_budget=1,
         eval_kwargs=dict(eval_horizon=365),
         n_fit=4,
         parallelization="process",
@@ -127,9 +124,35 @@ if __name__ == "__main__":
         output_dir="expert_farm1_results",
     )
     manager.fit()
-    evaluation = evaluate_agents([manager], n_simulations=128, plot=False).values
-    np.savetxt("expert_farm1.out", np.array(evaluation), delimiter=",")
-    display_evaluation_result(evaluation)
+    evaluation = evaluate_agents([manager], n_simulations=128, plot=False)
+    np.savetxt("expert_farm1.out", np.array(evaluation.values), delimiter=",")
+    print(evaluation.describe())
     data = plot_writer_data(
         "expert_farm1_results", "episode_rewards", smooth_weight=0.95
     )
+
+
+#  SEARCHING FIRST DAY
+#
+# result={}
+#
+# if __name__ == "__main__":
+#
+#     for i in range(120, 160, 2):
+#         starting_day_for_policy = i
+#         manager = AgentManager(
+#             Agent,
+#             (env_ctor, env_kwargs),
+#             agent_name="ExpertAgentFarm1",
+#             fit_budget=1,
+#             eval_kwargs=dict(eval_horizon=365),
+#             n_fit=4,
+#             parallelization="process",
+#             mp_context="spawn",
+#             output_dir="expert_farm1_results",
+#         )
+#         manager.fit()
+#         evaluation = evaluate_agents([manager], n_simulations=32, plot=False).values
+#         result[starting_day_for_policy] = [np.mean(evaluation),np.median(evaluation),np.std(evaluation)]
+#
+#     print(result)

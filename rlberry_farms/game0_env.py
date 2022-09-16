@@ -74,7 +74,7 @@ class Farm0(Model):
         "weight of fruits",
     ]
 
-    def __init__(self, monitor=True, enable_tensorboard=False, output_dir="results"):
+    def __init__(self, monitor=False, enable_tensorboard=False, output_dir="results"):
         # init base classes
         Model.__init__(self)
 
