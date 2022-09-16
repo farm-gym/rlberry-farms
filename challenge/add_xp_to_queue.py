@@ -7,12 +7,11 @@ from rlberry.manager.multiple_managers import MultipleManagers
 from sys import argv
 from run_experiment import run_experiment
 import argparse
-from rlberry.utils.logging import configure_logging
 from pathlib import Path
 import os
 
 CHALLENGE_DIR = "/home/challenge_env"
-
+LOGFILE_LOC = "/home/challenge_env/rlberry-farms/challenge/"
 
 parser = argparse.ArgumentParser()
 
@@ -32,7 +31,6 @@ parser.add_argument(
 parser.add_argument("--enable-tensorboard", action="store_true")
 args = parser.parse_args()
 
-
 redis_conn = Redis()
 q = Queue("default", connection=redis_conn)
 
@@ -46,7 +44,8 @@ experiment_kwargs = dict(
     farm=args.farm,
     name=args.name,
 )
-
+with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:
+    f.write('')
 job = q.enqueue(
     run_experiment, kwargs=experiment_kwargs, job_timeout=3 * 3600
 )  # limit job to 3h

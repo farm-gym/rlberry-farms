@@ -14,11 +14,13 @@ from rlberry_farms import Farm0, Farm1
 import numpy as np
 import time
 
+import datetime
+
 logger = rlberry.logger
 
 LEADERBOARD = "leaderboard.csv"
 ARCHIVE_DIR = "/media/data1/challenge"
-
+LOGFILE_LOC = "/home/challenge_env/rlberry-farms/challenge/"
 
 def get_farm(farm):
     if farm == 0:
@@ -26,8 +28,7 @@ def get_farm(farm):
     elif farm == 1:
         return Farm1, {}
     else:
-        raise RuntimeError("No such farm")
-
+        raise RuntimeError("No such farm")    
 
 def experiment_generator(
     agent_file=None,
@@ -67,6 +68,7 @@ def experiment_generator(
         parallelization="process",
         mp_context="spawn",
         eval_kwargs=dict(eval_horizon=365),
+        default_writer_kwargs={"style_log":"one_line"},
         **kwargsii
     )
 
@@ -136,5 +138,15 @@ def run_experiment(
     df = pd.concat([df, new_score], ignore_index=True)
     df.to_csv(archive_scores)
 
+    # copy logs
+
+    now = datetime.datetime.now()
+
+    date_now = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    subprocess.run(["cp", os.path.join(LOGFILE_LOC,"logfile.log"), os.path.join(output_dir, date_now+"_logfile.log")])
+    with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:
+        f.write('')
+    
     # Deleting the manager.
     del agent_manager
