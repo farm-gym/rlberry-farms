@@ -3,7 +3,7 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
 
 %post
     apt-get -y update
-    apt-get -y install python3 python3-pip git vim redis  ffmpeg libsm6 libxext6 
+    apt-get -y install python3 python3-pip git vim redis  ffmpeg libsm6 libxext6 sudo
     pip3 install -U pip
     pip3 install notebook tabulate toml seaborn docopt dill
     pip3 install rq
@@ -18,6 +18,7 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
     mkdir /challenge_bin
     cp -r challenge/* /challenge_bin
     cp -r examples/* /challenge_bin
+    chown -R challenger:users /challenge_bin
     chmod +xr /challenge_bin/*
 
 %environment
@@ -31,7 +32,6 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
 
 %runscript
     farmscool "$@"
-
     
 %labels
     Author anonymous_berries_eater
