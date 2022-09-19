@@ -5,7 +5,7 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
     apt-get -y update
     apt-get -y install python3 python3-pip git vim redis  ffmpeg libsm6 libxext6 
     pip3 install -U pip
-    pip3 install notebook tabulate toml seaborn docopt
+    pip3 install notebook tabulate toml seaborn docopt dill
     pip3 install rq
     mkdir /home/challenge_env
     cd /home/challenge_env
@@ -13,7 +13,7 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
     cd rlberry-farms
     git checkout singularity_challenge
     pip install -e .
-    cp challenge/farmscool /usr/bin
+    cp challenge/farmscool_internal /usr/bin/farmscool
     chmod +x /usr/bin/farmscool
     mkdir /challenge_bin
     cp -r challenge/* /challenge_bin
@@ -38,5 +38,5 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
 
 %help
     sudo singularity build challenge.sif challenge.def        
-    singularity  instance start --bind /data:/mnt --nv challenge.sif challenge
+    singularity instance start --bind /data:/mnt --nv challenge.sif challenge
     singularity run instance://challenge play 1

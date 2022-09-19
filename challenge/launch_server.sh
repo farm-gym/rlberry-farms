@@ -1,6 +1,5 @@
 #!/bin/bash
-source /home/challenge_env/virtualenv/bin/activate
 
-systemctl start redis.service
-python3 rq_worker.py
-systemctl  stop redis.service
+sudo su challenger 
+singularity instance start --bind data:/mnt challenge.sif challenge
+
