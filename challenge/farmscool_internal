@@ -50,7 +50,7 @@ sub_add(){
 
                    ;;
                    *)
-                       python3 $ChallengeBin/add_xp_to_queue.py $(realpath $1) $2 $(whoami)
+                       python3 $ChallengeBin/add_xp_to_queue.py $(realpath $1) $2 $3
                        ;;
      esac
 }

@@ -13,12 +13,12 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
     cd rlberry-farms
     git checkout singularity_challenge
     pip install -e .
+    pip install gym==0.21.0
     cp challenge/farmscool_internal /usr/bin/farmscool
     chmod +x /usr/bin/farmscool
     mkdir /challenge_bin
     cp -r challenge/* /challenge_bin
     cp -r examples/* /challenge_bin
-    chown -R challenger:users /challenge_bin
     chmod +xr /challenge_bin/*
 
 %environment
