@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# script used in singularity container
+
 ProgName=$(basename $0)
 
 

@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Interface with the challenger farmscool cli.
+# Application on which we give sudo rights. Used to interact with singularity.
 
 ProgName=$(basename $0)
-FS_CHALLENGER=./farmscool_challenger
-login=$(whoami)
 
 sub_help(){
     echo "Usage: $ProgName <subcommand> [options]"
@@ -50,14 +48,25 @@ sub_add(){
 
                    ;;
                    *)
-                       mkdir -p /tmp/farm_tmp
-                       cp $(realpath $2) /tmp/farm_tmp/latest_script.py
-                       chmod +r /tmp/farm_tmp/latest_script.py
-                       sudo $FS_CHALLENGER add $3 $login
+                       runuser -u challenger -- singularity run instance://challenge  add /tmp/farm_tmp/latest_script.py $2 $3
                        ;;
      esac
 }
 
+
+sub_activate(){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName activate"
+                   echo ""
+                   echo "    Activate the virtual environment used in the challenge."
+                   echo ""
+                                      
+                   ;;
+                   *)
+                       runuser -u challenger -- singularity shell instance://challenge
+                       ;;
+     esac
+}
 
   
 subcommand=$1
@@ -68,13 +77,22 @@ case $subcommand in
     add)
         sub_add $@
         ;;
+    activate)
+        sub_activate
+        ;;
     *)
         shift
-        sudo $FS_CHALLENGER $subcommand $@
+         runuser -u challenger -- singularity run --pid instance://challenge ${subcommand} $@
         ;;
 esac
 
 
+function cleanup()
+{
+    echo "Doing cleanup"
+    sudo su challenger -c "kill -9 $!"
+}
 
+trap cleanup SIGINT
 
 

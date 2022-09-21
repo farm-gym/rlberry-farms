@@ -1,5 +1,3 @@
 #!/bin/bash
 
-sudo su challenger 
-singularity instance start --bind data:/mnt challenge.sif challenge
-
+sudo su challenger -c "singularity instance start  --bind /home/challenger/data:/mnt /home/challenger/challenge.sif challenge"
