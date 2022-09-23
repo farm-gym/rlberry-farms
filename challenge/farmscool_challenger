@@ -48,7 +48,7 @@ sub_add(){
 
                    ;;
                    *)
-                       runuser -u challenger -- singularity run instance://challenge  add /tmp/farm_tmp/latest_script.py $2 $3
+                       singularity run instance://challenge  add /tmp/farm_tmp/latest_script.py $2 $3
                        ;;
      esac
 }
@@ -63,7 +63,7 @@ sub_activate(){
                                       
                    ;;
                    *)
-                       runuser -u challenger -- singularity shell instance://challenge
+                       singularity shell instance://challenge
                        ;;
      esac
 }
@@ -82,17 +82,9 @@ case $subcommand in
         ;;
     *)
         shift
-         runuser -u challenger -- singularity run --pid instance://challenge ${subcommand} $@
+         singularity run --pid instance://challenge ${subcommand} $@
         ;;
 esac
 
-
-function cleanup()
-{
-    echo "Doing cleanup"
-    sudo su challenger -c "kill -9 $!"
-}
-
-trap cleanup SIGINT
 
 

@@ -16,7 +16,7 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
     pip install gym==0.21.0
     cp challenge/farmscool_internal /usr/bin/farmscool
     chmod +x /usr/bin/farmscool
-    cp -r challenge /challenge_bin
+    cp -Ra challenge /challenge_bin
     cp -r examples/* /challenge_bin
     chmod +xr /challenge_bin/*
 
@@ -35,7 +35,3 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
 %labels
     Author anonymous_berries_eater
 
-%help
-    sudo singularity build challenge.sif challenge.def        
-    singularity instance start --bind /data:/mnt --nv challenge.sif challenge
-    singularity run instance://challenge play 1
