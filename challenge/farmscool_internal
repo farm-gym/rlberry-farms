@@ -7,7 +7,7 @@ ProgName=$(basename $0)
 
 ChallengeData=$challenge_data_dir
 ChallengeBin=/challenge_bin
-  
+
 sub_help(){
     echo "Usage: $ProgName <subcommand> [options]"
     echo ""
@@ -19,15 +19,15 @@ sub_help(){
     echo "    suspend           Suspend queue"
     echo "    resume            Resume queue"
     echo "    play              Play manually."
-    echo "    top               Display all jobs and kill them if necessary."    
+    echo "    top               Display all jobs and kill them if necessary."
     echo "    "
     echo ""
     echo "For help with each subcommand run:"
     echo "$ProgName <subcommand> -h|--help"
     echo ""
-    
+
 }
-  
+
 sub_add(){
     case $1 in  "" | "-h" | "--help")
                    echo "Usage: $ProgName add <python_file.py> <n_fit>"
@@ -52,7 +52,7 @@ sub_add(){
 
                    ;;
                    *)
-                       python3 $ChallengeBin/add_xp_to_queue.py $(realpath $1) $2 $3
+                       python3 $ChallengeBin/add_xp_to_queue.py $1 $2 $3
                        ;;
      esac
 }
@@ -65,7 +65,7 @@ sub_info(){
                    echo ""
                    echo "    Print info on the current queue of processes in the challenge."
                    echo ""
-                                      
+
                    ;;
                    *)
                        rq info
@@ -81,7 +81,7 @@ sub_play(){
                    echo ""
                    echo "    Play to farm number <farm_num>."
                    echo ""
-                                      
+
                    ;;
                    *)
                        python3 $ChallengeBin/interactive_farm$1.py
@@ -99,7 +99,7 @@ sub_dashboard (){
                    echo "    $ ssh -L 9181:127.0.0.1:9181 yourlogin@flanders.lille.inria.fr."
                    echo "    where 9181 is the appropriate port and yourlogin is your inria login"
                    echo ""
-                                      
+
                    ;;
                    *)
                        rq-dashboard
@@ -113,7 +113,7 @@ sub_log (){
                    echo ""
                    echo "    Print logs"
                    echo ""
-                                      
+
                    ;;
                    *)
                        tail -f $ChallengeData/logfile.log
@@ -127,7 +127,7 @@ sub_log (){
 #                    echo ""
 #                    echo "    Activate the virtual environment used in the challenge. Be careful to not break it!"
 #                    echo ""
-                                      
+
 #                    ;;
 #                    *)
 #                        /bin/bash -c ". /home/challenge_env/virtualenv/bin/activate; exec /bin/bash --rcfile /home/challenge_env/.bashrc -i"
@@ -148,7 +148,7 @@ sub_leaderboard(){
                    echo "      -a       print all scores "
                    echo "      -m       print all my scores "
                    echo ""
-                                      
+
                    ;;
                 *)
                        python3 $ChallengeBin/print_leaderboard.py $1
@@ -163,7 +163,7 @@ sub_suspend(){
                    echo ""
                    echo "    Suspend the current queue of processes in the challenge."
                    echo ""
-                                      
+
                    ;;
                 *)
                     rq suspend
@@ -177,7 +177,7 @@ sub_resume(){
                    echo ""
                    echo "   Resume the current queue of processes in the challenge."
                    echo ""
-                                      
+
                    ;;
                 *)
                     rq resume
@@ -191,7 +191,7 @@ sub_top(){
                    echo ""
                    echo "   Get advanced information on the queue. Can be used to kill jobs."
                    echo ""
-                                      
+
                    ;;
                 *)
                     python3 $ChallengeBin/advanced_info.py
@@ -205,7 +205,7 @@ sub_egg(){
 }
 
 
-  
+
 subcommand=$1
 case $subcommand in
     "" | "-h" | "--help")
@@ -216,6 +216,3 @@ case $subcommand in
         sub_${subcommand} $@
         ;;
 esac
-
-
-
