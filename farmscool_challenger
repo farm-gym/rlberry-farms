@@ -54,8 +54,7 @@ sub_add(){
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
-                       cp  $(realpath $1) $DataDir/scripts
-                       sudo -u challenger python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $(basename $1) $2 $(whoami)
+                       python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $(basename $1) $2 $(whoami)
                        ;;
      esac
 }
@@ -211,7 +210,7 @@ sub_top(){
 
 
 sub_egg(){
-   sudo -u challenger cat $ChallengeHome/rlberry-farms/challenge/.egg.txt
+   cat $ChallengeHome/rlberry-farms/challenge/.egg.txt
 }
 
 
