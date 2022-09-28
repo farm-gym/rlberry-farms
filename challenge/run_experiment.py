@@ -66,7 +66,7 @@ def experiment_generator(
         fit_budget=budget,
         output_dir=output_dir,
         n_fit = n_fit,
-        init_kwargs={"compress_pickle":True}
+        init_kwargs={"compress_pickle":True},
         parallelization="process",
         mp_context="spawn",
         eval_kwargs=dict(eval_horizon=365),
