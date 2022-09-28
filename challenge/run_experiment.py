@@ -44,10 +44,9 @@ def experiment_generator(
     parallelization="process",
     enable_tensorboard=False,
 ):
-
+    sys.path.append(DATA_DIR)
     try:
-        os.chdir(os.path.join(DATA_DIR, "scripts"))
-        ContenderAgent = getattr(importlib.import_module(agent_file.split('.py')[0]), "Agent")
+        from latest_script import Agent as ContenderAgent
     except:
         raise RuntimeError("Import of Agent failed")
     if max_workers == -1:
