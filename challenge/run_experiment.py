@@ -50,6 +50,8 @@ def experiment_generator(
     try:
         spec = importlib.util.spec_from_file_location("Agent", agent_file)
         ContenderAgent = importlib.util.module_from_spec(spec)
+        sys.modules["Agent"] = ContenderAgent
+        spec.loader.exec_module(ContenderAgent)
     except:
         raise RuntimeError("Import of Agent failed")
     if max_workers == -1:
