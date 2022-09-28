@@ -3,7 +3,7 @@
 # Interface with the challenger farmscool cli.
 
 ProgName=$(basename $0)
-FS_CHALLENGER=/usr/bin/farmscool_challenger
+FS_CHALLENGER=farmscool_challenger
 login=$(whoami)
 
 sub_help(){
@@ -17,15 +17,15 @@ sub_help(){
     echo "    suspend           Suspend queue"
     echo "    resume            Resume queue"
     echo "    play              Play manually."
-    echo "    top               Display all jobs and kill them if necessary."    
+    echo "    top               Display all jobs and kill them if necessary."
     echo "    "
     echo ""
     echo "For help with each subcommand run:"
     echo "$ProgName <subcommand> -h|--help"
     echo ""
-    
+
 }
-  
+
 sub_add(){
     case $1 in  "" | "-h" | "--help")
                    echo "Usage: $ProgName add <python_file.py> <n_fit>"
@@ -53,13 +53,14 @@ sub_add(){
                        mkdir -p /tmp/farm_tmp
                        cp $(realpath $2) /tmp/farm_tmp/latest_script.py
                        chmod +r /tmp/farm_tmp/latest_script.py
+                       cd /tmp
                        sudo -u challenger "$FS_CHALLENGER add $3 $login"
                        ;;
      esac
 }
 
 
-  
+
 subcommand=$1
 case $subcommand in
     "" | "-h" | "--help")
@@ -73,8 +74,3 @@ case $subcommand in
         sudo -u challenger $FS_CHALLENGER $subcommand $@
         ;;
 esac
-
-
-
-
-

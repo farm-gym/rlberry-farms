@@ -32,7 +32,7 @@ def get_farm(farm):
     elif farm == 1:
         return Farm1, {}
     else:
-        raise RuntimeError("No such farm")    
+        raise RuntimeError("No such farm")
 
 def experiment_generator(
     agent_file=None,
@@ -44,10 +44,9 @@ def experiment_generator(
     parallelization="process",
     enable_tensorboard=False,
 ):
-    if not os.path.isdir("/tmp/farm_tmp"):
-        os.mkdir("/tmp/farm_tmp")
-    subprocess.run(["cp", agent_file, "/tmp/farm_tmp/latest_script.py"])
-    sys.path.append("/tmp/farm_tmp")
+
+    subprocess.run(["cp", agent_file, os.path.join($DATA_DIR,"latest_script.py")])
+    sys.path.append($DATA_DIR)
     try:
         from latest_script import Agent as ContenderAgent
     except:
@@ -127,9 +126,9 @@ def run_experiment(
     for name in df['name'].unique():
         dfname = df.loc[df['name']==name]
         df2 =df2.append(dfname.iloc[np.argmax(dfname['evaluation_mean'])], ignore_index=True)
-    
+
     df = df2.reset_index()
-    
+
     df = df2.sort_values(by=["evaluation_mean"], ascending=False)
     df.to_csv(LEADERBOARD)
 
@@ -151,6 +150,6 @@ def run_experiment(
     subprocess.run(["cp", os.path.join(LOGFILE_LOC,"logfile.log"), os.path.join(output_dir, date_now+"_logfile.log")])
     with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:
         f.write('')
-    
+
     # Deleting the manager.
     del agent_manager
