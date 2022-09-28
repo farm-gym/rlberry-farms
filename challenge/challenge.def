@@ -22,7 +22,7 @@ From: nvidia/cuda:11.7.1-base-ubuntu22.04
 
 %environment
     export LC_ALL=C
-    export challenge_data_dir=/mnt/
+    export challenge_data_dir=/mnt/data/challenge
 
 %startscript
     exec redis-server &

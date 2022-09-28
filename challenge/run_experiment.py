@@ -22,7 +22,6 @@ logger = rlberry.logger
 CHALLENGE_DIR = "/challenge_bin"
 DATA_DIR = os.environ.get('challenge_data_dir')
 
-
 LEADERBOARD = os.path.join(DATA_DIR,"leaderboard.csv")
 ARCHIVE_DIR = DATA_DIR
 LOGFILE_LOC = DATA_DIR
@@ -47,7 +46,8 @@ def experiment_generator(
 ):
 
     try:
-        spec = importlib.util.spec_from_file_location("Agent", os.path.join(DATA_DIR, agent_file))
+        spec = importlib.util.spec_from_file_location("Agent", os.path.join(os.path.join(DATA_DIR, "scripts"), agent_file))
+        os.chdir(os.path.join(DATA_DIR, "scripts"))
         ContenderAgent = importlib.util.module_from_spec(spec)
         sys.modules["Agent"] = ContenderAgent
         spec.loader.exec_module(ContenderAgent)
