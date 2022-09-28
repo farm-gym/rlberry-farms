@@ -46,9 +46,8 @@ def experiment_generator(
     enable_tensorboard=False,
 ):
 
-    sys.path.append(os.path.join(DATA_DIR, 'scripts'))
     try:
-        spec = importlib.util.spec_from_file_location("Agent", agent_file)
+        spec = importlib.util.spec_from_file_location("Agent", os.path.join(DATA_DIR, agent_file))
         ContenderAgent = importlib.util.module_from_spec(spec)
         sys.modules["Agent"] = ContenderAgent
         spec.loader.exec_module(ContenderAgent)
