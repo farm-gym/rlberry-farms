@@ -54,7 +54,7 @@ sub_add(){
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
-                       python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $1 $2
+                       python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $DataDir/latest_script.py $1 $2
                        ;;
      esac
 }
