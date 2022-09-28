@@ -3,6 +3,7 @@
 # Application on which we give sudo rights. Used to interact with singularity.
 
 ProgName=$(basename $0)
+DATA_DIR=/mnt/data/challenge
 
 sub_help(){
     echo "Usage: $ProgName <subcommand> [options]"
@@ -15,15 +16,15 @@ sub_help(){
     echo "    suspend           Suspend queue"
     echo "    resume            Resume queue"
     echo "    play              Play manually."
-    echo "    top               Display all jobs and kill them if necessary."    
+    echo "    top               Display all jobs and kill them if necessary."
     echo "    "
     echo ""
     echo "For help with each subcommand run:"
     echo "$ProgName <subcommand> -h|--help"
     echo ""
-    
+
 }
-  
+
 sub_add(){
     case $1 in  "" | "-h" | "--help")
                    echo "Usage: $ProgName add <python_file.py> <n_fit>"
@@ -48,7 +49,7 @@ sub_add(){
 
                    ;;
                    *)
-                       singularity run instance://challenge  add /tmp/farm_tmp/latest_script.py $2 $3
+                       singularity run instance://challenge  add $DATA_DIR/latest_script.py $2 $3
                        ;;
      esac
 }
@@ -60,7 +61,7 @@ sub_activate(){
                    echo ""
                    echo "    Activate the virtual environment used in the challenge."
                    echo ""
-                                      
+
                    ;;
                    *)
                        singularity shell instance://challenge
@@ -68,7 +69,7 @@ sub_activate(){
      esac
 }
 
-  
+
 subcommand=$1
 case $subcommand in
     "" | "-h" | "--help")
@@ -85,6 +86,3 @@ case $subcommand in
          singularity run --pid instance://challenge ${subcommand} $@
         ;;
 esac
-
-
-

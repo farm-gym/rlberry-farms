@@ -4,6 +4,7 @@
 
 ProgName=$(basename $0)
 FS_CHALLENGER=farmscool_challenger
+DATA_DIR=/mnt/data/challenge
 login=$(whoami)
 
 sub_help(){
@@ -50,10 +51,9 @@ sub_add(){
 
                    ;;
                    *)
-                       mkdir -p /tmp/farm_tmp
-                       cp $(realpath $2) /tmp/farm_tmp/latest_script.py
-                       chmod +r /tmp/farm_tmp/latest_script.py
-                       cd /tmp
+                       cp $(realpath $2) $DATA_DIR/latest_script.py
+                       chmod +r $DATA_DIR/latest_script.py
+                       cd $DATA_DIR
                        sudo -u challenger "$FS_CHALLENGER add $3 $login"
                        ;;
      esac
