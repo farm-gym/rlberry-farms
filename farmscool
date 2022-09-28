@@ -70,6 +70,7 @@ case $subcommand in
         sub_help
         ;;
     add)
+        shift
         sub_add $@
         ;;
     *)
