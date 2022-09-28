@@ -4,8 +4,11 @@
 
 ProgName=$(basename $0)
 FS_CHALLENGER=farmscool_challenger
-DATA_DIR=/mnt/data/challenge
+#DATA_DIR=/mnt/data/challenge
+DATA_DIR=/home/challenger
 login=$(whoami)
+timestamp=$(date +%s)
+
 
 sub_help(){
     echo "Usage: $ProgName <subcommand> [options]"
@@ -51,10 +54,10 @@ sub_add(){
 
                    ;;
                    *)
-                       cp $(realpath $2) $DATA_DIR/latest_script.py
-                       chmod +r $DATA_DIR/latest_script.py
+                       cp $(realpath $2) $DATA_DIR/scripts/script_$login_$timestamp.py
+                       chmod +r $DATA_DIR/scripts/script_$login_$timestamp.py
                        cd $DATA_DIR
-                       sudo -u challenger "$FS_CHALLENGER add $3 $login"
+                       sudo -u challenger $FS_CHALLENGER add script_$login_$timestamp.py $3 $login
                        ;;
      esac
 }

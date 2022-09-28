@@ -45,10 +45,9 @@ def experiment_generator(
     enable_tensorboard=False,
 ):
 
-    subprocess.run(["cp", agent_file, os.path.join(DATA_DIR,"latest_script.py")])
-    sys.path.append($DATA_DIR)
+    sys.path.append(os.path.join(DATA_DIR, 'scripts'))
     try:
-        from latest_script import Agent as ContenderAgent
+        from agent_file import Agent as ContenderAgent
     except:
         raise RuntimeError("Import of Agent failed")
     if max_workers == -1:

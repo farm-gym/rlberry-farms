@@ -49,7 +49,7 @@ sub_add(){
 
                    ;;
                    *)
-                       singularity run instance://challenge  add $DATA_DIR/latest_script.py $2 $3
+                       singularity run instance://challenge  add $2 $3 $4
                        ;;
      esac
 }
