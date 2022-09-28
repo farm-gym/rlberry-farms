@@ -47,7 +47,7 @@ def experiment_generator(
 
     try:
         os.chdir(os.path.join(DATA_DIR, "scripts"))
-        ContenderAgent = getattr(importlib.import_module(agent_file), "Agent")
+        ContenderAgent = getattr(importlib.import_module(agent_file.split('.py')[0]), "Agent")
     except:
         raise RuntimeError("Import of Agent failed")
     if max_workers == -1:
