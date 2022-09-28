@@ -4,8 +4,7 @@
 
 ProgName=$(basename $0)
 FS_CHALLENGER=farmscool_challenger
-#DATA_DIR=/mnt/data/challenge
-DATA_DIR=/home/challenger
+DATA_DIR=/mnt/data/challenge
 login=$(whoami)
 timestamp=$(date +%s)
 
