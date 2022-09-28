@@ -56,7 +56,7 @@ sub_add(){
                    *)
                        cp $(realpath $2) $DATA_DIR/scripts/script_$login_$timestamp.py
                        chmod +r $DATA_DIR/scripts/script_$login_$timestamp.py
-                       cd $DATA_DIR
+                       cd $DATA_DIR/scripts
                        sudo -u challenger $FS_CHALLENGER add script_$login_$timestamp.py $3 $login
                        ;;
      esac
