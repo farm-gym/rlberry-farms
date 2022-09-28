@@ -54,10 +54,10 @@ sub_add(){
 
                    ;;
                    *)
-                       cp $(realpath $2) $DATA_DIR/scripts/script_$login_$timestamp.py
-                       cp $(realpath $2) $DATA_DIR/latest_script.py
+                       cp $(realpath $1) $DATA_DIR/scripts/script_$login_$timestamp.py
+                       cp $(realpath $1) $DATA_DIR/latest_script.py
 
-                       sudo -u challenger $FS_CHALLENGER add $3 $login
+                       sudo -u challenger $FS_CHALLENGER add $2 $login
                        ;;
      esac
 }
