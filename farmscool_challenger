@@ -135,7 +135,7 @@ sub_activate(){
 
                    ;;
                    *)
-                       /bin/bash -c ". /home/challenge_env/virtualenv/bin/activate; exec /bin/bash --rcfile /home/challenge_env/.bashrc -i"
+                       /bin/bash -c ". /home/challenger/virtualenv/bin/activate; exec /bin/bash --rcfile /home/challenger/.bashrc -i"
                        ;;
      esac
 }
@@ -221,6 +221,7 @@ case $subcommand in
         ;;
     *)
         shift
+        cd /mnt/data/challenge
         sub_$subcommand $@
         ;;
 
