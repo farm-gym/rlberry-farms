@@ -5,8 +5,9 @@
 
 ProgName=$(basename $0)
 
-ChallengeHome=/home/challenge_env
-  
+ChallengeHome=/home/challenger
+DataDir=/mnt/data/challenge
+
 sub_help(){
     echo "Usage: $ProgName <subcommand> [options]"
     echo ""
@@ -19,15 +20,15 @@ sub_help(){
     echo "    resume            Resume queue"
     echo "    activate          Activate environment (for pip install)"
     echo "    play              Play manually."
-    echo "    top               Display all jobs and kill them if necessary."    
+    echo "    top               Display all jobs and kill them if necessary."
     echo "    "
     echo ""
     echo "For help with each subcommand run:"
     echo "$ProgName <subcommand> -h|--help"
     echo ""
-    
+
 }
-  
+
 sub_add(){
     case $1 in  "" | "-h" | "--help")
                    echo "Usage: $ProgName add <python_file.py> <n_fit>"
@@ -53,7 +54,8 @@ sub_add(){
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
-                       python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $(realpath $1) $2 $(whoami)
+                       cp  $(realpath $1) $DataDir/scripts
+                       sudo -u challenger python $ChallengeHome/rlberry-farms/challenge/add_xp_to_queue.py $(basename $1) $2 $(whoami)
                        ;;
      esac
 }
@@ -66,7 +68,7 @@ sub_info(){
                    echo ""
                    echo "    Print info on the current queue of processes in the challenge."
                    echo ""
-                                      
+
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
@@ -83,7 +85,7 @@ sub_play(){
                    echo ""
                    echo "    Play to farm number <farm_num>."
                    echo ""
-                                      
+
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
@@ -102,7 +104,7 @@ sub_dashboard (){
                    echo "    $ ssh -L 9181:127.0.0.1:9181 yourlogin@flanders.lille.inria.fr."
                    echo "    where 9181 is the appropriate port and yourlogin is your inria login"
                    echo ""
-                                      
+
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
@@ -117,7 +119,7 @@ sub_log (){
                    echo ""
                    echo "    Print logs"
                    echo ""
-                                      
+
                    ;;
                    *)
                        tail -f $ChallengeHome/rlberry-farms/challenge/logfile.log
@@ -131,7 +133,7 @@ sub_activate(){
                    echo ""
                    echo "    Activate the virtual environment used in the challenge. Be careful to not break it!"
                    echo ""
-                                      
+
                    ;;
                    *)
                        /bin/bash -c ". /home/challenge_env/virtualenv/bin/activate; exec /bin/bash --rcfile /home/challenge_env/.bashrc -i"
@@ -152,7 +154,7 @@ sub_leaderboard(){
                    echo "      -a       print all scores "
                    echo "      -m       print all my scores "
                    echo ""
-                                      
+
                    ;;
                 *)
                        source $ChallengeHome/virtualenv/bin/activate
@@ -168,7 +170,7 @@ sub_suspend(){
                    echo ""
                    echo "    Suspend the current queue of processes in the challenge."
                    echo ""
-                                      
+
                    ;;
                 *)
                     source $ChallengeHome/virtualenv/bin/activate
@@ -183,7 +185,7 @@ sub_resume(){
                    echo ""
                    echo "   Resume the current queue of processes in the challenge."
                    echo ""
-                                      
+
                    ;;
                 *)
                     source $ChallengeHome/virtualenv/bin/activate
@@ -198,7 +200,7 @@ sub_top(){
                    echo ""
                    echo "   Get advanced information on the queue. Can be used to kill jobs."
                    echo ""
-                                      
+
                    ;;
                 *)
                     source $ChallengeHome/virtualenv/bin/activate
@@ -213,17 +215,18 @@ sub_egg(){
 }
 
 
-  
+
 subcommand=$1
 case $subcommand in
     "" | "-h" | "--help")
         sub_help
         ;;
+    add)
+        sub_add $@
+        ;;
     *)
         shift
-        sub_${subcommand} $@
+        sudo -u challenger $subcommand $@
         ;;
+
 esac
-
-
-

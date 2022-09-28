@@ -13,14 +13,18 @@ import rlberry
 from rlberry_farms import Farm0, Farm1
 import numpy as np
 import time
+import importlib
 
 import datetime
 
 logger = rlberry.logger
 
-LEADERBOARD = "leaderboard.csv"
-ARCHIVE_DIR = "/media/data1/challenge"
-LOGFILE_LOC = "/home/challenge_env/rlberry-farms/challenge/"
+CHALLENGE_DIR = "/mnt/data/challenge"
+DATA_DIR = "/mnt/data/challenge"
+
+LEADERBOARD = os.path.join(DATA_DIR,"leaderboard.csv")
+ARCHIVE_DIR = DATA_DIR
+LOGFILE_LOC = DATA_DIR
 
 def get_farm(farm):
     if farm == 0:
@@ -28,7 +32,7 @@ def get_farm(farm):
     elif farm == 1:
         return Farm1, {}
     else:
-        raise RuntimeError("No such farm")    
+        raise RuntimeError("No such farm")
 
 def experiment_generator(
     agent_file=None,
@@ -40,12 +44,10 @@ def experiment_generator(
     parallelization="process",
     enable_tensorboard=False,
 ):
-    if not os.path.isdir("/tmp/farm_tmp"):
-        os.mkdir("/tmp/farm_tmp")
-    subprocess.run(["cp", agent_file, "/tmp/farm_tmp/latest_script.py"])
-    sys.path.append("/tmp/farm_tmp")
+
     try:
-        from latest_script import Agent as ContenderAgent
+        os.chdir(os.path.join(DATA_DIR, "scripts"))
+        ContenderAgent = getattr(importlib.import_module(agent_file.split('.py')[0]), "Agent")
     except:
         raise RuntimeError("Import of Agent failed")
     if max_workers == -1:
@@ -123,9 +125,9 @@ def run_experiment(
     for name in df['name'].unique():
         dfname = df.loc[df['name']==name]
         df2 =df2.append(dfname.iloc[np.argmax(dfname['evaluation_mean'])], ignore_index=True)
-    
+
     df = df2.reset_index()
-    
+
     df = df2.sort_values(by=["evaluation_mean"], ascending=False)
     df.to_csv(LEADERBOARD)
 
@@ -147,6 +149,6 @@ def run_experiment(
     subprocess.run(["cp", os.path.join(LOGFILE_LOC,"logfile.log"), os.path.join(output_dir, date_now+"_logfile.log")])
     with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:
         f.write('')
-    
+
     # Deleting the manager.
     del agent_manager
