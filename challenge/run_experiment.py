@@ -45,7 +45,7 @@ def experiment_generator(
     enable_tensorboard=False,
 ):
 
-    subprocess.run(["cp", agent_file, os.path.join($DATA_DIR,"latest_script.py")])
+    subprocess.run(["cp", agent_file, os.path.join(DATA_DIR,"latest_script.py")])
     sys.path.append($DATA_DIR)
     try:
         from latest_script import Agent as ContenderAgent
