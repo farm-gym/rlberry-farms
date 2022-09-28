@@ -13,6 +13,7 @@ import rlberry
 from rlberry_farms import Farm0, Farm1
 import numpy as np
 import time
+import importlib
 
 import datetime
 
@@ -47,7 +48,8 @@ def experiment_generator(
 
     sys.path.append(os.path.join(DATA_DIR, 'scripts'))
     try:
-        from agent_file import Agent as ContenderAgent
+        spec = importlib.util.spec_from_file_location("Agent", agent_file)
+        ContenderAgent = importlib.util.module_from_spec(spec)
     except:
         raise RuntimeError("Import of Agent failed")
     if max_workers == -1:
