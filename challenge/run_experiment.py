@@ -104,6 +104,9 @@ def run_experiment(
     data = evaluate_agents([agent_manager], n_simulations=100, show=False).values
 
     # Saving to leaderboard
+    now = datetime.datetime.now()
+
+    date_now = now.strftime("%d_%m_%Y %H:%M:%S")
     if not (os.path.isfile(LEADERBOARD)):
         df = pd.DataFrame()
     else:
@@ -115,7 +118,8 @@ def run_experiment(
             "evaluation_mean": [np.mean(data)],
             "evaluation_median": [np.median(data)],
             "evaluation_std": [np.std(data)],
-            "time (m)":[time_to_completion/60]
+            "time (m)":[time_to_completion/60],
+            "date":[date_now]
         }
     )
 

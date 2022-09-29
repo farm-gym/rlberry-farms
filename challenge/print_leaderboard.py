@@ -10,15 +10,15 @@ else:
 
 if toprint == "default":
     df = pd.read_csv(
-        "/home/challenge_env/rlberry-farms/challenge/leaderboard.csv", index_col=0
+        "/mnt/data/challenge/leaderboard.csv", index_col=0
     )
 elif toprint == '-a':
     df = pd.read_csv(
-        "/media/data1/challenge/all_scores.csv", index_col=0
+        "/mnt/data/challenge/all_scores.csv", index_col=0
     )
 elif toprint == '-m':
     df = pd.read_csv(
-        "/media/data1/challenge/all_scores.csv", index_col=0
+        "/mnt/data/challenge/all_scores.csv", index_col=0
     )
     df = df.loc[df["name"]==os.getlogin()]
 

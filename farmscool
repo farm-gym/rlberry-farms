@@ -54,7 +54,7 @@ sub_add(){
 
                    ;;
                    *)
-                       cp $(realpath $1) $DATA_DIR/scripts/script_$login_$timestamp.py
+                       cp $(realpath $1) $DATA_DIR/scripts/script-$login-$timestamp.py
                        cp $(realpath $1) $DATA_DIR/latest_script.py
 
                        sudo -u challenger $FS_CHALLENGER add $2 $login

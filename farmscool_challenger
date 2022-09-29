@@ -80,15 +80,15 @@ sub_info(){
 
 sub_play(){
     case $1 in "-h" | "--help")
-                   echo "Usage: $ProgName play <farm_num>"
+                   echo "Usage: $ProgName play"
                    echo ""
-                   echo "    Play to farm number <farm_num>."
+                   echo "    Play to farm 1."
                    echo ""
 
                    ;;
                    *)
                        source $ChallengeHome/virtualenv/bin/activate
-                       python $ChallengeHome/rlberry-farms/examples/interactive_farm$1.py
+                       python $ChallengeHome/rlberry-farms/examples/interactive_farm1.py
                        ;;
      esac
 }

@@ -39,8 +39,9 @@ if __name__ == "__main__":
             n_steps=5 * 365,
             batch_size=365,
             eps_clip=0.2,
+            compress_pickle=True
         ),
-        fit_budget=2e5,
+        fit_budget=2,
         eval_kwargs=dict(eval_horizon=365),
         n_fit=3,
         parallelization="process",
@@ -48,6 +49,6 @@ if __name__ == "__main__":
         output_dir="ppo1_results",
     )
     manager.fit()
-    evaluation = evaluate_agents([manager], n_simulations=128, plot=False).values
+    evaluation = evaluate_agents([manager], n_simulations=12, plot=False).values
     np.savetxt("ppo_farm1.out", np.array(evaluation), delimiter=",")
     data = plot_writer_data("ppo1_results", "episode_rewards", smooth_weight=0.95)

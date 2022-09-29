@@ -16,7 +16,7 @@ from dateutil.parser import parse
 from datetime import timedelta
 
 today = str(datetime.datetime.today().date())
-LOG_FILE = "/home/challenge_env/rlberry-farms/challenge/logfile.log"
+LOG_FILE = "/mnt/data/challenge/logfile.log"
 
 def get_eta():
     if os.path.isfile(LOG_FILE):
