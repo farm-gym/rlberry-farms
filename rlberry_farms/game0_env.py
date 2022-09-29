@@ -19,9 +19,9 @@ class Farm0(Model):
     The actions are to water the field or to harvest it.
     The advised maximum episode length is 365 (as in 365 days).
 
-    The Farm has the weather of Montpellier in France (e.g. fairly warm weather, well suited for the culture of beans), the initial day is 120. Initially the field is healthy and contains all the nutrient necessary to the plant.
+    The Farm has the weather of Montpellier in France (e.g. fairly warm weather, well suited for the culture of tomato), the initial day is 100. Initially the field is healthy and contains all the nutrient necessary to the plant.
 
-    The reward is the number of grams of harvested beans.
+    The reward is the number of grams of harvested tomatoes.
 
     The condition for end of episode (self.step returns done) is that the day is >= 365 or that the field has been harvested, or that the plant is dead.
 

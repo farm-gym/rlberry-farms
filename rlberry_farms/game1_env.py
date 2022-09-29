@@ -17,7 +17,7 @@ class Farm1(Model):
     Farm1 is a difficult 1x1 farm with only one possible plant : beans, planted in a clay ground.
     The advised maximum episode length is 365 (as in 365 days).
 
-    The Farm has the weather of Lille in France (e.g. well suited for the culture of beans), the initial day is 120. Initially the field is healthy and contains all the nutrient necessary to the plant.
+    The Farm has the weather of Lille in France (e.g. well suited for the culture of beans), the initial day is 1. Initially the field is healthy and contains all the nutrient necessary to the plant.
 
     The reward is the number of grams of harvested beans, and there is a negative reward for very low microlife in soil (due to pesticides).
 
