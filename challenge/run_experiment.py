@@ -144,7 +144,7 @@ def run_experiment(
 
     now = datetime.datetime.now()
 
-    date_now = now.strftime("%d/%m/%Y %H:%M:%S")
+    date_now = now.strftime("%d_%m_%Y %H:%M:%S")
 
     subprocess.run(["cp", os.path.join(LOGFILE_LOC,"logfile.log"), os.path.join(output_dir, date_now+"_logfile.log")])
     with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:
