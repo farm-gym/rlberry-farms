@@ -50,14 +50,14 @@ for job_id in  registry.get_job_ids():
     name = re.search(r"(?<=name=')\w+", desc).group(0)
     try:
         eta = get_eta()
-        eta_fmt = '{} min and {} sec'.format(eta[0], eta[1])
+        eta_fmt = '{} min {} sec'.format(eta[0], eta[1])
     except:
         eta_fmt = None
     df = pd.concat([df, pd.DataFrame({'submitter' : [name],
                                       "id":job_id,
-                                      'heartbeat' : [job.last_heartbeat],
+                                      'heartbeat' : [":".join(str(job.last_heartbeat).split(':')[:2])],
                                       'status' : [job.get_status(refresh=True)],
-                                      'Training eta (approx)': [eta_fmt]}
+                                      'Training eta': [eta_fmt]}
                                      )], ignore_index = True)
 
 
@@ -69,7 +69,7 @@ for job_id in queue.job_ids:
     name = re.search(r"(?<=name=')\w+", desc).group(0)
     df = pd.concat([df, pd.DataFrame({'submitter' : [name],
                                       "id":job_id,
-                                      'heartbeat' : [job.last_heartbeat],
+                                      'heartbeat' : [":".join(str(job.last_heartbeat).split(':')[:2])],
                                       'status' : [job.get_status(refresh=True)]})], ignore_index = True)
 
     

@@ -121,7 +121,7 @@ sub_log (){
 
                    ;;
                    *)
-                       tail -f $DataDir/logfile.log
+                       tail -f $DataDir/logfile.log -n 50
                        ;;
      esac
 }

@@ -115,9 +115,9 @@ def run_experiment(
         {
             "name": [name],
             "name_agent": [agent_manager.agent_name],
-            "evaluation_mean": [np.mean(data)],
-            "evaluation_median": [np.median(data)],
-            "evaluation_std": [np.std(data)],
+            "eval_mean": [np.mean(data)],
+            "eval_median": [np.median(data)],
+            "eval_std": [np.std(data)],
             "time (m)":[time_to_completion/60],
             "date":[date_now]
         }
@@ -128,11 +128,11 @@ def run_experiment(
     df2 = pd.DataFrame()
     for name in df['name'].unique():
         dfname = df.loc[df['name']==name]
-        df2 =df2.append(dfname.iloc[np.argmax(dfname['evaluation_mean'])], ignore_index=True)
+        df2 =df2.append(dfname.iloc[np.argmax(dfname['eval_mean'])], ignore_index=True)
 
     df = df2.reset_index()
 
-    df = df2.sort_values(by=["evaluation_mean"], ascending=False)
+    df = df2.sort_values(by=["eval_mean"], ascending=False)
     df.to_csv(LEADERBOARD)
 
     # Archiving data
@@ -148,7 +148,7 @@ def run_experiment(
 
     now = datetime.datetime.now()
 
-    date_now = now.strftime("%d_%m_%Y %H:%M:%S")
+    date_now = now.strftime("%d_%m_%Y-%H:%M:%S")
 
     subprocess.run(["cp", os.path.join(LOGFILE_LOC,"logfile.log"), os.path.join(output_dir, date_now+"_logfile.log")])
     with open(os.path.join(LOGFILE_LOC,"logfile.log"), 'w') as f:

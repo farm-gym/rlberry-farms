@@ -63,6 +63,41 @@ sub_add(){
 }
 
 
+sub_log (){
+    case $1 in "-h" | "--help")
+                   echo "Usage: $ProgName log"
+                   echo ""
+                   echo "    Print logs"
+                   echo "    -i choose interactively among personal logs"
+
+                   ;;
+	   "-i")
+	
+		   echo -e "Which log do you want to see ? type the number and then enter.\n \n"
+		   options=( $(find $DATA_DIR/$login/*.log  -maxdepth 0  -printf "%f " | xargs -0) )
+	
+	PS3="$prompt "
+	select opt in "${options[@]}" "Quit" ; do 
+    		if (( REPLY == 1 + ${#options[@]} )) ; then
+        		exit
+
+    		elif (( REPLY > 0 && REPLY <= ${#options[@]} )) ; then
+        		cat $DATA_DIR/$login/$opt
+        		break
+
+    		else
+        		echo "Invalid option. Try another one."
+    		fi
+		done    
+
+		;;
+            *)
+                       tail -f $DATA_DIR/logfile.log -n 50
+                       ;;
+     esac
+}
+
+
 
 subcommand=$1
 case $subcommand in
@@ -73,6 +108,10 @@ case $subcommand in
         shift
         sub_add $@
         ;;
+    log)
+	shift
+	sub_log $@
+	;;
     *)
         shift
         sudo -u challenger $FS_CHALLENGER $subcommand $@
