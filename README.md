@@ -10,7 +10,12 @@ A full documentation is available [HERE](https://scool.gitlabpages.inria.fr/rlbe
 
 To install this repo, one can use pip. It is advised to use a virtual environment in order to avoid conflicting library (see [python website](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment)).
 
-Then, 
+Then, if your ssh key is setup on gitlab, do 
+```bash
+pip install git+ssh://git@gitlab.inria.fr/scool/rlberry-farms
+```
+
+otherwise, use https with:
 
 ```bash
 pip install git+https://gitlab.inria.fr/scool/rlberry-farms
