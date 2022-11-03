@@ -32,7 +32,7 @@ def env():
     ##########################################################################
     entities1 = []
     entities1.append((Weather, "lille"))
-    entities1.append((Soil, "clay"))
+    entities1.append((Soil, "loam"))
     entities1.append((Plant, "bean"))
 
     entities1.append((Fertilizer, "slow_all"))
