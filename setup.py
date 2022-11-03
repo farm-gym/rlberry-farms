@@ -12,7 +12,7 @@ packages = find_packages(exclude=["docs", "notebooks", "assets"])
 install_requires = [
     "torch",
     "rlberry @ git+https://github.com/rlberry-py/rlberry",
-    "farmgym @ git+https://gitlab.inria.fr/rl4ae/farm-gym",
+    "farmgym @ git+https://github.com/farm-gym/farm-gym",
 ]
 
 with open("README.md", "r") as fh:
@@ -25,7 +25,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Timothée Mathieu",
-    url="https://gitlab.inria.fr/scool/rlberry-farms",
+    url="https://github.com/farm-gym/rlberry-farms",
     license="MIT",
     packages=packages,
     install_requires=install_requires,
