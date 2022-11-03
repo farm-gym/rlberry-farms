@@ -42,7 +42,7 @@ interventions:
     Fertilizer-0:
       scatter_bag: 
         plot: ['(0, 0)']
-        amount#bag: [1]
+        amount#bag: [0.1]
     Weeds-0:
       remove: 
         plot: ['(0, 0)']

@@ -35,7 +35,7 @@ def env():
     entities1.append((Soil, "clay"))
     entities1.append((Plant, "bean"))
 
-    entities1.append((Fertilizer, "basic_all"))
+    entities1.append((Fertilizer, "slow_all"))
 
     entities1.append((Pollinators, "bee"))
 
@@ -79,6 +79,7 @@ def env():
 
     terminal_CNF_conditions = [
         [(("Field-0", "Weather-0", "day#int365", []), lambda x: x.value, ">=", 360)],
+        [(("Field-0", "Plant-0", "global_stage", []), lambda x: x.value, "==", "harvested")],
         [(("Field-0", "Plant-0", "global_stage", []), lambda x: x.value, "==", "dead")],
     ]
     rules = BasicRule(

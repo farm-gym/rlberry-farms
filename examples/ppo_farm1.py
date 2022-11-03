@@ -8,6 +8,10 @@ from rlberry.manager import AgentManager, evaluate_agents, plot_writer_data
 from rlberry_farms import Farm1
 from rlberry.agents.torch.utils.training import model_factory_from_env
 import numpy as np
+# import logging
+# logging.basicConfig()
+# logging.getLogger().setLevel(logging.DEBUG)
+
 
 policy_configs = {
     "type": "MultiLayerPerceptron",  # A network architecture

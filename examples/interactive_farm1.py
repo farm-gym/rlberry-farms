@@ -22,7 +22,9 @@ from curses import wrapper
 import curses
 
 from rlberry.utils.logging import set_level
-
+import logging
+logging.basicConfig()
+logging.getLogger().setLevel(logging.DEBUG)
 set_level("WARNING")
 
 env_ctor, env_kwargs = Farm1, {"monitor": True}
